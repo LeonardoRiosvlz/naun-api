@@ -1,10 +1,7 @@
 module.exports = {
   NODE_ENV: process.env.NODE_ENV,
   PORT: process.env.PORT,
-  appConfig:{
-    host: 'http://127.0.0.1',
-    port: '4000'
-},
+  
   /** DATABASE */
   db: {
     DB_HOST: process.env.DB_HOST,

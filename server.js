@@ -38,7 +38,7 @@ app.use(express.static(path.join(__dirname, 'app/public')));
 
 
 
-app.set('puerto', process.env.PORT || 4000);
+app.set('puerto', process.env.PORT || 3000);
 const servidor = app.listen(app.get('puerto'), () => {
   console.log('Example app listening on port'+ app.get('puerto'));
 });
