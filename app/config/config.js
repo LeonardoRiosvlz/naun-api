@@ -4,10 +4,10 @@ module.exports = {
   
   /** DATABASE */
   db: {
-    DB_HOST: process.env.DB_HOST,
-    DB_USER: process.env.DB_USER,
-    DB_PASS: process.env.DB_PASS,
-    DB_NAME: process.env.DB_NAME,
+    DB_HOST: "b2udssy2e3uqzaousqi3-mysql.services.clever-cloud.com",
+    DB_USER: "ungi8bvczfvmsllc",
+    DB_PASS: "vupd8uStfDup1ViZeGZF",
+    DB_NAME: "b2udssy2e3uqzaousqi3",
     dialect: "mysql",
 
     // pool is optional, it will be used for Sequelize connection pool configuration
