@@ -36,11 +36,10 @@ const history = require('connect-history-api-fallback');
 app.use(history());
 app.use(express.static(path.join(__dirname, 'app/public')));
 
+const port = process.env.PORT  || 3000;
 
-
-app.set('puerto', process.env.PORT || 3000);
-const servidor = app.listen(app.get('puerto'), () => {
-  console.log('Example app listening on port'+ app.get('puerto'));
+server.listen(port,()=>{  // do not add localhost here if you are deploying it
+  console.log("server listening to port "+port);
 });
 
 //const io = require('socket.io')(servidor);
@@ -54,8 +53,3 @@ const servidor = app.listen(app.get('puerto'), () => {
 //    });
 //});
 
-module.exports = {
-
-    servidor
-
-}
