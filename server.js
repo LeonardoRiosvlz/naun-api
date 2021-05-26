@@ -8,7 +8,7 @@ const app = express();
 const server = require('http').Server(app);
 
 const corsOptions = {
-  origin: "http://localhost:8080"
+  origin: ""
 };
 
 app.use(cors(corsOptions));
