@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "description": "Learn REST API using Node.js, Express, Sequelize and MySQL",
   "main": "server.js",
-  "scripts": {
+  "engines": {
+    "node": "14.x"
+  },
+    "scripts": {
     "start": "nodemon -r dotenv/config server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon -r dotenv/config server.js"
