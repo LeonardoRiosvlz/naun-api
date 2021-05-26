@@ -34,6 +34,8 @@ db.cliente = require("./cliente.model.js")(sequelize, Sequelize, DataTypes);
 db.user.hasMany(db.cliente, { foreignKey: 'user_id' });
 db.cliente.belongsTo(db.user, { foreignKey: 'user_id' });
  
+db.notificacion.belongsTo(db.user, { foreignKey: 'uid' });
+db.user.hasMany(db.notificacion, { foreignKey: 'uid' });
 
 
 db.ROLES = ["user", "moderator", "admin"];

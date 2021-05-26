@@ -52,12 +52,11 @@ exports.create = (req, res) => {
 
 exports.findAll = (req, res) => {
   const id = req.userId;
-  console.log(id);
   Notificacion.findAndCountAll({
     limit: 3000000,
     offset: 0,
     where: {
-      uid:req.userId
+      uid:id
     }, // conditions
     order: [
       ['id', 'DESC'],
