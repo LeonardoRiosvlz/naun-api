@@ -9,35 +9,12 @@ const User = db.user;
 const Role = db.role;
 const Op = db.Op;
 
-exports.signup = (req, res) => {
+exports.signup =async (req, res) => {
 
-  if(req.files['filename']){
-    const { filename } = req.files['filename'][0]
-    req.body.imagen= `http://localhost:5000/public/${filename}`
-  }
-  if(req.files['firma']){
-    const { filename } = req.files['firma'][0]
-    req.body.firma= `http://localhost:5000/public/${filename}`;
-  }
-  User.create({
-    username: req.body.username,
+ await User.create({
     email: req.body.email,
-    nombre: req.body.nombre,
-    apellido: req.body.apellido,
-    sexo: req.body.sexo,
-    entidad: req.body.entidad,
-    cargo: req.body.cargo,
-    codigo: req.body.codigo,
-    telefono: req.body.telefono,
-    imagen: req.body.imagen,
-    tipo: req.body.tipo,
-    tipo: req.body.regional,
-    status: req.body.status,
-    direccion: req.body.direccion,
-    tipo_tecnico: req.body.tipo_tecnico,
-    tipo_cuenta: req.body.tipo_cuenta,
-    nombre_cuenta: req.body.nombre_cuenta,
-    cuenta: req.body.cuenta,
+    tipo:"Master",
+    status: "activo",
     password: bcrypt.hashSync(req.body.password, 8)
   })
     .then(user => {
@@ -135,12 +112,11 @@ exports.signin = (req, res) => {
         });
       }
 
-      let token = jwt.sign({ id: user.id,rol: user.tipo, email: user.email,nombre: user.nombre,apellido: user.apellido}, config.auth.secret, {
+      let token = jwt.sign({ id: user.id,rol: user.tipo, email: user.email,nombre: user.nombre}, config.auth.secret, {
         expiresIn: '365d' // 24 hours
       });
       res.status(200).send({
         id: user.id,
-        username: user.username,
         rol: user.tipo,
         email: user.email,
         accessToken: token
