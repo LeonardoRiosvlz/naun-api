@@ -41,7 +41,7 @@ const PORT = config.PORT;
 app.set('puerto', process.env.PORT || 4000);
 
 const servidor =app.listen(app.get('puerto'), () => {
-  console.log(`Server is running on port ${PORT}`);
+  console.log(`Server is running on port`+ app.get('puerto'));
 });
 
 const io = require('socket.io')(servidor);
