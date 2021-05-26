@@ -37,11 +37,10 @@ app.use(history());
 app.use(express.static(path.join(__dirname, 'app/public')));
 
 
-const PORT = config.PORT;
-app.set('puerto', process.env.PORT || 4000);
 
-const servidor =app.listen(app.get('puerto'), () => {
-  console.log(`Server is running on port`+ app.get('puerto'));
+app.set('puerto', process.env.PORT || 4000);
+const servidor = app.listen(app.get('puerto'), () => {
+  console.log('Example app listening on port'+ app.get('puerto'));
 });
 
 const io = require('socket.io')(servidor);
