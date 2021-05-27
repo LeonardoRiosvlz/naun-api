@@ -11,7 +11,10 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 // app.use(express.static(path.join(__dirname, 'public')));
-
+const db = require("./models");
+db.sequelize.sync().then(() => {
+ //initial(); // Just use it in development, at the first time execution!. Delete it in production
+});
 app.use('/public',express.static(`${__dirname}/storage/imgs`));
 require("./routes/auth.routes")(app);
 require("./routes/user.routes")(app);
