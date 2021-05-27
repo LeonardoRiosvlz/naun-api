@@ -13,7 +13,10 @@ app.use(express.urlencoded({ extended: true }));
 // app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/public',express.static(`${__dirname}/storage/imgs`));
-app.use( require('./routes/user.routes'));
+require("./routes/auth.routes")(app);
+require("./routes/user.routes")(app);
+require("./routes/notificacion.routes")(app);
+require("./routes/clientes.routes")(app);
 
 // Middleware para Vue.js router modo history
 const history = require('connect-history-api-fallback');
