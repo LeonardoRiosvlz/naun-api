@@ -4,9 +4,14 @@ module.exports = (sequelize, Sequelize, DataTypes) => {
       {
         // Attributes
         id: {
-          type: DataTypes.UUID,
+          type: DataTypes.INTEGER,
           allowNull: false,
+          autoIncrement: true,
           primaryKey: true 
+        },  
+        logo: {
+          type: DataTypes.STRING(150), 
+          unique: false
         },
         tipo_cliente: {
             type: DataTypes.ENUM('Persona jurídica', 'Profesional', 'Independiente'),
@@ -113,15 +118,15 @@ module.exports = (sequelize, Sequelize, DataTypes) => {
           unique: true
         },
         telefono_contacto: {
-          type: DataTypes.STRING(5),
+          type: DataTypes.STRING(15),
           unique: false
         },
         celular_contacto: {
-          type: DataTypes.STRING(5),
+          type: DataTypes.STRING(15),
           unique: false
         },
         email_contacto: {
-          type: DataTypes.STRING(5),
+          type: DataTypes.STRING(45),
           unique: false
         },
       },

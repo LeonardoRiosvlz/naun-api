@@ -29,7 +29,7 @@ db.sequelize = sequelize;
 db.user = require("./user.model.js")(sequelize, Sequelize, DataTypes);
 db.permiso = require("./permiso.model.js")(sequelize, Sequelize, DataTypes);
 db.notificacion = require("./notificacion.model.js")(sequelize, Sequelize, DataTypes);
-db.cliente = require("./cliente.model.js")(sequelize, Sequelize, DataTypes);
+db.cliente = require("./cliente.model.js")(sequelize, Sequelize, DataTypes); 
 
 db.user.hasMany(db.cliente, { foreignKey: 'user_id' });
 db.cliente.belongsTo(db.user, { foreignKey: 'user_id' });

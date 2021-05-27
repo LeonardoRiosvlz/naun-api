@@ -1,10 +1,11 @@
-const jwt = require("jsonwebtoken");
+import jwt from 'jsonwebtoken';
 const config = require("../config/config.js");
 const db = require("../models");
 const User = db.user;
 const Permiso = db.permiso;
 const Conversacion = db.conversacion;
-verifyToken = (req, res, next) => {
+
+const verifyToken = (req, res, next) => {
   let token = req.headers.authorization.split(" ")[1];
 
   if (!token) {
@@ -26,7 +27,7 @@ verifyToken = (req, res, next) => {
   });
 };
 
-isCoordinadorPrivilegiado = (req, res, next) => {
+const isCoordinadorPrivilegiado = (req, res, next) => {
   Permiso.findAndCountAll({
     where: { 
       uid: req.userId,
@@ -45,19 +46,19 @@ isCoordinadorPrivilegiado = (req, res, next) => {
 };
 
 
-isAdmin = (req, res, next) => {
-  User.findByPk(req.userId).then(user => {
-    if (user.tipo==="Administrador") {
+const isAdmin =async (req, res, next) => {
+await  User.findByPk(req.userId).then(user => {
+    if (user.tipo==="Master") {
       next();
       return;
     }
     res.status(403).send({
-      message: "Require Admin Role!"
+      message: "Requiere rol Super administrador"
     });
     return;
   });
 };
-isTecnico = (req, res, next) => {
+const isTecnico = (req, res, next) => {
   User.findByPk(req.userId).then(user => {
     user.getRoles().then(roles => {
       for (let i = 0; i < roles.lenth; i++) {
@@ -73,7 +74,7 @@ isTecnico = (req, res, next) => {
     });
   });
 };
-isModerator = (req, res, next) => {
+const isModerator = (req, res, next) => {
   User.findByPk(req.userId).then(user => {
     user.getRoles().then(roles => {
       for (let i = 0; i < roles.length; i++) {
@@ -90,7 +91,7 @@ isModerator = (req, res, next) => {
   });
 };
 
-isModeratorOrAdmin = (req, res, next) => {
+const isModeratorOrAdmin = (req, res, next) => {
   User.findByPk(req.userId).then(user => {
     user.getRoles().then(roles => {
       for (let i = 0; i < roles.length; i++) {
@@ -112,7 +113,7 @@ isModeratorOrAdmin = (req, res, next) => {
   });
 };
 
-isAdminSala = (req, res, next) => {
+const isAdminSala = (req, res, next) => {
   console.log(req.body.id_conversacion); 
  Conversacion.findAndCountAll({
     where: {
