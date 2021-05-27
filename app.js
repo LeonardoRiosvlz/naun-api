@@ -4,17 +4,20 @@ import cors from 'cors';
 import path from 'path';
 
 const app = express();
+// Conexión base de datos
+const mongoose = require('mongoose');
 
+//const uri = 'mongodb+srv://dc_user:qZOhZXp6QpBlRfD5@dc.5mr4d.mongodb.net/<dbname>?retryWrites=true&w=majority';
+const uri='mongodb://localhost:27017/prueba'
+const options = {useNewUrlParser: true, useCreateIndex: true ,useUnifiedTopology: true};
 
-
-
-// database
-const db = require("./models");
-const Role = db.role;
-db.sequelize.sync().then(() => {
- //initial(); // Just use it in development, at the first time execution!. Delete it in production
-});
-
+// Or using promises
+mongoose.connect(uri, options).then(
+  /** ready to use. The `mongoose.connect()` promise resolves to mongoose instance. */
+  () => { console.log('Conectado a DB') },
+  /** handle initial connection error */
+  err => { console.log(err) }
+);
 // Middleware
 app.use(morgan('tiny'));
 app.use(cors());
@@ -23,10 +26,8 @@ app.use(express.urlencoded({ extended: true }));
 // app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/public',express.static(`${__dirname}/storage/imgs`));
-require("./routes/auth.routes")(app);
-require("./routes/user.routes")(app);
-require("./routes/notificacion.routes")(app);
-require("./routes/clientes.routes")(app);
+app.use('/api', require('./routes/nota'));
+app.use('/api', require('./routes/user'));
 
 // Middleware para Vue.js router modo history
 const history = require('connect-history-api-fallback');
