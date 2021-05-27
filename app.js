@@ -29,6 +29,23 @@ app.use(history());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.set('puerto', process.env.PORT || 5000);
-app.listen(app.get('puerto'), () => {
+const servidor = app.listen(app.get('puerto'), () => {
   console.log('Example app listening on port'+ app.get('puerto'));
 });
+
+const io = require('socket.io')(servidor);
+global.io = io; //added
+io.on('connection', function(socket) {
+ 
+    socket.on('servidor', function(data) {
+  
+        //io.emit('MESSAGE', data)
+        io.to(data.user).emit('cliente', data);
+    });
+});
+
+module.exports = {
+
+    servidor
+
+}
