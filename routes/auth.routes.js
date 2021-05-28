@@ -13,12 +13,12 @@ const cpUpload = upload.fields([{ name: 'filename', maxCount: 1 },{ name: 'firma
     [ cpUpload,verifySignUp.checkDuplicateUsernameOrEmail],controller.signup
   );
 
-  router.post("/api/auth/update", [cpUpload,authJwt.verifyToken] ,controller.update);
+  router.post("/auth/update", [cpUpload,authJwt.verifyToken] ,controller.update);
 
-  router.post("/api/auth/signin", [cpUpload], controller.signin);
+  router.post("/auth/signin", [cpUpload], controller.signin);
 
-  router.post('/auth/forgot-password',[cpUpload],controller.resetPass);
+  router.post('/forgot-password',[cpUpload],controller.resetPass);
   
-  router.put('/auth/recover-password',[cpUpload, authJwt.verifyToken],controller.recoverPass);
+  router.put('/recover-password',[cpUpload, authJwt.verifyToken],controller.recoverPass);
 
   module.exports = router;
