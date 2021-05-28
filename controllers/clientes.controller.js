@@ -50,7 +50,7 @@ exports.create = async (req, res) => {
   body.user_id= req.body.user_id;
   // Save Book in database
  await User.create({
-     nombre:body.nombre_contacto,
+     nombre:body.nombre_prestador,
      status:"activo",
      tipo:"Cliente",
      imagen:body.logo,
@@ -171,11 +171,9 @@ exports.update = async (req, res) => {
     body.email_contacto= req.body.email_contacto;
     body.user_id= req.body.user_id;
 
-    const id = req.body.id;
-
- await Clientes.update(body,{
-    where: { id: id }
-  })
+    await Clientes.update(body,{
+        where: { id: req.body.id }
+      })
     .then(num => {
       if (num == 1) {
         res.send({
