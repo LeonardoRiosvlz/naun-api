@@ -22,6 +22,7 @@ db.sequelize.sync().then(() => {
 app.use('/public',express.static(`${__dirname}/storage/imgs`));
 app.use('/api', require('./routes/user.routes'));
 app.use('/api', require('./routes/auth.routes'));
+app.use('/api', require('./routes/clientes.routes'));
 
 // Middleware para Vue.js router modo history
 const history = require('connect-history-api-fallback');

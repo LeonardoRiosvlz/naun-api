@@ -86,7 +86,7 @@ module.exports = (sequelize, Sequelize, DataTypes) => {
           unique: false
         },
         email: {
-          type: DataTypes.STRING(15),
+          type: DataTypes.STRING(25),
           unique: true
         },
         razon_social: {

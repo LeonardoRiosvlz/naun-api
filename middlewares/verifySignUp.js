@@ -2,9 +2,9 @@ const db = require("../models");
 const ROLES = db.ROLES;
 const User = db.user;
 
-const checkDuplicateUsernameOrEmail = (req, res, next) => {
+const checkDuplicateUsernameOrEmail = async (req, res, next) => {
   // Username
-  User.findOne({
+ await User.findOne({
     where: {
       email: req.body.email
     }

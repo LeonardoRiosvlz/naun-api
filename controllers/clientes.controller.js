@@ -60,15 +60,25 @@ exports.create = async (req, res) => {
     .then(data => {
       res.send(data);
       body.user_id= data.id;
-      Clientes.create(body)
+      CrearCliente(body);
     })
     .catch(err => {
       res.status(500).send({
         message: err.message || "Some error occurred while creating the Book."
       });
-    });
+    }); 
 };
 
+
+async function CrearCliente(body){
+  // Save
+  await  Clientes.create(body)
+  .then( data => {
+  })
+  .catch(err => {
+    return;
+  });
+}
 
 exports.findFormato = async (req, res) => {
 const id =req.body.id;
@@ -92,8 +102,7 @@ await  Abonos.findAll({
 
 
 exports.findAll = async (req, res) => {
-    const id =req.body.id;
-    await  Abonos.findAndCountAll({
+    await  Clientes.findAndCountAll({
         limit: 3000000,
         offset: 0,
         where: { }, // conditions
@@ -173,7 +182,7 @@ exports.update = async (req, res) => {
           message: "editado satisfactoriamente."
         });
         User.update({
-            nombre_prestador:req.body.nombre_prestador,
+            nombre:req.body.nombre_prestador,
             status:req.body.status
          },{
             where: { id: req.body.user_id }
