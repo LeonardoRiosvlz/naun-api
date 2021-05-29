@@ -23,13 +23,18 @@ app.use('/public',express.static(`${__dirname}/storage/imgs`));
 app.use('/api', require('./routes/user.routes'));
 app.use('/api', require('./routes/auth.routes'));
 app.use('/api', require('./routes/clientes.routes'));
-
+app.use('/api', require('./routes/cargos.routes'));
+app.use('/api', require('./routes/sedes.routes'));
+app.use('/api', require('./routes/areas.routes'));
+app.use('/api', require('./routes/perfil.routes'));
+app.use('/api', require('./routes/procesos.routes'));
+app.use('/api', require('./routes/permisos.routes'));
 // Middleware para Vue.js router modo history
 const history = require('connect-history-api-fallback');
 app.use(history());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.set('puerto', process.env.PORT || 5000);
+app.set('puerto', process.env.PORT || 4000);
 const servidor = app.listen(app.get('puerto'), () => {
   console.log('Example app listening on port'+ app.get('puerto'));
 });

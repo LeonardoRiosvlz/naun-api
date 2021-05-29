@@ -6,7 +6,7 @@ const db = require("../models");
 const { user } = require("../models");
 const { text } = require("body-parser");
 const User = db.user;
-const Role = db.role;
+const Cliente = db.cliente;
 const Op = db.Op;
 
 exports.signup =async (req, res) => {
@@ -95,7 +95,13 @@ exports.signin = (req, res) => {
   User.findOne({
     where: {
       email: email
-    }
+    },
+    include: [  
+      {
+        model:Cliente,
+        attributes:['id']
+      },
+    ],
   }).then(user => {
       if (!user) {
         return res.status(404).send({ message: "User Not found." });
@@ -112,7 +118,7 @@ exports.signin = (req, res) => {
         });
       }
 
-      let token = jwt.sign({ id: user.id,rol: user.tipo, email: user.email,nombre: user.nombre}, config.auth.secret, {
+      let token = jwt.sign({ id: user.id,rol: user.tipo, email: user.email,nombre: user.nombre,cliente: user.clientes}, config.auth.secret, {
         expiresIn: '365d' // 24 hours
       });
       res.status(200).send({

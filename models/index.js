@@ -30,6 +30,12 @@ db.user = require("./user.model.js")(sequelize, Sequelize, DataTypes);
 db.permiso = require("./permiso.model.js")(sequelize, Sequelize, DataTypes);
 db.notificacion = require("./notificacion.model.js")(sequelize, Sequelize, DataTypes);
 db.cliente = require("./cliente.model.js")(sequelize, Sequelize, DataTypes); 
+db.cargos = require("./cargos.model.js")(sequelize, Sequelize, DataTypes);
+db.sedes = require("./sedes.model.js")(sequelize, Sequelize, DataTypes);  
+db.areas = require("./areas.model.js")(sequelize, Sequelize, DataTypes);
+db.perfiles = require("./perfil.model.js")(sequelize, Sequelize, DataTypes);
+db.procesos = require("./procesos.model.js")(sequelize, Sequelize, DataTypes);
+db.tipoProceso = require("./tipoProceso.model.js")(sequelize, Sequelize, DataTypes);
 
 db.user.hasMany(db.cliente, { foreignKey: 'user_id' });
 db.cliente.belongsTo(db.user, { foreignKey: 'user_id' });
@@ -37,7 +43,33 @@ db.cliente.belongsTo(db.user, { foreignKey: 'user_id' });
 db.notificacion.belongsTo(db.user, { foreignKey: 'uid' });
 db.user.hasMany(db.notificacion, { foreignKey: 'uid' });
 
+///Clientes////
+db.cliente.hasMany(db.cargos, { foreignKey: 'cliente_id' });
+db.cargos.belongsTo(db.cliente, { foreignKey: 'cliente_id' });
+db.user.hasOne(db.cargos, { foreignKey: 'user_id' });
+db.cargos.belongsTo(db.user, { foreignKey: 'user_id' });
+db.cliente.hasMany(db.sedes, { foreignKey: 'cliente_id' });
+db.sedes.belongsTo(db.cliente, { foreignKey: 'cliente_id' });
+db.cliente.hasMany(db.areas, { foreignKey: 'cliente_id' });
+db.areas.belongsTo(db.cliente, { foreignKey: 'cliente_id' });
+db.cliente.hasMany(db.perfiles, { foreignKey: 'cliente_id' });
+db.perfiles.belongsTo(db.cliente, { foreignKey: 'cliente_id' });
+db.user.hasOne(db.perfiles, { foreignKey: 'user_id' });
+db.perfiles.belongsTo(db.user, { foreignKey: 'user_id' });
+///sedes///
+db.cliente.hasMany(db.tipoProceso, { foreignKey: 'cliente_id' });
+db.tipoProceso.belongsTo(db.cliente, { foreignKey: 'cliente_id' });
 
+///sedes///
+db.cliente.hasMany(db.procesos, { foreignKey: 'cliente_id' });
+db.procesos.belongsTo(db.cliente, { foreignKey: 'cliente_id' });
+
+//persmisos//
+db.user.hasMany(db.permiso, { foreignKey: 'user_id' });
+db.permiso.belongsTo(db.user, { foreignKey: 'user_id' });
+db.procesos.hasMany(db.permiso, { foreignKey: 'proceso_id' });
+db.permiso.belongsTo(db.procesos, { foreignKey: 'proceso_id' });
+//permisos//
 db.ROLES = ["user", "moderator", "admin"];
 
 module.exports = db;

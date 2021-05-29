@@ -1,23 +1,18 @@
+import express from 'express';
+const router = express.Router();
 const { authJwt } = require("../middlewares");
-const controller = require("../controllers/auth.controller");
+const { verifySignUp } = require("../middlewares");
+const Controller = require("../controllers/permisos.controller.js");
 const upload = require('../libs/storage');
 const cpUpload = upload.fields([{ name: 'filename', maxCount: 1 }])
 
 
-module.exports = app => {
-    const entidadController = require("../controllers/entidades.controller.js");
+    // Create a new cargo
+    router.post("/permisos",[cpUpload,authJwt.verifyToken,authJwt.isModeratorOrAdmin], Controller.create);
   
-    const router = require("express").Router();
-  
-
-    router.post("/",[cpUpload,authJwt.verifyToken, authJwt.isAdmin], entidadController.create_permiso);
-
-    router.post("/get",[cpUpload,authJwt.verifyToken, authJwt.isAdmin], entidadController.findAll_permisos);
-
-
-    router.post("/delete",[cpUpload,authJwt.verifyToken, authJwt.isAdmin], entidadController.delete_permiso);
+    // Delete a cargo with id
+    router.post("/permisos/delete",[cpUpload,authJwt.verifyToken, authJwt.isModeratorOrAdmin], Controller.delete);
 
   
-    app.use("/api/permisos", router);
-  };
+    module.exports = router;
   
