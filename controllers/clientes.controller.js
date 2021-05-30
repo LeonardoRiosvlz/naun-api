@@ -106,6 +106,12 @@ exports.findAll = async (req, res) => {
         limit: 3000000,
         offset: 0,
         where: { }, // conditions
+        include: [  
+          {
+            model:User,
+            attributes:['status']
+          }
+        ],
         order: [
           ['id', 'DESC'],
         ],
