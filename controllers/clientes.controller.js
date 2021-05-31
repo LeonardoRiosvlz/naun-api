@@ -59,9 +59,13 @@ exports.create = async (req, res) => {
  })
     .then(data => {
       body.user_id= data.id;
-      CrearCliente(body);
-      res.send(data);
-
+        Clientes.create(body)
+        .then( data => {
+          res.send(data);
+        })
+        .catch(err => {
+          return;
+        });
     })
     .catch(err => {
       res.status(500).send({
@@ -70,16 +74,6 @@ exports.create = async (req, res) => {
     }); 
 };
 
-
-async function CrearCliente(body){
-  // Save
-  await  Clientes.create(body)
-  .then( data => {
-  })
-  .catch(err => {
-    return;
-  });
-}
 
 exports.findFormato = async (req, res) => {
 const id =req.body.id;
