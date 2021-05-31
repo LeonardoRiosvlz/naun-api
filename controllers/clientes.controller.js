@@ -60,7 +60,7 @@ exports.create = async (req, res) => {
     .then(data => {
       res.send(data);
       body.user_id= data.id;
-      CrearCliente(body);
+      Clientes.create(body)
     })
     .catch(err => {
       res.status(500).send({
