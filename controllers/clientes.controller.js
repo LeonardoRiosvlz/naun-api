@@ -58,9 +58,10 @@ exports.create = async (req, res) => {
      password: bcrypt.hashSync(req.body.email, 8)
  })
     .then(data => {
-      res.send(data);
       body.user_id= data.id;
-      Clientes.create(body)
+      CrearCliente(body);
+      res.send(data);
+
     })
     .catch(err => {
       res.status(500).send({
