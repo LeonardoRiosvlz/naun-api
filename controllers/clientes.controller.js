@@ -47,7 +47,6 @@ exports.create = async (req, res) => {
   body.telelfono_contacto= req.body.telelfono_contacto;
   body.celular_contacto= req.body.celular_contacto;
   body.email_contacto= req.body.email_contacto;
-  body.user_id= req.body.user_id;
   // Save Book in database
  await User.create({
      nombre:body.nombre_prestador,
@@ -58,14 +57,9 @@ exports.create = async (req, res) => {
      password: bcrypt.hashSync(req.body.email, 8)
  })
     .then(data => {
+      res.send(data);
       body.user_id= data.id;
-        Clientes.create(body)
-        .then( data => {
-          res.send(data);
-        })
-        .catch(err => {
-          return;
-        });
+      CrearCliente(body);
     })
     .catch(err => {
       res.status(500).send({
@@ -74,6 +68,16 @@ exports.create = async (req, res) => {
     }); 
 };
 
+
+async function CrearCliente(body){
+  // Save
+  await  Clientes.create(body)
+  .then( data => {
+  })
+  .catch(err => {
+    return;
+  });
+}
 
 exports.findFormato = async (req, res) => {
 const id =req.body.id;
