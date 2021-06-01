@@ -20,7 +20,7 @@ exports.create = async (req, res) => {
     const { filename } = req.files['filename'][0]
     body.foto= `https://naun.herokuapp.com/public/${filename}`;  
   }
-
+  body.nombre= req.body.cliente_id;
   body.nombre= req.body.nombre;
   body.tipo= req.body.tipo;
   body.cedula= req.body.cedula;
