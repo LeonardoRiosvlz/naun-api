@@ -73,6 +73,24 @@ exports.findAll = async (req, res) => {
         });
     };
 
+    exports.listarAdmin = async (req, res) => {
+      await  Sedes.findAndCountAll({
+          limit: 3000000,
+          offset: 0,
+          where: { cliente_id :req.body.cliente_id  }, // conditions
+          order: [
+            ['id', 'DESC'],
+          ],
+        })
+          .then(data => {
+            res.send(data);
+          })
+          .catch(err => {
+            res.send(500).send({
+              message: err.message || "Some error accurred while retrieving books."
+            });
+          });
+      };
 // Find a single with an id
 
 
