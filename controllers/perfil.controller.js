@@ -18,13 +18,14 @@ exports.create = async (req, res) => {
   const body={};
   if(req.files['filename']){
     const { filename } = req.files['filename'][0]
-    body.foto= `https://naun.herokuapp.com/public/${filename}`;  
+    body.imagen= `https://naun.herokuapp.com/public/${filename}`;  
   }
   body.cliente_id= req.body.cliente_id;
   body.nombre= req.body.nombre;
   body.tipo= req.body.tipo;
   body.cedula= req.body.cedula;
   body.telefono= req.body.telefono;
+  body.email= req.body.email;
   body.celular_personal= req.body.celular_personal;
   body.celular_corporativo= req.body.celular_corporativo;
   body.status= req.body.status;
