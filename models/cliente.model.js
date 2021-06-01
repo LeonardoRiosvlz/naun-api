@@ -115,7 +115,7 @@ module.exports = (sequelize, Sequelize, DataTypes) => {
         },
         cargo_contacto: {
           type: DataTypes.STRING(100),
-          unique: true
+          unique: false
         },
         telefono_contacto: {
           type: DataTypes.STRING(15),

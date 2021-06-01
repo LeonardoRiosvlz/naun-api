@@ -25,8 +25,8 @@ exports.create = async (req, res) => {
   body.departamento= req.body.departamento;
   body.codigo_departamento= req.body.codigo_departamento;
   body.municipio= req.body.municipio;
-  body.codigo_minicipio= req.body.codigo_minicipio;
-  body.natruleza_juridica= req.body.natruleza_juridica;
+  body.codigo_municipio= req.body.codigo_municipio;
+  body.naturaleza_juridica= req.body.naturaleza_juridica;
   body.nombre_prestador= req.body.nombre_prestador;
   body.codigo_prestador= req.body.codigo_prestador;
   body.codigo= req.body.codigo;
@@ -38,13 +38,13 @@ exports.create = async (req, res) => {
   body.celular= req.body.celular;
   body.email= req.body.email;
   body.razon_social= req.body.razon_social;
-  body.representanten_legal= req.body.representanten_legal;
+  body.representante_legal= req.body.representante_legal;
   body.numero_sede= req.body.numero_sede;
   body.nivel_atencion= req.body.nivel_atencion;
   body.caracter_territorial= req.body.caracter_territorial;
   body.nombre_contacto= req.body.nombre_contacto;
   body.cargo_contacto= req.body.cargo_contacto;
-  body.telelfono_contacto= req.body.telelfono_contacto;
+  body.telefono_contacto= req.body.telefono_contacto;
   body.celular_contacto= req.body.celular_contacto;
   body.email_contacto= req.body.email_contacto;
   // Save Book in database
@@ -108,7 +108,7 @@ exports.findAll = async (req, res) => {
         include: [  
           {
             model:User,
-            attributes:['status']
+            attributes:['status','imagen']
           }
         ],
         order: [
@@ -153,8 +153,8 @@ exports.update = async (req, res) => {
     body.departamento= req.body.departamento;
     body.codigo_departamento= req.body.codigo_departamento;
     body.municipio= req.body.municipio;
-    body.codigo_minicipio= req.body.codigo_minicipio;
-    body.natruleza_juridica= req.body.natruleza_juridica;
+    body.codigo_municipio= req.body.codigo_municipio;
+    body.naturaleza_juridica= req.body.naturaleza_juridica;
     body.nombre_prestador= req.body.nombre_prestador;
     body.codigo_prestador= req.body.codigo_prestador;
     body.codigo= req.body.codigo;
@@ -164,14 +164,15 @@ exports.update = async (req, res) => {
     body.telefono= req.body.telefono;
     body.fax= req.body.fax;
     body.celular= req.body.celular;
+    body.email= req.body.email;
     body.razon_social= req.body.razon_social;
-    body.representanten_legal= req.body.representanten_legal;
+    body.representante_legal= req.body.representante_legal;
     body.numero_sede= req.body.numero_sede;
     body.nivel_atencion= req.body.nivel_atencion;
     body.caracter_territorial= req.body.caracter_territorial;
     body.nombre_contacto= req.body.nombre_contacto;
     body.cargo_contacto= req.body.cargo_contacto;
-    body.telelfono_contacto= req.body.telelfono_contacto;
+    body.telefono_contacto= req.body.telefono_contacto;
     body.celular_contacto= req.body.celular_contacto;
     body.email_contacto= req.body.email_contacto;
     body.user_id= req.body.user_id;

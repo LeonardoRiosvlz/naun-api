@@ -14,6 +14,7 @@ exports.create = async (req, res) => {
   const data = {
     nombre: req.body.nombre,
     descripcion: req.body.descripcion,
+    cliente_id: req.body.cliente_id,
   };
   // Save
  await Tipo.create(data)
@@ -70,13 +71,13 @@ exports.update = async (req, res) => {
         });
       } else {
         res.send({
-          message: `No puede editar el coargo con el  el =${id}. Tal vez el cargo no existe o la peticion es vacia!`
+          message: `No puede editar el tipo de proceso con el  el =${id}. Tal vez el tipo de proceso no existe o la peticion es vacia!`
         });
       }
     })
     .catch(err => {
       res.status(500).send({
-        message: "Error al intentar editar el cargo con el id=" + id
+        message: "Error al intentar editar el tipo de proceso con el id=" + id
       });
     });
 };
@@ -90,17 +91,17 @@ exports.delete = async (req, res) => {
     .then(num => {
       if (num == 1) {
         res.send({
-          message: "Cargo borrado satisfactoriamente!"
+          message: "tipo de proceso borrado satisfactoriamente!"
         });
       } else {
         res.send({
-          message: `No se pudo borrar el cargo con el id=${id}. Tal vez el cargo no existe!`
+          message: `No se pudo borrar el tipo de proceso con el id=${id}. Tal vez el tipo de proceso no existe!`
         });
       }
     })
     .catch(err => {
       res.status(500).send({
-        message: "No se pudo borrar el cargo con el id=" + id
+        message: "No se pudo borrar el tipo de proceso con el id=" + id
       });
     });
 };
