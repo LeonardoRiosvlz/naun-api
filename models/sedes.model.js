@@ -93,7 +93,7 @@ module.exports = (sequelize, Sequelize, DataTypes) => {
             type: DataTypes.STRING(25),
             unique: false
         },
-        email_cotacto: {
+        email_contacto: {
             type: DataTypes.STRING(25),
             unique: false
         },

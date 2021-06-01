@@ -7,7 +7,9 @@ const upload = require('../libs/storage');
 const cpUpload = upload.fields([{ name: 'filename', maxCount: 1 }])
 
 
-
+    // Create a new cargo
+    router.post("/perfil/listar",[cpUpload,authJwt.verifyToken,authJwt.isModeratorOrAdmin], Controller.listarAdmin);
+  
   
     // Create a new cargo
     router.post("/perfil",[cpUpload,authJwt.verifyToken,authJwt.isModeratorOrAdmin], Controller.create);

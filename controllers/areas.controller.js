@@ -53,9 +53,29 @@ exports.findAll = async (req, res) => {
 };
 
 
+exports.listarAdmin = async (req, res) => {
+ await Areas.findAll({
+    limit: 3000000,
+    offset: 0,
+    where: {
+      cliente_id:req.body.cliente_id
+    }, // conditions
+    order: [
+      ['id', 'DESC'],
+    ],
+  })
+    .then(data => {
+      res.send(data);
+    })
+    .catch(err => {
+      res.send(500).send({
+        message: err.message || "Some error accurred while retrieving books."
+      });
+    });
+};
+
 // Update a Book by the id in the request
 exports.update = async (req, res) => {
-  console.log(req)
   const id = req.body.id;
 
  await Areas.update({

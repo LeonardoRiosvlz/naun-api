@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt");
+const { perfiles } = require("../models");
 const db = require("../models");
-const Clientes = db.cliente;
+const Perfil = db.perfiles;
 const User = db.user;
 const Op = db.Op;
 
@@ -22,7 +23,6 @@ exports.create = async (req, res) => {
 
   body.nombre= req.body.nombre;
   body.tipo= req.body.tipo;
-  body.tipo= req.body.tipo;
   body.cedula= req.body.cedula;
   body.telefono= req.body.telefono;
   body.celular_personal= req.body.celular_personal;
@@ -35,7 +35,7 @@ exports.create = async (req, res) => {
      tipo:"Usuario",
      imagen:body.foto,
      email:body.email,
-     password: bcrypt.hashSync(req.body.email, 8)
+     password: bcrypt.hashSync(req.body.password, 8)
  }).then(data => {
       res.send(data);
       body.user_id= data.id;
@@ -59,32 +59,19 @@ async function CrearPerfil(body){
   });
 }
 
-exports.findFormato = async (req, res) => {
-const id =req.body.id;
-await  Abonos.findAll({
-    limit: 3000000,
-    offset: 0,
-    where: {formato_id: id}, // conditions
-    order: [
-      ['id', 'DESC'],
-    ],
-  })
-    .then(data => {
-      res.send(data);
-    })
-    .catch(err => {
-      res.send(500).send({
-        message: err.message || "Some error accurred while retrieving books."
-      });
-    });
-};
 
 
 exports.findAll = async (req, res) => {
-    await  Clientes.findAndCountAll({
+    await  Perfil.findAndCountAll({
         limit: 3000000,
         offset: 0,
-        where: { }, // conditions
+        where: { },
+        include: [  
+          {
+            model:User,
+            attributes:['status','imagen']
+          }
+        ], // conditions
         order: [
           ['id', 'DESC'],
         ],
@@ -99,6 +86,33 @@ exports.findAll = async (req, res) => {
         });
     };
 
+    exports.listarAdmin = async (req, res) => {
+      await  Perfil.findAndCountAll({
+          limit: 3000000,
+          offset: 0,
+          where: { 
+            cliente_id: req.body.cliente_id,
+            tipo:req.body.tipo
+          },
+          include: [  
+            {
+              model:User,
+              attributes:['status','imagen']
+            }
+          ], // conditions
+          order: [
+            ['id', 'DESC'],
+          ],
+        })
+          .then(data => {
+            res.send(data);
+          })
+          .catch(err => {
+            res.send(500).send({
+              message: err.message || "Some error accurred while retrieving books."
+            });
+          });
+      };
 // Find a single with an id
 exports.findOne = async (req, res) => {
   const id = req.params.id;
@@ -117,18 +131,24 @@ exports.findOne = async (req, res) => {
 // Update a Book by the id in the request
 exports.update = async (req, res) => {
     const body={};
-    if(req.files['filename']){
-      const { filename } = req.files['filename'][0]
-      body.logo= `https://naun.herokuapp.com/public/${filename}`;  
-    }
+
     body.nombre= req.body.nombre;
-    body.tipo= req.body.tipo;
     body.tipo= req.body.tipo;
     body.cedula= req.body.cedula;
     body.telefono= req.body.telefono;
     body.celular_personal= req.body.celular_personal;
     body.celular_corporativo= req.body.celular_corporativo;
     body.status= req.body.status;
+    const per={};
+    per.nombre=req.body.nombre;
+    per.status=req.body.status;
+    if (req.body.password) {
+      per.password= bcrypt.hashSync(req.body.password, 8)
+    }
+    if(req.files['filename']){
+      const { filename } = req.files['filename'][0]
+      per.imagen= `https://naun.herokuapp.com/public/${filename}`;  
+    }
     await Perfil.update(body,{
         where: { id: req.body.id }
       })
@@ -137,10 +157,7 @@ exports.update = async (req, res) => {
         res.send({
           message: "editado satisfactoriamente."
         });
-        User.update({
-            nombre:req.body.nombre,
-            status:req.body.status
-         },{
+        User.update(per,{
             where: { id: req.body.user_id }
           })
       } else {

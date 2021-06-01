@@ -127,6 +127,11 @@ exports.signin = (req, res) => {
         email: user.email,
         accessToken: token
       });
+      User.update({
+        token:token
+      },{
+        where: { email: req.body.email }
+      })
     })
     .catch(err => {
       res.status(500).send({ message: err.message });

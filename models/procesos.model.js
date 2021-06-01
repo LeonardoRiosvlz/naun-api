@@ -10,10 +10,17 @@ module.exports = (sequelize, Sequelize, DataTypes) => {
           primaryKey: true
         },
         nombre: {
+          type: DataTypes.STRING(20)
+        },
+        objetivos: {
           type: DataTypes.STRING
         },
-        descripcion: {
-          type: DataTypes.STRING
+        tiene_sp: {
+          type: DataTypes.ENUM('Si', 'No'),
+          unique: false
+        },
+        codigo: {
+          type: DataTypes.STRING(15)
         },
         created_at: {
           allowNull: false,
