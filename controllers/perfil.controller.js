@@ -73,11 +73,13 @@ exports.findAll = async (req, res) => {
         include: [  
           {
             model:User,
-            attributes:['id','imagen','status']
-          },
-          {
-            model:Cargos
-          },
+            attributes:['id','imagen','status'],
+            include: [  
+              {
+                model:Cargos,
+              },
+            ]
+          }
         ],
         attributes:['id','nombre'], // conditions
         order: [
@@ -108,10 +110,12 @@ exports.findAll = async (req, res) => {
           include: [  
             {
               model:User,
-              attributes:['status','imagen']
-            },
-            {
-              model:Cargos
+              attributes:['status','imagen'],
+              include: [  
+                {
+                  model:Cargos,
+                },
+              ]
             },
           ], // conditions
           order: [
