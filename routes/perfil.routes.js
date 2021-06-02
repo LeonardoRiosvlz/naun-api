@@ -10,6 +10,8 @@ const cpUpload = upload.fields([{ name: 'filename', maxCount: 1 }])
     // Create a new cargo
     router.post("/perfil/listar",[cpUpload,authJwt.verifyToken,authJwt.isModeratorOrAdmin], Controller.listarAdmin);
   
+    // Create a new cargo
+    router.post("/perfil/lista",[cpUpload,authJwt.verifyToken,authJwt.isModeratorOrAdmin], Controller.findAll);
   
     // Create a new cargo
     router.post("/perfil",[cpUpload,authJwt.verifyToken,authJwt.isModeratorOrAdmin], Controller.create);

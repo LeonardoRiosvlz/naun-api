@@ -4,7 +4,7 @@ const User = db.user;
 // Create and Save a new Book
 exports.create = async (req, res) => {
   // Validate request
-  if (!req.body.nombre) {
+  if (!req.body.user_id) {
     res.status(400).send({
       message: "No puede ser vacio!"
     });
@@ -30,7 +30,6 @@ exports.create = async (req, res) => {
       return;
     });
 };
-
 
 exports.findAll = (req, res) => {
   const id = req.userId;
@@ -60,6 +59,37 @@ exports.findAll = (req, res) => {
     });
 };
 
+
+exports.listarAdmin = (req, res) => {
+  const id = req.userId;
+  Cargos.findAll({
+    limit: 3000000,
+    offset: 0,
+    where: {
+      cliente_id: req.body.cliente_id
+    }, // conditions
+    include: [  
+        {
+          model:User,
+          attributes:['nombre']
+        },
+      ],
+    order: [
+      ['id', 'DESC'],
+    ],
+  })
+    .then(data => {
+      res.send(data);
+    })
+    .catch(err => {
+      res.send(500).send({
+        message: err.message || "Some error accurred while retrieving books."
+      });
+    });
+};
+
+
+
 // Find a single with an id
 exports.findOne = (req, res) => {
   const id = req.params.id;
@@ -87,7 +117,7 @@ exports.update = (req, res) => {
     user_id: req.body.user_id,
     cliente_id: req.body.cliente_id,
     },{
-    where: { id: id }
+    where: { id: req.body.id }
   })
     .then(num => {
       if (num == 1) {

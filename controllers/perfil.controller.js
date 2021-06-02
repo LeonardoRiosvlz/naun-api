@@ -63,16 +63,19 @@ async function CrearPerfil(body){
 
 
 exports.findAll = async (req, res) => {
-    await  Perfil.findAndCountAll({
+    await  Perfil.findAll({
         limit: 3000000,
         offset: 0,
-        where: { },
+        where: { 
+           cliente_id: req.body.cliente_id
+        },
         include: [  
           {
             model:User,
-            attributes:['status','imagen']
+            attributes:['id','imagen','status']
           }
-        ], // conditions
+        ],
+        attributes:['id','nombre'], // conditions
         order: [
           ['id', 'DESC'],
         ],
@@ -86,6 +89,9 @@ exports.findAll = async (req, res) => {
           });
         });
     };
+
+
+
 
     exports.listarAdmin = async (req, res) => {
       await  Perfil.findAndCountAll({
