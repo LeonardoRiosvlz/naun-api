@@ -3,6 +3,7 @@ const { perfiles } = require("../models");
 const db = require("../models");
 const Perfil = db.perfiles;
 const User = db.user;
+const Cargos = db.cargos;
 const Op = db.Op;
 
 // Create and Save a new Book
@@ -73,7 +74,10 @@ exports.findAll = async (req, res) => {
           {
             model:User,
             attributes:['id','imagen','status']
-          }
+          },
+          {
+            model:Cargos
+          },
         ],
         attributes:['id','nombre'], // conditions
         order: [
@@ -105,7 +109,10 @@ exports.findAll = async (req, res) => {
             {
               model:User,
               attributes:['status','imagen']
-            }
+            },
+            {
+              model:Cargos
+            },
           ], // conditions
           order: [
             ['id', 'DESC'],
