@@ -23,6 +23,7 @@ exports.create = async (req, res) => {
     tipo_id: req.body.tipo_id,
     lider_id: req.body.lider_id,
     cliente_id: req.body.cliente_id,
+    proceso_id: req.body.proceso_id,
   };
   // Save
  await Subprocesos.create(data)
@@ -131,6 +132,7 @@ exports.update = async (req, res) => {
     tipo_id: req.body.tipo_id,
     lider_id: req.body.lider_id,
     cliente_id: req.body.cliente_id,
+    proceso_id: req.body.proceso_id,
     },{
     where: { id: id }
   })
