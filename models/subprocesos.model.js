@@ -1,6 +1,6 @@
 module.exports = (sequelize, Sequelize, DataTypes) => {
-    const Procesos = sequelize.define(
-      "proceso", // Model name
+    const Suprocesos = sequelize.define(
+      "subproceso", // Model name
       {
         // Model attributes
         id: {
@@ -17,11 +17,7 @@ module.exports = (sequelize, Sequelize, DataTypes) => {
         },
         codigo_prefijo: {
           type: DataTypes.STRING(25)
-        },
-        tiene_sp: {
-          type: DataTypes.ENUM('Si', 'No'),
-          unique: false
-        },
+        }, 
         objetivos: {
           type: DataTypes.STRING
         },
@@ -29,7 +25,7 @@ module.exports = (sequelize, Sequelize, DataTypes) => {
           type: DataTypes.STRING
         },
         estado: {
-          type: DataTypes.ENUM('Borrador', 'Habilitado'), 
+          type: DataTypes.ENUM('Borrador', 'Habilitado'),
           unique: false
         },
         actividades: {
@@ -56,5 +52,5 @@ module.exports = (sequelize, Sequelize, DataTypes) => {
       }
     );
   
-    return Procesos;
+    return Suprocesos;
   };

@@ -12,6 +12,12 @@ const cpUpload = upload.fields([{ name: 'filename', maxCount: 1 }])
     // Create a new cargo
     router.post("/procesos",[cpUpload,authJwt.verifyToken,authJwt.isModeratorOrAdmin], Controller.create);
   
+    // Create a new cargo
+    router.post("/procesos/listar",[cpUpload,authJwt.verifyToken,authJwt.isModeratorOrAdmin], Controller.listarAdmin);
+
+    // Create a new cargo
+    router.post("/procesos/find",[cpUpload,authJwt.verifyToken,authJwt.isModeratorOrAdmin], Controller.find);
+
     // Retrieve all cargos
     router.get("/procesos",authJwt.verifyToken, Controller.findAll);
   
@@ -23,4 +29,4 @@ const cpUpload = upload.fields([{ name: 'filename', maxCount: 1 }])
 
   
     module.exports = router;
-  
+   

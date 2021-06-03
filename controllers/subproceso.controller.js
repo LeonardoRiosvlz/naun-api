@@ -16,10 +16,8 @@ exports.create = async (req, res) => {
     nombre: req.body.nombre,
     version: req.body.version,
     codigo_prefijo: req.body.codigo_prefijo,
-    tiene_sp: req.body.tiene_sp,
     objetivos: req.body.objetivos,
     alcance: req.body.alcance,
-    estado: "Borrador",
     actividades: req.body.actividades,
     recursos: req.body.recursos,
     tipo_id: req.body.tipo_id,
@@ -27,7 +25,7 @@ exports.create = async (req, res) => {
     cliente_id: req.body.cliente_id,
   };
   // Save
- await Procesos.create(data)
+ await Subprocesos.create(data)
     .then(data => {
       res.send(data);
     })
@@ -42,7 +40,7 @@ exports.create = async (req, res) => {
 
 exports.findAll = async (req, res) => {
   const id = req.userId;
- await Tipo.findAll({
+ await Subprocesos.findAll({
     limit: 3000000,
     offset: 0,
     where: {
@@ -63,7 +61,7 @@ exports.findAll = async (req, res) => {
 };
 
 exports.listarAdmin = async (req, res) => {
-  await  Procesos.findAndCountAll({
+  await  Subprocesos.findAndCountAll({
       limit: 3000000,
       offset: 0,
       where: { cliente_id :req.body.cliente_id  }, // conditions
@@ -72,7 +70,7 @@ exports.listarAdmin = async (req, res) => {
       ],
       include: [  
         {
-          model:Subprocesos,
+          model:Procesos,
           attributes:['nombre','id'],
         },
       ],
@@ -89,7 +87,7 @@ exports.listarAdmin = async (req, res) => {
 // Find a single with an id
 
 exports.find = async (req, res) => {
-  await  Procesos.findAndCountAll({
+  await  Subprocesos.findAndCountAll({
       limit: 3000000,
       offset: 0,
       where: { 
@@ -100,7 +98,7 @@ exports.find = async (req, res) => {
       ],
       include: [  
         {
-          model:Subprocesos,
+          model:Procesos,
           attributes:['nombre','id'],
         },
       ],
@@ -122,11 +120,10 @@ exports.update = async (req, res) => {
   console.log(req)
   const id = req.body.id;
 
- await Tipo.update({
+ await Subprocesos.update({
     nombre: req.body.nombre,
     version: req.body.version,
     codigo_prefijo: req.body.codigo_prefijo,
-    tiene_sp: req.body.tiene_sp,
     objetivos: req.body.objetivos,
     alcance: req.body.alcance,
     actividades: req.body.actividades,
@@ -158,7 +155,7 @@ exports.update = async (req, res) => {
 // Delete a Book with the specified id in the request
 exports.delete = async (req, res) => {
   const id = req.body.id;
- await Procesos.destroy({
+ await Subprocesos.destroy({
     where: { id: id }
   })
     .then(num => {

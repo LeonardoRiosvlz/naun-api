@@ -35,6 +35,7 @@ db.sedes = require("./sedes.model.js")(sequelize, Sequelize, DataTypes);
 db.areas = require("./areas.model.js")(sequelize, Sequelize, DataTypes);
 db.perfiles = require("./perfil.model.js")(sequelize, Sequelize, DataTypes);
 db.procesos = require("./procesos.model.js")(sequelize, Sequelize, DataTypes);
+db.subprocesos = require("./subprocesos.model.js")(sequelize, Sequelize, DataTypes);
 db.tipoProceso = require("./tipoProceso.model.js")(sequelize, Sequelize, DataTypes);
 
 db.user.hasMany(db.cliente, { foreignKey: 'user_id' });
@@ -57,8 +58,31 @@ db.perfiles.belongsTo(db.cliente, { foreignKey: 'cliente_id' });
 db.user.hasOne(db.perfiles, { foreignKey: 'user_id' });
 db.perfiles.belongsTo(db.user, { foreignKey: 'user_id' });
 ///sedes///
+
+
+///procesos///
 db.cliente.hasMany(db.tipoProceso, { foreignKey: 'cliente_id' });
 db.tipoProceso.belongsTo(db.cliente, { foreignKey: 'cliente_id' });
+
+db.tipoProceso.hasMany(db.procesos, { foreignKey: 'tipo_id' });
+db.procesos.belongsTo(db.tipoProceso, { foreignKey: 'tipo_id' });
+
+db.cliente.hasMany(db.procesos, { foreignKey: 'cliente_id' });
+db.procesos.belongsTo(db.cliente, { foreignKey: 'cliente_id' });
+
+db.user.hasOne(db.procesos, { foreignKey: 'lider_id' }); 
+db.procesos.belongsTo(db.user, { foreignKey: 'lider_id' });
+
+db.procesos.hasMany(db.subprocesos, { foreignKey: 'subproceso_id' });
+db.subprocesos.belongsTo(db.procesos, { foreignKey: 'subproceso_id' });
+
+db.user.hasOne(db.subprocesos, { foreignKey: 'lider_id' });
+db.subprocesos.belongsTo(db.user, { foreignKey: 'lider_id' });
+
+db.cliente.hasMany(db.subprocesos, { foreignKey: 'cliente_id' });
+db.subprocesos.belongsTo(db.cliente, { foreignKey: 'cliente_id' });
+
+///procesos/// 
 
 ///sedes///
 db.cliente.hasMany(db.procesos, { foreignKey: 'cliente_id' });

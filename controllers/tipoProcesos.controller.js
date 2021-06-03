@@ -1,6 +1,7 @@
 const db = require("../models");
 const Tipo = db.tipoProceso;
-
+const Procesos = db.procesos;
+const Subprocesos = db.subprocesos;
 // Create and Save a new Book
 exports.create = async (req, res) => {
   // Validate request
@@ -60,6 +61,18 @@ exports.listarAdmin = async (req, res) => {
       order: [
         ['id', 'DESC'],
       ],
+      include: [  
+        {
+          model:Procesos,
+          attributes:['nombre','id'],
+          include: [  
+            {
+              model:Subprocesos,
+              attributes:['nombre','id']
+            }
+          ]
+        },
+      ],
     })
       .then(data => {
         res.send(data);
@@ -71,6 +84,42 @@ exports.listarAdmin = async (req, res) => {
       });
   };
 // Find a single with an id
+
+exports.find = async (req, res) => {
+  await  Tipo.findAndCountAll({
+      limit: 3000000,
+      offset: 0,
+      where: { 
+        cliente_id :req.body.cliente_id,
+        id: req.body.id
+        }, // conditions
+      order: [
+        ['id', 'DESC'],
+      ],
+      include: [  
+        {
+          model:Procesos,
+          attributes:['nombre','id'],
+          include: [  
+            {
+              model:Subprocesos,
+              attributes:['nombre','id']
+            }
+          ]
+        },
+      ],
+    })
+      .then(data => {
+        res.send(data);
+      })
+      .catch(err => {
+        res.send(500).send({
+          message: err.message || "Some error accurred while retrieving books."
+        });
+      });
+  };
+// Find a single with an id
+
 
 // Update a Book by the id in the request
 exports.update = async (req, res) => {
