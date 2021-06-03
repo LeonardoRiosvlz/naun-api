@@ -122,7 +122,7 @@ exports.update = async (req, res) => {
   console.log(req)
   const id = req.body.id;
 
- await Tipo.update({
+ await Procesos.update({
     nombre: req.body.nombre,
     version: req.body.version,
     codigo_prefijo: req.body.codigo_prefijo,

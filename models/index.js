@@ -73,8 +73,8 @@ db.procesos.belongsTo(db.cliente, { foreignKey: 'cliente_id' });
 db.user.hasOne(db.procesos, { foreignKey: 'lider_id' }); 
 db.procesos.belongsTo(db.user, { foreignKey: 'lider_id' });
 
-db.procesos.hasMany(db.subprocesos, { foreignKey: 'subproceso_id' });
-db.subprocesos.belongsTo(db.procesos, { foreignKey: 'subproceso_id' });
+db.procesos.hasMany(db.subprocesos, { foreignKey: 'proceso_id' });
+db.subprocesos.belongsTo(db.procesos, { foreignKey: 'proceso_id' });
 
 db.user.hasOne(db.subprocesos, { foreignKey: 'lider_id' });
 db.subprocesos.belongsTo(db.user, { foreignKey: 'lider_id' });
