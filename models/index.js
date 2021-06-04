@@ -37,12 +37,23 @@ db.perfiles = require("./perfil.model.js")(sequelize, Sequelize, DataTypes);
 db.procesos = require("./procesos.model.js")(sequelize, Sequelize, DataTypes);
 db.subprocesos = require("./subprocesos.model.js")(sequelize, Sequelize, DataTypes);
 db.tipoProceso = require("./tipoProceso.model.js")(sequelize, Sequelize, DataTypes);
+db.normativas = require("./normatividad.model.js")(sequelize, Sequelize, DataTypes);
+db.tipodocumento = require("./tipodocumento.model.js")(sequelize, Sequelize, DataTypes);
+
 
 db.user.hasMany(db.cliente, { foreignKey: 'user_id' });
 db.cliente.belongsTo(db.user, { foreignKey: 'user_id' });
  
 db.notificacion.belongsTo(db.user, { foreignKey: 'uid' });
 db.user.hasMany(db.notificacion, { foreignKey: 'uid' });
+
+
+db.cliente.hasMany(db.tipodocumento, { foreignKey: 'cliente_id' });
+db.tipodocumento.belongsTo(db.cliente, { foreignKey: 'cliente_id' });
+
+
+db.cliente.hasMany(db.normativas, { foreignKey: 'cliente_id' });
+db.normativas.belongsTo(db.cliente, { foreignKey: 'cliente_id' });
 
 ///Clientes////
 db.cliente.hasMany(db.cargos, { foreignKey: 'cliente_id' });

@@ -1,6 +1,6 @@
 module.exports = (sequelize, Sequelize, DataTypes) => {
-    const Cargo = sequelize.define(
-      "cargo", // Model name
+    const Normatividad = sequelize.define(
+      "normatividad", // Model name
       {
         // Model attributes
         id: {
@@ -9,18 +9,17 @@ module.exports = (sequelize, Sequelize, DataTypes) => {
           autoIncrement: true,
           primaryKey: true
         },
+        tipo: {
+          type: DataTypes.STRING(30)
+        },
         nombre: {
-          type: DataTypes.STRING
+            type: DataTypes.STRING(30)
         },
         descripcion: {
           type: DataTypes.STRING
         },
-        soporte: {
-          type: DataTypes.STRING
-        },
-        status: {
-            type: DataTypes.ENUM('Activo', 'Inactivo'),
-            unique: false
+        archivo: {
+            type: DataTypes.STRING
         },
         created_at: {
           allowNull: false,
@@ -40,6 +39,6 @@ module.exports = (sequelize, Sequelize, DataTypes) => {
       }
     );
   
-    return Cargo;
+    return Normatividad;
   };
   
