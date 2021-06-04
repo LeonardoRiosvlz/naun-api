@@ -110,19 +110,14 @@ exports.findAll = async (req, res) => {
           include: [  
             {
               model:User,
-              attributes:['status','imagen'],
-              include: [  
-                {
-                  model:Cargos,
-                },
-              ]
+              attributes:['status','imagen']
             },
           ], // conditions
           order: [
             ['id', 'DESC'],
           ],
         })
-          .then(data => {
+.then(data => {
             res.send(data);
           })
           .catch(err => {
