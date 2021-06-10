@@ -10,31 +10,32 @@ exports.create = async (req, res) => {
     });
     return;
   }
-  // Create 
-  const data = {
-    
-    creado:req.body.creado,
-    nombre:req.body.nombre,
-    consecutivo:req.body.consecutivo,
-    version:req.body.version,
-    sub_proceso:req.body.sub_proceso,
-    elaboracion:req.body.elaboracion,
-    revision:req.body.revision,
-    aprobacion:req.body.aprobacion,
-    fecha_alerta:req.body.fecha_alerta,
-    fecha_emicion:req.body.fecha_emicion,
-    intervalo:req.body.intervalo,
-    archivo:req.body.archivo,
-    normativas:req.body.normativas,
-    cliente_id: req.body.cliente_id,
-    sedes_id: req.body.sedes_id,
-    elabroa_id: req.body.elabroa_id,
-    aprueba_id: req.body.aprueba_id,
-    revisa_id: req.body.revisa_id
+  const body={};
+  if(req.files['filename']){
+    const { filename } = req.files['filename'][0]
+    body.archivo= `https://naun.herokuapp.com/public/${filename}`;  
+  }  
+    body.creado=req.body.creado,
+    body.nombre=req.body.nombre,
+    body.consecutivo=req.body.consecutivo,
+    body.version=req.body.version,
+    body.sub_proceso=req.body.sub_proceso,
+    body.elaboracion=req.body.elaboracion,
+    body.revision=req.body.revision,
+    body.aprobacion=req.body.aprobacion,
+    body.fecha_alerta=req.body.fecha_alerta,
+    body.fecha_emicion=req.body.fecha_emicion,
+    body.intervalo=req.body.intervalo,
+    body.archivo=req.body.archivo,
+    body.normativas=req.body.normativas,
+    body.cliente_id= req.body.cliente_id,
+    body.sedes_id= req.body.sedes_id,
+    body.elabroa_id= req.body.elabroa_id,
+    body.aprueba_id= req.body.aprueba_id,
+    body.revisa_id= req.body.revisa_id
 
-  };
   // Save
- await Areas.create(data)
+ await Areas.create(body)
     .then(data => {
       res.send(data);
     })
@@ -94,27 +95,31 @@ exports.listarAdmin = async (req, res) => {
 // Update a Book by the id in the request
 exports.update = async (req, res) => {
   const id = req.body.id;
+  const body={};
+  if(req.files['filename']){
+    const { filename } = req.files['filename'][0]
+    body.archivo= `https://naun.herokuapp.com/public/${filename}`;  
+  }  
+    body.creado=req.body.creado,
+    body.nombre=req.body.nombre,
+    body.consecutivo=req.body.consecutivo,
+    body.version=req.body.version,
+    body.sub_proceso=req.body.sub_proceso,
+    body.elaboracion=req.body.elaboracion,
+    body.revision=req.body.revision,
+    body.aprobacion=req.body.aprobacion,
+    body.fecha_alerta=req.body.fecha_alerta,
+    body.fecha_emicion=req.body.fecha_emicion,
+    body.intervalo=req.body.intervalo,
+    body.archivo=req.body.archivo,
+    body.normativas=req.body.normativas,
+    body.cliente_id= req.body.cliente_id,
+    body.sedes_id= req.body.sedes_id,
+    body.elabroa_id= req.body.elabroa_id,
+    body.aprueba_id= req.body.aprueba_id,
+    body.revisa_id= req.body.revisa_id
 
- await Documento.update({
-    creado:req.body.creado,
-    nombre:req.body.nombre,
-    consecutivo:req.body.consecutivo,
-    version:req.body.version,
-    sub_proceso:req.body.sub_proceso,
-    elaboracion:req.body.elaboracion,
-    revision:req.body.revision,
-    aprobacion:req.body.aprobacion,
-    fecha_alerta:req.body.fecha_alerta,
-    fecha_emicion:req.body.fecha_emicion,
-    intervalo:req.body.intervalo,
-    archivo:req.body.archivo,
-    normativas:req.body.normativas,
-    cliente_id: req.body.cliente_id,
-    sedes_id: req.body.sedes_id,
-    elabroa_id: req.body.elabroa_id,
-    aprueba_id: req.body.aprueba_id,
-    revisa_id: req.body.revisa_id
-    },{
+ await Documento.update(body,{
     where: { id: id }
   })
     .then(num => {
