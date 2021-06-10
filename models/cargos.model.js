@@ -15,9 +15,6 @@ module.exports = (sequelize, Sequelize, DataTypes) => {
         descripcion: {
           type: DataTypes.STRING
         },
-        soporte: {
-          type: DataTypes.STRING
-        },
         status: {
             type: DataTypes.ENUM('Activo', 'Inactivo'),
             unique: false
