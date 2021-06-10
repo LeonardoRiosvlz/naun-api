@@ -30,7 +30,7 @@ exports.create = async (req, res) => {
     body.normativas=req.body.normativas,
     body.cliente_id= req.body.cliente_id,
     body.sedes_id= req.body.sedes_id,
-    body.elabroa_id= req.body.elabroa_id,
+    body.elabora_id= req.body.elabora_id,
     body.aprueba_id= req.body.aprueba_id,
     body.revisa_id= req.body.revisa_id
 
@@ -115,7 +115,7 @@ exports.update = async (req, res) => {
     body.normativas=req.body.normativas,
     body.cliente_id= req.body.cliente_id,
     body.sedes_id= req.body.sedes_id,
-    body.elabroa_id= req.body.elabroa_id,
+    body.elabora_id= req.body.elabora_id,
     body.aprueba_id= req.body.aprueba_id,
     body.revisa_id= req.body.revisa_id
 
