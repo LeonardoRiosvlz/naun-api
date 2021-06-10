@@ -45,10 +45,10 @@ module.exports = (sequelize, Sequelize, DataTypes) => {
             type:Sequelize.DATE(6) 
         },  
         intervalo: {
-            type: DataTypes.ENUM('12 meses', '6 meses','4 meses','2 meses','1 mese',),
+            type: DataTypes.ENUM('12 meses', '6 meses','4 meses','2 meses','1 mes'),  
             unique: false
         },
-        intervalo: {
+        status: {
             type: DataTypes.ENUM('Inahabilitado', 'En elaboración','Elaborado','En revisión','Revisión','Revisado', 'En aprobación','Aprobado','Activado','Osboleto',),
             unique: false
         },
