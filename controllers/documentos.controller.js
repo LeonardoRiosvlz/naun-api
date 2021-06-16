@@ -38,6 +38,18 @@ exports.create = async (req, res) => {
  await Areas.create(body)
     .then(data => {
       res.send(data);
+    //  const datos = {
+    //    titulo: `Abono realizado (${req.body.tipo})`,
+    //    descripcion: `Se realizó un abono con el valor de $ ${req.body.valor_abono} al F.S.T.-${req.body.formato_id}`,
+    //    origen: "",
+    //    modulo: "abonos",
+    //    icon: "ri-money-dollar-box-line",
+    //    color: "avatar-title bg-success rounded-circle font-size-16",
+    //    uid: req.body.tecnico_id,
+    //    uidr:req.userId,
+    //    canal: "",
+    //  };
+    //  CrearNotificacion(datos);
     })
     .catch(err => {
       res.status(500).send({
@@ -46,6 +58,34 @@ exports.create = async (req, res) => {
       return;
     });
 };
+
+async function CrearNotificacion(datos){
+  // Save
+  await  Notificacion.create(datos)
+  .then( data => {
+    notificar(data);
+  })
+  .catch(err => {
+    res.status(500).send({
+      message: err.message || "Some error occurred while creating the Book."
+    });
+    return;
+  });
+}
+
+async function notificar(data){
+await  User.findByPk(data.uid)
+.then(datas => {
+ console.log(datas);
+ global.io.to(datas.canal).emit('cliente', data);
+})
+  .catch(err => {
+  res.status(500).send({
+    message: `erro al editar el cargo= ${id}`
+  });
+});
+}
+
 
 
 exports.findAll = async (req, res) => {

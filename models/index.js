@@ -40,12 +40,17 @@ db.tipoProceso = require("./tipoProceso.model.js")(sequelize, Sequelize, DataTyp
 db.normativas = require("./normatividad.model.js")(sequelize, Sequelize, DataTypes);
 db.tipodocumento = require("./tipodocumento.model.js")(sequelize, Sequelize, DataTypes);
 db.documento = require("./documentos.model.js")(sequelize, Sequelize, DataTypes);
+db.clasificacioneventos = require("./clasificacioneventos.model.js")(sequelize, Sequelize, DataTypes);
+db.eventos = require("./eventos.model.js")(sequelize, Sequelize, DataTypes);
+db.responsables = require("./responsables.model.js")(sequelize, Sequelize, DataTypes);
+db.comprometidos = require("./comprometidos.model.js")(sequelize, Sequelize, DataTypes);
+
 
 db.user.hasMany(db.cliente, { foreignKey: 'user_id' });
 db.cliente.belongsTo(db.user, { foreignKey: 'user_id' });
  
-db.notificacion.belongsTo(db.user, { foreignKey: 'uid' });
-db.user.hasMany(db.notificacion, { foreignKey: 'uid' });
+db.notificacion.belongsTo(db.cargos, { foreignKey: 'uid' });
+db.cargos.hasMany(db.notificacion, { foreignKey: 'uid' }); 
 
 
 db.cliente.hasMany(db.tipodocumento, { foreignKey: 'cliente_id' });
@@ -96,6 +101,27 @@ db.subprocesos.belongsTo(db.cliente, { foreignKey: 'cliente_id' });
 ///procesos/// 
 
 
+///eventos///
+db.cliente.hasMany(db.clasificacioneventos, { foreignKey: 'cliente_id' });
+db.clasificacioneventos.belongsTo(db.cliente, { foreignKey: 'cliente_id' });
+db.cliente.hasMany(db.clasificacioneventos, { foreignKey: 'cliente_id' });
+db.clasificacioneventos.belongsTo(db.cliente, { foreignKey: 'cliente_id' });
+db.cliente.hasMany(db.eventos, { foreignKey: 'cliente_id' });
+db.eventos.belongsTo(db.cliente, { foreignKey: 'cliente_id' });
+db.clasificacioneventos.hasMany(db.eventos, { foreignKey: 'clasificacion_id' });
+db.eventos.belongsTo(db.clasificacioneventos, { foreignKey: 'clasificacion_id' });
+db.eventos.hasMany(db.responsables, { foreignKey: 'evento_id' });
+db.responsables.belongsTo(db.eventos, { foreignKey: 'evento_id' });
+db.cargos.hasMany(db.responsables, { foreignKey: 'cargo_id' });
+db.responsables.belongsTo(db.cargos, { foreignKey: 'cargo_id' });
+
+db.eventos.hasMany(db.comprometidos, { foreignKey: 'evento_id' });
+db.comprometidos.belongsTo(db.eventos, { foreignKey: 'evento_id' });
+db.cargos.hasMany(db.comprometidos, { foreignKey: 'cargo_id' });
+db.comprometidos.belongsTo(db.cargos, { foreignKey: 'cargo_id' });
+///eventos///
+
+ 
 
 //documentos//
 db.tipodocumento.hasMany(db.documento, { foreignKey: 'tipo_id' });
