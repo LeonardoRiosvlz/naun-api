@@ -35,7 +35,7 @@ exports.create = async (req, res) => {
     body.revisa_id= req.body.revisa_id
 
   // Save
- await Areas.create(body)
+ await Documento.create(body)
     .then(data => {
       res.send(data);
     //  const datos = {
@@ -90,7 +90,7 @@ await  User.findByPk(data.uid)
 
 exports.findAll = async (req, res) => {
   const id = req.userId;
- await Areas.findAll({
+ await Documento.findAll({
     limit: 3000000,
     offset: 0,
     where: {
