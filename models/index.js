@@ -44,7 +44,7 @@ db.clasificacioneventos = require("./clasificacioneventos.model.js")(sequelize, 
 db.eventos = require("./eventos.model.js")(sequelize, Sequelize, DataTypes);
 db.responsables = require("./responsables.model.js")(sequelize, Sequelize, DataTypes);
 db.comprometidos = require("./comprometidos.model.js")(sequelize, Sequelize, DataTypes);
-
+db.plantillas = require("./plantillas.model.js")(sequelize, Sequelize, DataTypes);
 
 db.user.hasMany(db.cliente, { foreignKey: 'user_id' });
 db.cliente.belongsTo(db.user, { foreignKey: 'user_id' });
@@ -75,6 +75,11 @@ db.user.hasOne(db.perfiles, { foreignKey: 'user_id' });
 db.perfiles.belongsTo(db.user, { foreignKey: 'user_id' });
 ///sedes///
 
+
+///plantillas//
+db.cliente.hasMany(db.plantillas, { foreignKey: 'cliente_id' });
+db.plantillas.belongsTo(db.cliente, { foreignKey: 'cliente_id' });
+///plantillas//
 
 ///procesos///
 db.cliente.hasMany(db.tipoProceso, { foreignKey: 'cliente_id' });

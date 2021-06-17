@@ -35,6 +35,7 @@ app.use('/api', require('./routes/normatividad.routes'));
 app.use('/api', require('./routes/tipodocumentos.routes'));
 app.use('/api', require('./routes/documento.routes'));
 app.use('/api', require('./routes/clasificacioneventos.routes'));
+app.use('/api', require('./routes/plantillas.routes'));
 // Middleware para Vue.js router modo history
 const history = require('connect-history-api-fallback');
 app.use(history());
