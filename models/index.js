@@ -45,6 +45,12 @@ db.eventos = require("./eventos.model.js")(sequelize, Sequelize, DataTypes);
 db.responsables = require("./responsables.model.js")(sequelize, Sequelize, DataTypes);
 db.comprometidos = require("./comprometidos.model.js")(sequelize, Sequelize, DataTypes);
 db.plantillas = require("./plantillas.model.js")(sequelize, Sequelize, DataTypes);
+db.grupoestandares = require("./grupoestandares.model.js")(sequelize, Sequelize, DataTypes);
+db.estandares = require("./estandares.model.js")(sequelize, Sequelize, DataTypes);
+
+
+
+
 
 db.user.hasMany(db.cliente, { foreignKey: 'user_id' });
 db.cliente.belongsTo(db.user, { foreignKey: 'user_id' });
@@ -156,6 +162,16 @@ db.documento.belongsTo(db.cargos, { as: 'Aprueba', foreignKey: 'aprueba_id' });
 ///sedes///
 db.cliente.hasMany(db.procesos, { foreignKey: 'cliente_id' });
 db.procesos.belongsTo(db.cliente, { foreignKey: 'cliente_id' });
+
+
+///estandares///
+db.cliente.hasMany(db.grupoestandares, { foreignKey: 'cliente_id' });
+db.grupoestandares.belongsTo(db.cliente, { foreignKey: 'cliente_id' });
+db.grupoestandares.hasMany(db.estandares, { foreignKey: 'grupo_id' });
+db.estandares.belongsTo(db.grupoestandares, { foreignKey: 'grupo_id' });
+db.cliente.hasMany(db.estandares, { foreignKey: 'cliente_id' });
+db.estandares.belongsTo(db.cliente, { foreignKey: 'cliente_id' });
+
 
 //persmisos//
 db.user.hasMany(db.permiso, { foreignKey: 'user_id' });
