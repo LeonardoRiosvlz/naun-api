@@ -1,10 +1,13 @@
 const db = require("../models");
 const Eventos = db.eventos;
 const User = db.user;
+const Comprometido = db.comprometidos;
+const Responsables = db.responsables;
+const Cargo = db.cargos;
 // Create and Save a new Book
 exports.create = async (req, res) => {
   // Validate request
-  if (!req.body.user_id) {
+  if (!req.body.cliente_id) {
     res.status(400).send({
       message: "No puede ser vacio!"
     });
@@ -14,15 +17,12 @@ exports.create = async (req, res) => {
   const body = {};
   
   body.id=req.body.id;
-  body.nombre=req.body.nomre;
+  body.nombre=req.body.nombre;
   body.descripcion=req.body.descripcion;
   body.observaciones=req.body.observaciones;
   body.lugar=req.body.lugar;
-  body.inivitados_externos=req.body.inivitados_externos;
   body.periodo=req.body.periodo;
-  body.status=req.body.status;
   body.fecha_programada=req.body.fecha_programada;
-  body.fecha_ejecucion=req.body.fecha_ejecucion;
   body.cliente_id=req.body.cliente_id;
   body.clasificacion_id=req.body.clasificacion_id;
   // Save
@@ -37,6 +37,107 @@ exports.create = async (req, res) => {
       return;
     });
 };
+
+
+exports.addResponsable = async (req, res) => {
+  // Validate request
+  if (!req.body.cargo_id) {
+    res.status(400).send({
+      message: "No puede ser vacio!"
+    });
+    return;
+  }
+  // Create 
+  const body = {};
+  body.evento_id=req.body.evento_id;
+  body.cargo_id=req.body.cargo_id;
+  // Save
+ await Responsables.create(body)
+    .then(data => {
+      res.send(data);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: err.message || "ocurrio un problema"
+      });
+      return;
+    });
+};
+
+// Delete a Book with the specified id in the request
+exports.deleteResponsable = (req, res) => {
+  const id = req.body.id;
+  Responsables.destroy({
+    where: { id: id }
+  })
+    .then(num => {
+      if (num == 1) {
+        res.send({
+          message: "borrado satisfactoriamente!"
+        });
+      } else {
+        res.send({
+          message: `No se pudo borrar tal vez no existe!`
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "No se pudo borrar"
+      });
+    });
+};
+
+
+exports.addComprometido = async (req, res) => {
+  // Validate request
+  if (!req.body.cargo_id) {
+    res.status(400).send({
+      message: "No puede ser vacio!"
+    });
+    return;
+  }
+  // Create 
+  const body = {};
+  body.evento_id=req.body.evento_id;
+  body.cargo_id=req.body.cargo_id;
+  // Save
+ await Comprometido.create(body)
+    .then(data => {
+      res.send(data);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: err.message || "ocurrio un problema"
+      });
+      return;
+    });
+};
+
+// Delete a Book with the specified id in the request
+exports.deleteComprometido = (req, res) => {
+  const id = req.body.id;
+  Comprometido.destroy({
+    where: { id: id }
+  })
+    .then(num => {
+      if (num == 1) {
+        res.send({
+          message: "borrado satisfactoriamente!"
+        });
+      } else {
+        res.send({
+          message: `No se pudo borrar tal vez no existe!`
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "No se pudo borrar"
+      });
+    });
+};
+
 
 exports.findAll = async (req, res) => {
   const id = req.userId;
@@ -93,9 +194,47 @@ exports.listarAdmin = async (req, res) => {
 
 // Find a single with an id
 exports.findOne = async (req, res) => {
-  const id = req.params.id;
-await  Eventos.findByPk(id)
-    .then(data => {
+  const id = req.body.id;
+await  Eventos.findOne({
+  limit: 3000000,
+  offset: 0,
+  where: {
+    id:req.body.id
+  }, // conditions
+  include: [  
+      {
+        model:Comprometido,
+        include: [  
+          {
+            model:Cargo,
+            include: [  
+              {
+                model:User,
+                attributes:['nombre','imagen']
+              },
+            ]
+          },
+        ]
+      },
+      {
+        model:Responsables,
+        include: [  
+          {
+            model:Cargo,
+            include: [  
+              {
+                model:User,
+                attributes:['nombre','imagen']
+              },
+            ]
+          },
+        ]
+      },
+    ],
+  order: [
+    ['id', 'DESC'],
+  ],
+}).then(data => {
       res.send(data);
     })
     .catch(err => {

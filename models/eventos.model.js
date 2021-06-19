@@ -4,33 +4,39 @@ module.exports = (sequelize, Sequelize, DataTypes) => {
       {
         // Model attributes
         id: {
-          type: DataTypes.INTEGER,
-          allowNull: false,
-          autoIncrement: true,
-          primaryKey: true
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            autoIncrement: true,
+            primaryKey: true  
         },
         nombre: {
-            type: DataTypes.STRING(45),
-            unique: true
+            type: DataTypes.STRING(105),
+            allowNull: true,
+            unique: false
         },
         descripcion: {
-            type: DataTypes.STRING(250),
-            unique: true
+            type: DataTypes.TEXT('long'),
+            allowNull: true,
+            unique: false
         },
         observaciones: {
             type: DataTypes.STRING(250),
-            unique: true
+            allowNull: true,
+            unique: false
         },
         lugar: {
            type: DataTypes.STRING(150),
-           unique: true
+           allowNull: true,
+           unique: false
         },
         inivitados_externos: {
+            allowNull: true,
             type: DataTypes.JSON,
          },
         periodo: {
             type: DataTypes.STRING(20),
-            unique: true
+            allowNull: true,
+            unique: false
         },
         status: {
             type: DataTypes.ENUM('Creada','Programado','Cumplido','No realizado'),

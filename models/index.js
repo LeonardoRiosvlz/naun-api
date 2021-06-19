@@ -121,12 +121,12 @@ db.cargos.hasMany(db.responsables, { foreignKey: 'cargo_id' });
 db.responsables.belongsTo(db.cargos, { foreignKey: 'cargo_id' });
 
 db.eventos.hasMany(db.comprometidos, { foreignKey: 'evento_id' });
-db.comprometidos.belongsTo(db.eventos, { foreignKey: 'evento_id' });
+db.comprometidos.belongsTo(db.eventos, { foreignKey: 'evento_id',onDelete: 'CASCADE', });
 db.cargos.hasMany(db.comprometidos, { foreignKey: 'cargo_id' });
-db.comprometidos.belongsTo(db.cargos, { foreignKey: 'cargo_id' });
+db.comprometidos.belongsTo(db.cargos, { foreignKey: 'cargo_id', onDelete: 'CASCADE',});
 ///eventos///
 
- 
+  
 
 //documentos//
 db.tipodocumento.hasMany(db.documento, { foreignKey: 'tipo_id' });
