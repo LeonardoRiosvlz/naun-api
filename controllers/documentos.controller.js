@@ -67,7 +67,7 @@ exports.updateDocument = async (req, res) => {
   const id = req.body.id;
   const body = {};
 body.documento= req.body.documento
-await Plantillas.update(body,{
+await Documento.update(body,{
     where: { id: req.body.id }
   })
     .then(num => {
