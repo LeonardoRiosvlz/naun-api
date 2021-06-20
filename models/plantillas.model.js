@@ -4,16 +4,15 @@ module.exports = (sequelize, Sequelize, DataTypes) => {
       {
         // Model attributes
         id: {
-          type: DataTypes.INTEGER,
-          allowNull: false,
-          autoIncrement: true,
+          type: DataTypes.UUID,
+          defaultValue: Sequelize.UUIDV4,
           primaryKey: true
         },
         nombre: {
-          type: DataTypes.STRING
+          type: DataTypes.STRING(100)
         },
         descripcion: {
-          type: DataTypes.STRING
+          type: DataTypes.STRING(100)
         },
         status: {
             type: DataTypes.ENUM('Activo', 'Inactivo'),

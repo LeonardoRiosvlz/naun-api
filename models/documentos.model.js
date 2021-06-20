@@ -4,10 +4,9 @@ module.exports = (sequelize, Sequelize, DataTypes) => {
       {
         // Attributes
         id: {
-          type: DataTypes.INTEGER,
-          allowNull: false,
-          autoIncrement: true,
-          primaryKey: true 
+            type: DataTypes.UUID,
+            defaultValue: Sequelize.UUIDV4,
+            primaryKey: true
         }, 
         creado: {
             type: DataTypes.ENUM('Creado', 'No creado'),
@@ -53,8 +52,11 @@ module.exports = (sequelize, Sequelize, DataTypes) => {
             unique: false
         },
         archivo: {
-            type: DataTypes.STRING(5),
+            type: DataTypes.STRING(150),
             unique: false
+        },
+        documento: {
+            type: DataTypes.JSON 
         },
         normativas: {
             type: DataTypes.JSON 

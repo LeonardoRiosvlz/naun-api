@@ -21,6 +21,7 @@ exports.create = async (req, res) => {
   body.descripcion=req.body.descripcion;
   body.observaciones=req.body.observaciones;
   body.lugar=req.body.lugar;
+  body.invitados_externos=req.body.invitados_externos;
   body.periodo=req.body.periodo;
   body.fecha_programada=req.body.fecha_programada;
   body.cliente_id=req.body.cliente_id;
@@ -249,15 +250,13 @@ exports.update = async (req, res) => {
   const id = req.body.id;
   const body = {};
   body.id=req.body.id;
-  body.nombre=req.body.nomre;
+  body.nombre=req.body.nombre;
   body.descripcion=req.body.descripcion;
   body.observaciones=req.body.observaciones;
   body.lugar=req.body.lugar;
-  body.inivitados_externos=req.body.inivitados_externos;
+  body.invitados_externos=req.body.invitados_externos;
   body.periodo=req.body.periodo;
-  body.status=req.body.status;
   body.fecha_programada=req.body.fecha_programada;
-  body.fecha_ejecucion=req.body.fecha_ejecucion;
   body.cliente_id=req.body.cliente_id;
   body.clasificacion_id=req.body.clasificacion_id;
 await  Eventos.update(body,{

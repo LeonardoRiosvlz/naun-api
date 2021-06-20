@@ -59,6 +59,38 @@ exports.create = async (req, res) => {
     });
 };
 
+
+
+// Update a Book by the id in the request
+exports.updateDocument = async (req, res) => {
+
+  const id = req.body.id;
+  const body = {};
+body.documento= req.body.documento
+await Plantillas.update(body,{
+    where: { id: req.body.id }
+  })
+    .then(num => {
+      if (num == 1) {
+        res.send({
+          message: "editado satisfactoriamente."
+        });
+      } else {
+        res.send({
+          message: `No puede editar el coargo con el  el =${id}. Tal vez el cargo no existe o la peticion es vacia!`
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Error al intentar editar el cargo con el id=" + id
+      });
+    });
+};
+
+
+
+
 async function CrearNotificacion(datos){
   // Save
   await  Notificacion.create(datos)
@@ -106,6 +138,21 @@ exports.findAll = async (req, res) => {
     .catch(err => {
       res.send(500).send({
         message: err.message || "Some error accurred while retrieving books."
+      });
+    });
+};
+
+// Find a single with an id
+exports.find= async (req, res) => {
+  const id = req.body.id;
+
+await  Documento.findByPk(id)
+    .then(data => {
+      res.send(data);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: `erro al editar el cargo= ${id}`
       });
     });
 };

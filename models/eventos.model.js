@@ -29,9 +29,8 @@ module.exports = (sequelize, Sequelize, DataTypes) => {
            allowNull: true,
            unique: false
         },
-        inivitados_externos: {
-            allowNull: true,
-            type: DataTypes.JSON,
+        invitados_externos: {
+            type: DataTypes.JSON
          },
         periodo: {
             type: DataTypes.STRING(20),

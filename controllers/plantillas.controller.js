@@ -79,8 +79,8 @@ await Plantillas.findAll({
 
 
 // Find a single with an id
-exports.findOne = async (req, res) => {
-  const id = req.params.id;
+exports.find= async (req, res) => {
+  const id = req.body.id;
 
 await  Plantillas.findByPk(id)
     .then(data => {
@@ -101,7 +101,6 @@ exports.update = async (req, res) => {
     body.nombre= req.body.nombre;
     body.descripcion= req.body.descripcion;
     body.status= req.body.status;
-    body.documento= req.body.documento
     body.cliente_id= req.body.cliente_id;
   
 await Plantillas.update(body,{
@@ -124,6 +123,35 @@ await Plantillas.update(body,{
       });
     });
 };
+
+// Update a Book by the id in the request
+exports.updateDocument = async (req, res) => {
+
+  const id = req.body.id;
+  const body = {};
+body.documento= req.body.documento
+await Plantillas.update(body,{
+    where: { id: req.body.id }
+  })
+    .then(num => {
+      if (num == 1) {
+        res.send({
+          message: "editado satisfactoriamente."
+        });
+      } else {
+        res.send({
+          message: `No puede editar el coargo con el  el =${id}. Tal vez el cargo no existe o la peticion es vacia!`
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Error al intentar editar el cargo con el id=" + id
+      });
+    });
+};
+
+
 
 // Delete a Book with the specified id in the request
 exports.delete = async (req, res) => {
