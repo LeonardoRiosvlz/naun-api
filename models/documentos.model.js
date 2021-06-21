@@ -23,10 +23,6 @@ module.exports = (sequelize, Sequelize, DataTypes) => {
         version: {
             type: DataTypes.STRING(35),
             unique: false
-        }, 
-        sub_proceso: {
-            type: DataTypes.STRING(5),
-            unique: false
         },  
         elaboracion: {
             type:Sequelize.DATEONLY

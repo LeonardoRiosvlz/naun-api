@@ -47,7 +47,7 @@ db.comprometidos = require("./comprometidos.model.js")(sequelize, Sequelize, Dat
 db.plantillas = require("./plantillas.model.js")(sequelize, Sequelize, DataTypes);
 db.grupoestandares = require("./grupoestandares.model.js")(sequelize, Sequelize, DataTypes);
 db.estandares = require("./estandares.model.js")(sequelize, Sequelize, DataTypes);
-
+db.basesae = require("./bases_autoevaluacion.model.js")(sequelize, Sequelize, DataTypes);
 
 
 
@@ -144,6 +144,9 @@ db.documento.belongsTo(db.procesos, { foreignKey: 'proceso_id' });
 db.subprocesos.hasMany(db.documento, { foreignKey: 'subproceso_id' });
 db.documento.belongsTo(db.subprocesos, { foreignKey: 'subproceso_id' });
 
+db.subprocesos.hasMany(db.documento, { foreignKey: 'subproceso_id' });
+db.documento.belongsTo(db.subprocesos, { foreignKey: 'subproceso_id' });
+
 db.cliente.hasMany(db.documento, { foreignKey: 'cliente_id' });
 db.documento.belongsTo(db.cliente, { foreignKey: 'cliente_id' });
 
@@ -171,7 +174,13 @@ db.grupoestandares.hasMany(db.estandares, { foreignKey: 'grupo_id' });
 db.estandares.belongsTo(db.grupoestandares, { foreignKey: 'grupo_id' });
 db.cliente.hasMany(db.estandares, { foreignKey: 'cliente_id' });
 db.estandares.belongsTo(db.cliente, { foreignKey: 'cliente_id' });
+///estandares///
 
+
+///base auto evalucacion///
+db.cliente.hasMany(db.basesae, { foreignKey: 'cliente_id' });
+db.basesae.belongsTo(db.cliente, { foreignKey: 'cliente_id' });
+///base auto evalucacion///
 
 //persmisos//
 db.user.hasMany(db.permiso, { foreignKey: 'user_id' });

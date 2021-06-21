@@ -20,7 +20,7 @@ exports.create = async (req, res) => {
     body.nombre=req.body.nombre;
     body.consecutivo=req.body.consecutivo;
     body.version=req.body.version;
-    body.sub_proceso=req.body.sub_proceso;
+    body.subproceso_id=req.body.subproceso_id;
     if (req.body.elaboracion) {
       body.elaboracion=req.body.elaboracion;
     }
@@ -207,8 +207,8 @@ exports.update = async (req, res) => {
     body.nombre=req.body.nombre;
     body.consecutivo=req.body.consecutivo;
     body.version=req.body.version;
-    body.sub_proceso=req.body.sub_proceso;
     body.elaboracion=req.body.elaboracion;
+    body.subproceso_id=req.subproceso_id;
     if (req.body.elaboracion) {
       body.elaboracion=req.body.elaboracion;
     }

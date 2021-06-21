@@ -38,7 +38,7 @@ app.use('/api', require('./routes/clasificacioneventos.routes'));
 app.use('/api', require('./routes/plantillas.routes'));
 app.use('/api', require('./routes/eventos.routes'));
 app.use('/api', require('./routes/grupoestandares.routes'));
-
+app.use('/api', require('./routes/basesau.routes'));
 // Middleware para Vue.js router modo history
 const history = require('connect-history-api-fallback');
 app.use(history());
