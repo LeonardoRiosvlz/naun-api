@@ -1,5 +1,5 @@
 const db = require("../models");
-const Estandares = db.grupoestandares;
+const Estandares = db.estandares;
 
 // Create and Save a new Book
 exports.create = async (req, res) => {
