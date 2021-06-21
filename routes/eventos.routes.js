@@ -30,6 +30,10 @@ const cpUpload = upload.fields([{ name: 'filename', maxCount: 1 }])
     router.post("/eventos/calendario",[cpUpload,authJwt.verifyToken,authJwt.isModeratorOrAdmin], Controller.calendario_admin);
 
     // Create a new cargo
+    router.post("/eventos/filtro",[cpUpload,authJwt.verifyToken,authJwt.isModeratorOrAdmin], Controller.filtro);
+
+
+    // Create a new cargo
     router.post("/eventos/calendario/find",[cpUpload,authJwt.verifyToken,authJwt.isModeratorOrAdmin], Controller.calendario_find);
 
 

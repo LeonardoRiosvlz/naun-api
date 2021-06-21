@@ -42,6 +42,7 @@ exports.create = async (req, res) => {
     body.revisa_id= req.body.revisa_id;
     body.proceso_id= req.body.proceso_id;
     body.tipo_id= req.body.tipo_id;
+    body.status= req.body.status;
 
   // Save
  await Documento.create(body)
@@ -231,6 +232,7 @@ exports.update = async (req, res) => {
     body.revisa_id= req.body.revisa_id;
     body.proceso_id= req.body.proceso_id;
     body.tipo_id= req.body.tipo_id;
+    body.status= req.body.status;
 
  await Documento.update(body,{
     where: { id: id }

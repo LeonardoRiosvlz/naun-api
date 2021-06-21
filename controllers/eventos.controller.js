@@ -365,3 +365,34 @@ exports.calendario_find = async (req, res) => {
       });
   };
   
+
+  exports.filtro = async (req, res) => {
+
+    await  Eventos.findAll({
+        limit: 3000000,
+        offset: 0,
+        where: {
+          cliente_id:req.body.cliente_id,
+          clasificacion_id:req.body.clasificacion_id
+        }, // conditions
+        order: [
+          ['id', 'DESC'],
+        ],
+        attributes:['id',['fecha_programada', 'end'],['nombre', 'title'],['fecha_programada', 'start'],'status'],
+        include: [  
+          {
+            model:Clasificacion,
+            attributes:[['color', 'eventColor']]
+          },
+        ]
+      })
+        .then(data => {
+          res.send(data);
+        })
+        .catch(err => {
+          res.send(500).send({
+            message: err.message || "Some error accurred while retrieving books."
+          });
+        });
+    };
+    
