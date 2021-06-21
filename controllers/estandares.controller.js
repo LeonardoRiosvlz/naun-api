@@ -14,7 +14,7 @@ exports.create = async (req, res) => {
   const body = {};
     body.numero= req.body.numero;
     body.descripcion=req.body.descripcion;
-    body.criterio=req.body.criterio;
+    body.criterios=req.body.criterios;
     body.codigo= req.body.codigo;
     body.cliente_id= req.body.cliente_id;
     body.grupo_id= req.body.grupo_id;
@@ -100,7 +100,7 @@ exports.update = (req, res) => {
   const body = {};
     body.numero= req.body.numero;
     body.descripcion=req.body.descripcion;
-    body.criterio=req.body.criterio;
+    body.criterios=req.body.criterios;
     body.codigo= req.body.codigo;
     body.cliente_id= req.body.cliente_id;
     body.grupo_id= req.body.grupo_id;
