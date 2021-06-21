@@ -27,6 +27,13 @@ const cpUpload = upload.fields([{ name: 'filename', maxCount: 1 }])
     router.post("/eventos/delete",[cpUpload,authJwt.verifyToken, authJwt.isModeratorOrAdmin], Controller.delete);
 
     // Create a new cargo
+    router.post("/eventos/calendario",[cpUpload,authJwt.verifyToken,authJwt.isModeratorOrAdmin], Controller.calendario_admin);
+
+    // Create a new cargo
+    router.post("/eventos/calendario/find",[cpUpload,authJwt.verifyToken,authJwt.isModeratorOrAdmin], Controller.calendario_find);
+
+
+    // Create a new cargo
     router.post("/eventos/responsables/agregar",[cpUpload,authJwt.verifyToken,authJwt.isModeratorOrAdmin], Controller.addResponsable); 
 
     // Create a new cargo

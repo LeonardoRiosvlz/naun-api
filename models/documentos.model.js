@@ -29,19 +29,19 @@ module.exports = (sequelize, Sequelize, DataTypes) => {
             unique: false
         },  
         elaboracion: {
-            type:Sequelize.DATE(6) 
+            type:Sequelize.DATEONLY
         }, 
         revision: {
-            type:Sequelize.DATE(6) 
+            type:Sequelize.DATEONLY
         },
         aprobacion: {
-            type:Sequelize.DATE(6) 
+            type:Sequelize.DATEONLY
         }, 
         fecha_alerta: {
-            type:Sequelize.DATE(6) 
+            type:Sequelize.DATEONLY
         },
         fecha_emicion: {
-            type:Sequelize.DATE(6) 
+            type:Sequelize.DATEONLY
         },  
         intervalo: {
             type: DataTypes.ENUM('12 meses', '6 meses','4 meses','2 meses','1 mes'),  

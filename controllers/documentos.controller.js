@@ -1,6 +1,7 @@
 const db = require("../models");
 const Documento = db.documento;
-
+const Tipo_documento = db.tipodocumento;
+const Procesos = db.procesos;
 // Create and Save a new Book
 exports.create = async (req, res) => {
   // Validate request
@@ -15,24 +16,30 @@ exports.create = async (req, res) => {
     const { filename } = req.files['filename'][0]
     body.archivo= `https://naun.herokuapp.com/public/${filename}`;  
   }  
-    body.creado=req.body.creado,
-    body.nombre=req.body.nombre,
-    body.consecutivo=req.body.consecutivo,
-    body.version=req.body.version,
-    body.sub_proceso=req.body.sub_proceso,
-    body.elaboracion=req.body.elaboracion,
-    body.revision=req.body.revision,
-    body.aprobacion=req.body.aprobacion,
-    body.fecha_alerta=req.body.fecha_alerta,
-    body.fecha_emicion=req.body.fecha_emicion,
-    body.intervalo=req.body.intervalo,
-    body.archivo=req.body.archivo,
-    body.normativas=req.body.normativas,
-    body.cliente_id= req.body.cliente_id,
-    body.sedes_id= req.body.sedes_id,
-    body.elabora_id= req.body.elabora_id,
-    body.aprueba_id= req.body.aprueba_id,
-    body.revisa_id= req.body.revisa_id
+    body.creado=req.body.creado;
+    body.nombre=req.body.nombre;
+    body.consecutivo=req.body.consecutivo;
+    body.version=req.body.version;
+    body.sub_proceso=req.body.sub_proceso;
+    if (req.body.elaboracion) {
+      body.elaboracion=req.body.elaboracion;
+    }
+    if (req.body.revision) {
+      body.revision=req.body.revision;
+    }
+    if (req.body.aprobacion) {
+      body.aprobacion=req.body.aprobacion;
+    }
+    body.fecha_alerta=req.body.fecha_alerta;
+    body.fecha_emicion=req.body.fecha_emicion;
+    body.intervalo=req.body.intervalo;
+    body.archivo=req.body.archivo;
+    body.normativas=req.body.normativas;
+    body.cliente_id= req.body.cliente_id;
+    body.sedes_id= req.body.sedes_id;
+    body.elabora_id= req.body.elabora_id;
+    body.aprueba_id= req.body.aprueba_id;
+    body.revisa_id= req.body.revisa_id;
 
   // Save
  await Documento.create(body)
@@ -165,6 +172,15 @@ exports.listarAdmin = async (req, res) => {
     where: {
       cliente_id:req.body.cliente_id
     }, // conditions
+    include: [  
+      {
+        model:Tipo_documento
+      },
+      {
+        model:Procesos
+        
+      },
+    ],
     order: [
       ['id', 'DESC'],
     ],

@@ -1,5 +1,6 @@
 const db = require("../models");
 const Eventos = db.eventos;
+const Clasificacion = db.clasificacioneventos;
 const User = db.user;
 const Comprometido = db.comprometidos;
 const Responsables = db.responsables;
@@ -303,3 +304,64 @@ exports.delete = (req, res) => {
       });
     });
 };
+
+
+
+exports.calendario_admin = async (req, res) => {
+
+  await  Eventos.findAll({
+      limit: 3000000,
+      offset: 0,
+      where: {cliente_id:req.body.cliente_id}, // conditions
+      order: [
+        ['id', 'DESC'],
+      ],
+      attributes:['id',['fecha_programada', 'end'],['nombre', 'title'],['fecha_programada', 'start'],'status'],
+      include: [  
+        {
+          model:Clasificacion,
+          attributes:[['color', 'eventColor']]
+        },
+      ]
+    })
+      .then(data => {
+        res.send(data);
+      })
+      .catch(err => {
+        res.send(500).send({
+          message: err.message || "Some error accurred while retrieving books."
+        });
+      });
+  };
+  
+  
+exports.calendario_find = async (req, res) => {
+
+  await  Eventos.findAll({
+      limit: 3000000,
+      offset: 0,
+      where: {
+        cliente_id:req.body.cliente_id,
+        clasificacion_id:req.body.clasificacion_id
+      }, // conditions
+      order: [
+        ['id', 'DESC'],
+      ],
+      attributes:['id',['fecha_programada', 'end'],['nombre', 'title'],['fecha_programada', 'start'],'status'],
+      include: [  
+        {
+          model:Clasificacion,
+          attributes:[['color', 'eventColor']]
+        },
+      ]
+    })
+      .then(data => {
+        res.send(data);
+      })
+      .catch(err => {
+        res.send(500).send({
+          message: err.message || "Some error accurred while retrieving books."
+        });
+      });
+  };
+  
