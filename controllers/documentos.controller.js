@@ -33,7 +33,6 @@ exports.create = async (req, res) => {
     body.fecha_alerta=req.body.fecha_alerta;
     body.fecha_emicion=req.body.fecha_emicion;
     body.intervalo=req.body.intervalo;
-    body.archivo=req.body.archivo;
     body.normativas=req.body.normativas;
     body.cliente_id= req.body.cliente_id;
     body.sedes_id= req.body.sedes_id;
@@ -223,7 +222,6 @@ exports.update = async (req, res) => {
     }
     body.fecha_emicion=req.body.fecha_emicion;
     body.intervalo=req.body.intervalo;
-    body.archivo=req.body.archivo;
     body.normativas=req.body.normativas;
     body.cliente_id= req.body.cliente_id;
     body.sedes_id= req.body.sedes_id;
