@@ -21,6 +21,10 @@ module.exports = (sequelize, Sequelize, DataTypes) => {
           type: DataTypes.ENUM('Si', 'No'),
           unique: false
         },
+        habilitado: {
+          type: DataTypes.ENUM('Si','No'),
+          unique: false
+        },
         objetivos: {
           type: DataTypes.TEXT('long')
         },
