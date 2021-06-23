@@ -14,7 +14,7 @@ exports.create = async (req, res) => {
   const body={};
   if(req.files['filename']){
     const { filename } = req.files['filename'][0]
-    body.archivo= `https://naun.herokuapp.com/public/${filename}`;  
+    body.archivo= `https://naunapp.herokuapp.com/public/${filename}`;  
   }  
     body.creado=req.body.creado;
     body.nombre=req.body.nombre;
@@ -204,7 +204,7 @@ exports.update = async (req, res) => {
   const body={};
   if(req.files['filename']){
     const { filename } = req.files['filename'][0]
-    body.archivo= `https://naun.herokuapp.com/public/${filename}`;  
+    body.archivo= `https://naunapp.herokuapp.com/public/${filename}`;  
   }  
     body.creado=req.body.creado;
     body.nombre=req.body.nombre;
