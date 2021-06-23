@@ -5,6 +5,7 @@ const User = db.user;
 const Comprometido = db.comprometidos;
 const Responsables = db.responsables;
 const Cargo = db.cargos;
+const Op = db.Op;
 // Create and Save a new Book
 exports.create = async (req, res) => {
   // Validate request
@@ -367,18 +368,133 @@ exports.calendario_find = async (req, res) => {
   
 
   exports.filtro = async (req, res) => {
-
+    console.log(req.body);
+    const desde =req.body.desde;
+    const hasta =req.body.hasta;
+    let body=[];
+    if (req.body.desde && req.body.hasta && req.body.status==='' && req.body.periodo==='' && req.body.clasificacion_id==='') {
+      body=[{
+        fecha_programada: {
+          [Op.between]: [desde, hasta]
+        },
+        cliente_id:req.body.cliente_id,
+      }]
+    }
+    if (req.body.desde==='' && req.body.hasta==='' && req.body.status && req.body.periodo==='' && req.body.clasificacion_id==='') {
+      body=[{
+        status:req.body.status,
+        cliente_id:req.body.cliente_id,
+      }]
+    }
+    if (req.body.desde==='' && req.body.hasta==='' && req.body.status==='' && req.body.periodo && req.body.clasificacion_id==='') {
+      body=[{
+        periodo:req.body.periodo,
+        cliente_id:req.body.cliente_id,
+      }]
+    }
+    if (req.body.desde==='' && req.body.hasta==='' && req.body.status==='' && req.body.periodo==='' && req.body.clasificacion_id) {
+      body=[{
+        clasificacion_id:req.body.clasificacion_id,
+        cliente_id:req.body.cliente_id,
+      }]
+    }
+    if (req.body.desde && req.body.hasta && req.body.status && req.body.periodo==='' && req.body.clasificacion_id==='') {
+      body=[{
+        fecha_programada: {
+          [Op.between]: [desde, hasta]
+        },
+        status:req.body.status,
+        cliente_id:req.body.cliente_id,
+      }]
+    }
+    if (req.body.desde && req.body.hasta && req.body.status==='' && req.body.periodo && req.body.clasificacion_id==='') {
+      body=[{
+        fecha_programada: {
+          [Op.between]: [desde, hasta]
+        },
+        periodo:req.body.periodo,
+        cliente_id:req.body.cliente_id,
+      }]
+    }
+    if (req.body.desde && req.body.hasta && req.body.status==='' && req.body.periodo==='' && req.body.clasificacion_id) {
+      body=[{
+        fecha_programada: {
+          [Op.between]: [desde, hasta]
+        },
+        clasificacion_id:req.body.clasificacion_id,
+        cliente_id:req.body.cliente_id,
+      }]
+    }
+    if (req.body.desde==='' && req.body.hasta==='' && req.body.status && req.body.periodo && req.body.clasificacion_id==='') {
+      body=[{
+        status:req.body.status,
+        periodo:req.body.periodo,
+        cliente_id:req.body.cliente_id,
+      }]
+    }
+    if (req.body.desde==='' && req.body.hasta==='' && req.body.status && req.body.periodo==='' && req.body.clasificacion_id) {
+      body=[{
+        status:req.body.status,
+        clasificacion_id:req.body.clasificacion_id,
+        cliente_id:req.body.cliente_id,
+      }]
+    }
+    if (req.body.desde==='' && req.body.hasta==='' && req.body.status && req.body.periodo && req.body.clasificacion_id) {
+      body=[{
+        status:req.body.status,
+        periodo:req.body.periodo,
+        clasificacion_id:req.body.clasificacion_id,
+        cliente_id:req.body.cliente_id,
+      }]
+    }
+    if (req.body.desde==='' && req.body.hasta==='' && req.body.status==='' && req.body.periodo && req.body.clasificacion_id) {
+      body=[{
+        periodo:req.body.periodo,
+        clasificacion_id:req.body.clasificacion_id,
+        cliente_id:req.body.cliente_id,
+      }]
+    }
+    if (req.body.desde && req.body.hasta && req.body.status && req.body.periodo==='' && req.body.clasificacion_id) {
+      body=[{
+        fecha_programada: {
+          [Op.between]: [desde, hasta]
+        },
+        status:req.body.status,
+        clasificacion_id:req.body.clasificacion_id,
+        cliente_id:req.body.cliente_id,
+      }]
+    }
+    if (req.body.desde && req.body.hasta && req.body.status && req.body.periodo && req.body.clasificacion_id==='') {
+      body=[{
+        fecha_programada: {
+          [Op.between]: [desde, hasta]
+        },
+        status:req.body.status,
+        periodo:req.body.periodo,
+        cliente_id:req.body.cliente_id,
+      }]
+    }
+    if (req.body.desde && req.body.hasta && req.body.status && req.body.periodo && req.body.clasificacion_id) {
+      body=[{
+        fecha_programada: {
+          [Op.between]: [desde, hasta]
+        },
+        periodo:req.body.periodo,
+        clasificacion_id:req.body.clasificacion_id,
+        cliente_id:req.body.cliente_id,
+      }]
+    }
     await  Eventos.findAll({
         limit: 3000000,
         offset: 0,
-        where: {
-          cliente_id:req.body.cliente_id,
-          clasificacion_id:req.body.clasificacion_id
+          where: {
+            [Op.or]:body
+
+
         }, // conditions
         order: [
           ['id', 'DESC'],
         ],
-        attributes:['id',['fecha_programada', 'end'],['nombre', 'title'],['fecha_programada', 'start'],'status'],
         include: [  
           {
             model:Clasificacion,
@@ -388,6 +504,7 @@ exports.calendario_find = async (req, res) => {
       })
         .then(data => {
           res.send(data);
+          console.log(data);
         })
         .catch(err => {
           res.send(500).send({
