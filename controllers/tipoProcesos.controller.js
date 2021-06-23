@@ -86,11 +86,10 @@ exports.listarAdmin = async (req, res) => {
 // Find a single with an id
 
 exports.find = async (req, res) => {
-  await  Tipo.findAndCountAll({
+  await  Tipo.findAll({
       limit: 3000000,
       offset: 0,
       where: { 
-        cliente_id :req.body.cliente_id,
         id: req.body.id
         }, // conditions
       order: [

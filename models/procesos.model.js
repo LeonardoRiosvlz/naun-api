@@ -4,9 +4,8 @@ module.exports = (sequelize, Sequelize, DataTypes) => {
       {
         // Model attributes
         id: {
-          type: DataTypes.INTEGER,
-          allowNull: false,
-          autoIncrement: true,
+          type: DataTypes.UUID,
+          defaultValue: Sequelize.UUIDV4,
           primaryKey: true
         },
         nombre: {
@@ -23,10 +22,10 @@ module.exports = (sequelize, Sequelize, DataTypes) => {
           unique: false
         },
         objetivos: {
-          type: DataTypes.STRING
+          type: DataTypes.TEXT('long')
         },
         alcance: {
-          type: DataTypes.STRING
+          type: DataTypes.TEXT('long')
         },
         estado: {
           type: DataTypes.ENUM('Borrador', 'Habilitado'), 

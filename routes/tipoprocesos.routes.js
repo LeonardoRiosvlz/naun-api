@@ -7,7 +7,7 @@ const upload = require('../libs/storage');
 const cpUpload = upload.fields([{ name: 'filename', maxCount: 1 }])
 
 
-
+ 
   
     // Create a new cargo
     router.post("/tipo_procesos",[cpUpload,authJwt.verifyToken,authJwt.isModeratorOrAdmin], Controller.create);
