@@ -21,10 +21,6 @@ module.exports = (sequelize, Sequelize, DataTypes) => {
           type: DataTypes.ENUM('Si', 'No'),
           unique: false
         },
-        habilitado: {
-          type: DataTypes.ENUM('Si','No'),
-          unique: false
-        },
         objetivos: {
           type: DataTypes.TEXT('long')
         },
@@ -33,7 +29,7 @@ module.exports = (sequelize, Sequelize, DataTypes) => {
         },
         estado: {
           type: DataTypes.ENUM('Borrador', 'Habilitado'), 
-          unique: false
+          defaultValue: 'Borrador'
         },
         actividades: {
           type: DataTypes.JSON

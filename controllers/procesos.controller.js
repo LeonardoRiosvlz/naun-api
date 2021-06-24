@@ -21,7 +21,6 @@ exports.create = async (req, res) => {
     alcance: req.body.alcance,
     estado: "Borrador",
     actividades: req.body.actividades,
-    habilitado: req.body.habilitado,
     recursos: req.body.recursos,
     tipo_id: req.body.tipo_id,
     lider_id: req.body.lider_id,
@@ -121,6 +120,28 @@ exports.find = async (req, res) => {
   };
 // Find a single with an id
 
+exports.findtipo = async (req, res) => {
+  await  Procesos.findAndCountAll({
+      limit: 3000000,
+      offset: 0,
+      where: { 
+        tipo_id: req.body.tipo_id,
+        tiene_sp: "Si",
+        }, // conditions
+      order: [
+        ['id', 'DESC'],
+      ],
+    })
+      .then(data => {
+        res.send(data);
+      })
+      .catch(err => {
+        res.send(500).send({
+          message: err.message || "Some error accurred while retrieving books."
+        });
+      });
+  };
+// Find a single with an id
 
 // Update a Book by the id in the request
 exports.update = async (req, res) => {
@@ -136,7 +157,6 @@ exports.update = async (req, res) => {
     alcance: req.body.alcance,
     actividades: req.body.actividades,
     recursos: req.body.recursos,
-    habilitado: req.body.habilitado,
     tipo_id: req.body.tipo_id,
     lider_id: req.body.lider_id,
     cliente_id: req.body.cliente_id,

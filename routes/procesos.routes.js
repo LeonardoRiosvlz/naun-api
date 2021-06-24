@@ -18,6 +18,9 @@ const cpUpload = upload.fields([{ name: 'filename', maxCount: 1 }])
     // Create a new cargo
     router.post("/procesos/find",[cpUpload,authJwt.verifyToken,authJwt.isModeratorOrAdmin], Controller.find);
 
+    // Create a new cargo
+    router.post("/procesos/find/tipo",[cpUpload,authJwt.verifyToken,authJwt.isModeratorOrAdmin], Controller.findtipo);
+
     // Retrieve all cargos
     router.get("/procesos",authJwt.verifyToken, Controller.findAll);
   

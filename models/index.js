@@ -94,6 +94,9 @@ db.tipoProceso.belongsTo(db.cliente, { foreignKey: 'cliente_id' });
 db.tipoProceso.hasMany(db.procesos, { foreignKey: 'tipo_id' });
 db.procesos.belongsTo(db.tipoProceso, { foreignKey: 'tipo_id' });
 
+db.tipoProceso.hasMany(db.subprocesos, { foreignKey: 'tipo_id' });
+db.subprocesos.belongsTo(db.tipoProceso, { foreignKey: 'tipo_id' }); 
+
 db.cliente.hasMany(db.procesos, { foreignKey: 'cliente_id' });
 db.procesos.belongsTo(db.cliente, { foreignKey: 'cliente_id' });
 

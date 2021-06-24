@@ -25,7 +25,7 @@ module.exports = (sequelize, Sequelize, DataTypes) => {
         },
         estado: {
           type: DataTypes.ENUM('Borrador', 'Habilitado'),
-          unique: false
+          defaultValue: 'Borrador'
         },
         actividades: {
           type: DataTypes.JSON

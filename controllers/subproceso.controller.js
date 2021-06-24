@@ -73,7 +73,13 @@ exports.listarAdmin = async (req, res) => {
         {
           model:Procesos,
           attributes:['nombre','id'],
-        },
+          include: [  
+            {
+              model:Tipo,
+              attributes:['nombre','id'],
+            },
+          ],
+        },  
       ],
     })
       .then(data => {
