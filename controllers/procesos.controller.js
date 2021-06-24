@@ -101,7 +101,6 @@ exports.find = async (req, res) => {
       include: [  
         {
           model:Subprocesos,
-          attributes:['nombre','descripcion','id'],
         },
         {
           model:Tipo,
