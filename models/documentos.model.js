@@ -12,6 +12,10 @@ module.exports = (sequelize, Sequelize, DataTypes) => {
             type: DataTypes.ENUM('Creado', 'No creado'),
             unique: false
         }, 
+        editado: {
+            type: DataTypes.ENUM('Creado','Editor','Word'), 
+            defaultValue: 'Creado'
+        }, 
         nombre: {
            type: DataTypes.STRING(35),
            unique: false

@@ -1,5 +1,6 @@
 const db = require("../models");
 const Notificacion = db.notificacion;
+const Cargos = db.cargos;
 const User = db.user;
 const Op = db.Op;
 
@@ -52,12 +53,17 @@ exports.create = (req, res) => {
 
 exports.findAll = (req, res) => {
   const id = req.userId;
-  Notificacion.findAndCountAll({
+  Cargos.findAndCountAll({
     limit: 3000000,
     offset: 0,
     where: {
-      uid:id
-    }, // conditions
+      user_id:id
+    },
+    include: [  
+      {
+        model:Notificacion
+      },
+    ], // conditions
     order: [
       ['id', 'DESC'],
     ],

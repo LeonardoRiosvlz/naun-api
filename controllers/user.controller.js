@@ -153,6 +153,11 @@ exports.updateCanal = (req, res) => {
         res.send({
           message: "editado satisfactoriamente."
         });
+        Cargo.update({
+          canal: req.body.canal,
+          },{
+          where: { user_id: id }
+        })
       } else {
         res.send({
           message: `No puede editar el canal con el id =${id}. Tal vez el cargo no existe o la peticion es vacia!`

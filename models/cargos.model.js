@@ -12,6 +12,9 @@ module.exports = (sequelize, Sequelize, DataTypes) => {
         nombre: {
           type: DataTypes.STRING
         },
+        canal: {
+          type: DataTypes.STRING(25)
+        },
         descripcion: {
           type: DataTypes.STRING
         },
