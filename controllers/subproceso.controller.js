@@ -128,6 +128,29 @@ exports.find = async (req, res) => {
 // Find a single with an id
 
 
+exports.findProceso = async (req, res) => {
+  await  Subprocesos.findAndCountAll({
+      limit: 3000000,
+      offset: 0,
+      where: { 
+        proceso_id: req.body.proceso_id
+        }, // conditions
+      order: [
+        ['id', 'DESC'],
+      ],
+    })
+      .then(data => {
+        res.send(data);
+      })
+      .catch(err => {
+        res.send(500).send({
+          message: err.message || "Some error accurred while retrieving books."
+        });
+      });
+  };
+// Find a single with an id
+
+
 // Update a Book by the id in the request
 exports.update = async (req, res) => {
   console.log(req)

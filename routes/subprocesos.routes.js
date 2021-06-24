@@ -16,6 +16,10 @@ const cpUpload = upload.fields([{ name: 'filename', maxCount: 1 }])
     router.post("/subprocesos/find",[cpUpload,authJwt.verifyToken,authJwt.isModeratorOrAdmin], Controller.find);
 
     // Create a new cargo
+    router.post("/subprocesos/find/proceso",[cpUpload,authJwt.verifyToken,authJwt.isModeratorOrAdmin], Controller.findProceso);
+
+
+    // Create a new cargo
     router.post("/subprocesos/listar",[cpUpload,authJwt.verifyToken,authJwt.isModeratorOrAdmin], Controller.listarAdmin);
 
 
