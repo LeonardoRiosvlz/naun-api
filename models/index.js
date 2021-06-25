@@ -48,7 +48,7 @@ db.plantillas = require("./plantillas.model.js")(sequelize, Sequelize, DataTypes
 db.grupoestandares = require("./grupoestandares.model.js")(sequelize, Sequelize, DataTypes);
 db.estandares = require("./estandares.model.js")(sequelize, Sequelize, DataTypes);
 db.basesae = require("./bases_autoevaluacion.model.js")(sequelize, Sequelize, DataTypes);
-
+db.versiones = require("./versiones.model.js")(sequelize, Sequelize, DataTypes);
 
 
 
@@ -129,9 +129,9 @@ db.responsables.belongsTo(db.eventos, { foreignKey: 'evento_id' });
 db.cargos.hasMany(db.responsables, { foreignKey: 'cargo_id' });
 db.responsables.belongsTo(db.cargos, { foreignKey: 'cargo_id' });
 
-db.eventos.hasMany(db.comprometidos, { foreignKey: 'evento_id' });
+db.eventos.hasMany(db.comprometidos, { foreignKey: 'evento_id',onDelete: 'CASCADE' });
 db.comprometidos.belongsTo(db.eventos, { foreignKey: 'evento_id',onDelete: 'CASCADE', });
-db.cargos.hasMany(db.comprometidos, { foreignKey: 'cargo_id' });
+db.cargos.hasMany(db.comprometidos, { foreignKey: 'cargo_id',onDelete: 'CASCADE' });
 db.comprometidos.belongsTo(db.cargos, { foreignKey: 'cargo_id', onDelete: 'CASCADE',});
 ///eventos///
 
@@ -155,6 +155,9 @@ db.documento.belongsTo(db.cliente, { foreignKey: 'cliente_id' });
 
 db.sedes.hasMany(db.documento, { foreignKey: 'sedes_id' });
 db.documento.belongsTo(db.sedes, { foreignKey: 'sedes_id' });
+
+db.documento.hasMany(db.versiones, { foreignKey: 'documento_id', onDelete: 'CASCADE' });
+db.versiones.belongsTo(db.documento, { foreignKey: 'documento_id',onDelete: 'CASCADE' }); 
 
 db.cargos.hasMany(db.documento, { as: 'Elabora', foreignKey: 'elabora_id' });
 db.cargos.hasMany(db.documento, { as: 'Aprueba', foreignKey: 'aprueba_id' });

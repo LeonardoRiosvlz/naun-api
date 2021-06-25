@@ -4,7 +4,7 @@ const { authJwt } = require("../middlewares");
 const { verifySignUp } = require("../middlewares");
 const Controller = require("../controllers/documentos.controller.js");
 const upload = require('../libs/storage');
-const cpUpload = upload.fields([{ name: 'filename', maxCount: 1 }])
+const cpUpload = upload.fields([{ name: 'filename', maxCount: 1 },{ name: 'diagrama', maxCount: 1 }])
 
 
 
@@ -31,4 +31,16 @@ const cpUpload = upload.fields([{ name: 'filename', maxCount: 1 }])
     router.post("/documentos/delete",[cpUpload,authJwt.verifyToken], Controller.delete);
 
   
+    // Create a new cargo
+    router.post("/documentos/version",[cpUpload,authJwt.verifyToken], Controller.createVersion);
+
+
+    router.put("/documentos/version/editar",[cpUpload,authJwt.verifyToken, authJwt.isModeratorOrAdmin], Controller.updateVersion);
+
+    // Delete a cargo with id
+    router.post("/documentos/version/delete",[cpUpload,authJwt.verifyToken], Controller.deleteVersion);
+    
+    // Create a new cargo
+    router.post("/documentos/versiones/find",[cpUpload,authJwt.verifyToken,authJwt.isModeratorOrAdmin], Controller.findVersion);
+
     module.exports = router;

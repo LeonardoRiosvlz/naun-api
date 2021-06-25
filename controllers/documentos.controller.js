@@ -2,6 +2,7 @@ const db = require("../models");
 const Documento = db.documento;
 const Tipo_documento = db.tipodocumento;
 const Procesos = db.procesos;
+const Versiones = db.versiones;
 // Create and Save a new Book
 exports.create = async (req, res) => {
   // Validate request
@@ -70,6 +71,105 @@ exports.create = async (req, res) => {
 
 
 
+exports.createVersion = async (req, res) => {
+  // Validate request
+  if (!req.body.documento_id) {
+    res.status(400).send({
+      message: "No puede ser vacio!"
+    });
+    return;
+  }
+  const body={};
+  if(req.files['filename']){
+    const { filename } = req.files['filename'][0]
+    body.archivo= `https://naunapp.herokuapp.com/public/${filename}`;  
+  }
+  if(req.files['diagrama']){
+    const { filename } = req.files['diagrama'][0]
+    body.diagramas= `https://naunapp.herokuapp.com/public/${filename}`;  
+  }    
+    body.observaciones_documentos=req.body.observaciones_documentos;
+    body.observaciones_diagramas=req.body.observaciones_diagramas;
+    body.documento_id=req.body.documento_id;
+    // Save
+    await Versiones.create(body)
+    .then(data => {
+      res.send(data);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: err.message || "Some error occurred while creating the Book."
+      });
+      return;
+    });
+};
+
+
+
+// Update a Book by the id in the request
+exports.updateVersion = async (req, res) => {
+
+  const id = req.body.id;
+  const body={};
+  if(req.files['filename']){
+    const { filename } = req.files['filename'][0]
+    body.archivo= `https://naunapp.herokuapp.com/public/${filename}`;  
+  }
+  if(req.files['filename']){
+    const { diagrama } = req.files['diagrama'][0]
+    body.diagramas= `https://naunapp.herokuapp.com/public/${diagrama}`;  
+  }    
+    body.observaciones_documentos=req.body.observaciones_documentos;
+    body.observaciones_diagramas=req.body.observaciones_diagramas;
+    body.documento_id=req.body.documento_id;
+  await Versiones.update(body,{
+    where: { id: req.body.id }
+  })
+    .then(num => {
+      if (num == 1) {
+        res.send({
+          message: "editado satisfactoriamente."
+        });
+      } else {
+        res.send({
+          message: `No puede editar el coargo con el  el =${id}. Tal vez el cargo no existe o la peticion es vacia!`
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Error al intentar editar el cargo con el id=" + id
+      });
+    });
+};
+
+
+// Delete a Book with the specified id in the request
+exports.deleteVersion = async (req, res) => {
+  const id = req.body.id;
+ await Versiones.destroy({
+    where: { id: id }
+  })
+    .then(num => {
+      if (num == 1) {
+        res.send({
+          message: "borrado satisfactoriamente!"
+        });
+      } else {
+        res.send({
+          message: `No se pudo borrar el cargo con el id=${id}. Tal vez el cargo no existe!`
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "No se pudo borrar el cargo con el id=" + id
+      });
+    });
+};
+
+
+
 // Update a Book by the id in the request
 exports.updateDocument = async (req, res) => {
 
@@ -97,7 +197,19 @@ await Documento.update(body,{
     });
 };
 
+exports.findVersion= async (req, res) => {
+  const id = req.body.id;
 
+await  Versiones.findByPk(id)
+    .then(data => {
+      res.send(data);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: `erro al editar el cargo= ${id}`
+      });
+    });
+};
 
 
 async function CrearNotificacion(datos){
@@ -137,6 +249,11 @@ exports.findAll = async (req, res) => {
     where: {
   
     }, // conditions
+    include: [  
+      {
+        model:Versiones,
+      },
+    ],
     order: [
       ['id', 'DESC'],
     ],
@@ -155,7 +272,21 @@ exports.findAll = async (req, res) => {
 exports.find= async (req, res) => {
   const id = req.body.id;
 
-await  Documento.findByPk(id)
+await  Documento.findOne({
+  limit: 3000000,
+  offset: 0,
+  where: {
+    id:id
+  }, // conditions
+  include: [  
+    {
+      model:Versiones,
+    },
+  ],
+  order: [
+    ['id', 'DESC'],
+  ],
+})
     .then(data => {
       res.send(data);
     })
@@ -180,7 +311,9 @@ exports.listarAdmin = async (req, res) => {
       },
       {
         model:Procesos
-        
+      },
+      {
+        model:Versiones
       },
     ],
     order: [
