@@ -1,27 +1,26 @@
+import express from 'express';
+const router = express.Router();
 const { authJwt } = require("../middlewares");
-const controller = require("../controllers/auth.controller");
+const { verifySignUp } = require("../middlewares");
+const Controller = require("../controllers/notificacion.controller.js");
 const upload = require('../libs/storage');
 const cpUpload = upload.fields([{ name: 'filename', maxCount: 1 }])
 
 
-module.exports = app => {
-    const notificacionController = require("../controllers/Notificacion.controller.js");
-  
-    const router = require("express").Router();
-  
     // Create a new cargo
-    router.post("/",[cpUpload,authJwt.verifyToken, authJwt.isAdmin], notificacionController.create);
+    router.post("/notificacion",[cpUpload,authJwt.verifyToken, authJwt.isAdmin], Controller.create);
   
     // Retrieve all cargos
-    router.get("/",authJwt.verifyToken, notificacionController.findAll);
+    router.get("/notificacion",authJwt.verifyToken, Controller.findAll);
   
     // Update a cargo with id
-    router.put("/",[cpUpload,authJwt.verifyToken, authJwt.isAdmin], notificacionController.update);
+    router.put("/notificacion",[cpUpload,authJwt.verifyToken, authJwt.isAdmin], Controller.update);
   
     // Delete a cargo with id
-    router.post("/delete",[cpUpload,authJwt.verifyToken, authJwt.isAdmin], notificacionController.delete);
-
+    router.post("/notificacion/delete",[cpUpload,authJwt.verifyToken, authJwt.isAdmin], Controller.delete);
   
-    app.use("/api/notificacion", router);
-  };
+    // Create a new cargo
+    router.post("/normatividad",[cpUpload,authJwt.verifyToken], Controller.create);
   
+  
+    module.exports = router;

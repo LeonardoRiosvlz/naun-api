@@ -26,6 +26,7 @@ app.use('/api', require('./routes/clientes.routes'));
 app.use('/api', require('./routes/cargos.routes'));
 app.use('/api', require('./routes/sedes.routes'));
 app.use('/api', require('./routes/areas.routes'));
+app.use('/api', require('./routes/notificacion.routes'));
 app.use('/api', require('./routes/perfil.routes'));
 app.use('/api', require('./routes/procesos.routes'));
 app.use('/api', require('./routes/permisos.routes'));

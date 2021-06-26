@@ -2,7 +2,11 @@ const db = require("../models");
 const Documento = db.documento;
 const Tipo_documento = db.tipodocumento;
 const Procesos = db.procesos;
+const Subprocesos = db.subprocesos;
+const Tipo = db.tipoProceso;
 const Versiones = db.versiones;
+const Notificacion = db.notificacion;
+const Cargos = db.cargos;
 // Create and Save a new Book
 exports.create = async (req, res) => {
   // Validate request
@@ -48,18 +52,36 @@ exports.create = async (req, res) => {
  await Documento.create(body)
     .then(data => {
       res.send(data);
-    //  const datos = {
-    //    titulo: `Abono realizado (${req.body.tipo})`,
-    //    descripcion: `Se realizó un abono con el valor de $ ${req.body.valor_abono} al F.S.T.-${req.body.formato_id}`,
-    //    origen: "",
-    //    modulo: "abonos",
-    //    icon: "ri-money-dollar-box-line",
-    //    color: "avatar-title bg-success rounded-circle font-size-16",
-    //    uid: req.body.tecnico_id,
-    //    uidr:req.userId,
-    //    canal: "",
-    //  };
-    //  CrearNotificacion(datos);
+      const elabora = {
+        titulo: `Documento a realizar`,
+        descripcion: `Se programó el documento  ${req.body.nombre}`,
+        origen: "",
+        modulo: "gestordoc",
+        icon: "ri-money-dollar-box-line",
+        color: "avatar-title bg-success rounded-circle font-size-16",
+        uid: req.body.elabora_id,
+      };
+      CrearNotificacion(elabora);
+      const revisa = {
+        titulo: `Documento a revisar`,
+        descripcion: `Se programó el documento  ${req.body.nombre} que debes revisar`,
+        origen: "",
+        modulo: "gestordoc",
+        icon: "ri-money-dollar-box-line",
+        color: "avatar-title bg-success rounded-circle font-size-16",
+        uid: req.body.revisa_id,
+      };
+      CrearNotificacion(revisa);
+      const aprueba = {
+        titulo: `Documento a aprobar`,
+        descripcion: `Se programó el documento  ${req.body.nombre} que debes aprobar`,
+        origen: "",
+        modulo: "gestordoc",
+        icon: "ri-money-dollar-box-line",
+        color: "avatar-title bg-success rounded-circle font-size-16",
+        uid: req.body.aprueba_id,
+      };
+      CrearNotificacion(aprueba);
     })
     .catch(err => {
       res.status(500).send({
@@ -95,6 +117,16 @@ exports.createVersion = async (req, res) => {
     await Versiones.create(body)
     .then(data => {
       res.send(data);
+      const revisa = {
+        titulo: `Nuevo documento `,
+        descripcion: `Se subió un documento que debes revisar`,
+        origen: "",
+        modulo: "gestordoc",
+        icon: "ri-money-dollar-box-line",
+        color: "avatar-title bg-success rounded-circle font-size-16",
+        uid: req.body.revisa_id,
+      };
+      CrearNotificacion(revisa);
     })
     .catch(err => {
       res.status(500).send({
@@ -118,7 +150,10 @@ exports.updateVersion = async (req, res) => {
   if(req.files['filename']){
     const { diagrama } = req.files['diagrama'][0]
     body.diagramas= `https://naunapp.herokuapp.com/public/${diagrama}`;  
-  }    
+  }   
+  if(req.body.status){
+    body.status=req.body.status; 
+  }   
     body.observaciones_documentos=req.body.observaciones_documentos;
     body.observaciones_diagramas=req.body.observaciones_diagramas;
     body.documento_id=req.body.documento_id;
@@ -200,7 +235,34 @@ await Documento.update(body,{
 exports.findVersion= async (req, res) => {
   const id = req.body.id;
 
-await  Versiones.findByPk(id)
+await  Versiones.findOne({
+  limit: 3000000,
+  offset: 0,
+  where: {
+    id:id
+  }, // conditions
+  include: [  
+    {
+      model:Documento,
+      include: [  
+        {
+          model:Procesos,
+          include: [  
+            {
+              model:Tipo,
+            }
+          ]
+        },
+        {
+          model:Subprocesos,
+        }
+      ]
+    },
+  ],
+  order: [
+    ['id', 'DESC'],
+  ],
+})
     .then(data => {
       res.send(data);
     })
@@ -227,7 +289,7 @@ async function CrearNotificacion(datos){
 }
 
 async function notificar(data){
-await  User.findByPk(data.uid)
+await  Cargos.findByPk(data.uid)
 .then(datas => {
  console.log(datas);
  global.io.to(datas.canal).emit('cliente', data);
