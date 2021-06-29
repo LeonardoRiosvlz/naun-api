@@ -37,6 +37,12 @@ module.exports = (sequelize, Sequelize, DataTypes) => {
         recursos: {
           type: DataTypes.JSON
         },
+        normativas: {
+          type: DataTypes.JSON
+        },
+        fecha_emicion: {
+          type: DataTypes.DATEONLY
+        },
         created_at: {
           allowNull: false,
           type: DataTypes.DATE
