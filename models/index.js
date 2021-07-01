@@ -49,7 +49,6 @@ db.plantillas = require("./plantillas.model.js")(sequelize, Sequelize, DataTypes
 db.grupoestandares = require("./grupoestandares.model.js")(sequelize, Sequelize, DataTypes);
 db.estandares = require("./estandares.model.js")(sequelize, Sequelize, DataTypes);
 db.basesae = require("./bases_autoevaluacion.model.js")(sequelize, Sequelize, DataTypes);
-db.versiones = require("./versiones.model.js")(sequelize, Sequelize, DataTypes);
 
 
 
@@ -160,8 +159,6 @@ db.documento.belongsTo(db.sedes, { foreignKey: 'sedes_id' });
 db.documento.hasMany(db.vdocumento, { foreignKey: 'documento_id', onDelete: 'CASCADE' });
 db.vdocumento.belongsTo(db.documento, { foreignKey: 'documento_id',onDelete: 'CASCADE' }); 
 
-db.vdocumento.hasMany(db.versiones, { foreignKey: 'vdocumento_id', onDelete: 'CASCADE' });
-db.versiones.belongsTo(db.vdocumento, { foreignKey: 'vdocumento_id',onDelete: 'CASCADE' }); 
 
 db.cargos.hasMany(db.vdocumento, { as: 'Elabora_v', foreignKey: 'elabora_v_id' });
 db.cargos.hasMany(db.vdocumento, { as: 'Aprueba_v', foreignKey: 'aprueba_v_id' });
@@ -176,6 +173,11 @@ db.cargos.hasMany(db.documento, { as: 'Revisa', foreignKey: 'revisa_id' });
 db.documento.belongsTo(db.cargos, { as: 'Revisa', foreignKey: 'revisa_id' });
 db.documento.belongsTo(db.cargos, { as: 'Elabora', foreignKey: 'elabora_id' });
 db.documento.belongsTo(db.cargos, { as: 'Aprueba', foreignKey: 'aprueba_id' });
+
+db.user.hasMany(db.documento, { as: 'Habilita', foreignKey: 'habilita_id' });
+db.documento.belongsTo(db.user, { as: 'Habilita', foreignKey: 'habilita_id' });
+db.user.hasMany(db.vdocumento, { as: 'Habilita_v', foreignKey: 'habilita_id' });
+db.vdocumento.belongsTo(db.user, { as: 'Habilita_v', foreignKey: 'habilita_id' });
 //documentos//
 
 

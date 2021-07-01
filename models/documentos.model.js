@@ -40,6 +40,10 @@ module.exports = (sequelize, Sequelize, DataTypes) => {
             type: DataTypes.STRING(35),
             unique: false
         },  
+        observaciones_version: {
+            type: DataTypes.TEXT('long'),
+            unique: false
+        }, 
         elaboracion: {
             type:Sequelize.DATEONLY
         }, 
@@ -60,7 +64,7 @@ module.exports = (sequelize, Sequelize, DataTypes) => {
             unique: false
         },
         status: {
-            type: DataTypes.ENUM('Inahabilitado', 'En elaboración','Elaborado','En revisión','Revisión','Revisado', 'En aprobación','Aprobado','Activado','Osboleto',),
+            type: DataTypes.ENUM('Inahabilitado', 'En elaboración','Elaborado','En revisión','Revisado','En aprobación','Aprobado','Habilitado','Osboleto'),
             unique: false
         },
         archivo: {

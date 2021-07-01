@@ -8,13 +8,9 @@ module.exports = (sequelize, Sequelize, DataTypes) => {
             defaultValue: Sequelize.UUIDV4,
             primaryKey: true
         }, 
-        creado: {
-            type: DataTypes.ENUM('Creado', 'No creado'),
+        diagramas: {
+            type: DataTypes.ENUM('Si','No'),
             unique: false
-        }, 
-        editado: {
-            type: DataTypes.ENUM('Creado','Editor','Word'), 
-            defaultValue: 'Creado'
         }, 
         nombre: {
            type: DataTypes.STRING(35),
@@ -64,11 +60,29 @@ module.exports = (sequelize, Sequelize, DataTypes) => {
             unique: false
         },
         archivo: {
-            type: DataTypes.STRING(150),
-            unique: false
+          type: DataTypes.STRING(250)
         },
-        archivo: {
-            type: DataTypes.JSON 
+        firma_elabora: {
+          type: DataTypes.STRING(250)
+          },
+        firma_revisa: {
+          type: DataTypes.STRING(250)
+        },
+        firma_aprueba: {
+          type: DataTypes.STRING(250)
+        },
+        diagramas: {
+          type: DataTypes.STRING(250)
+        },
+        observaciones_documentos: {
+            type: DataTypes.TEXT('long')
+        },
+        observaciones_diagramas: {
+            type: DataTypes.TEXT('long')
+        },
+        observaciones_version: {
+            type: DataTypes.TEXT('long'),
+            unique: false
         },
         normativas: {
             type: DataTypes.JSON 
