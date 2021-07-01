@@ -35,12 +35,14 @@ app.use('/api', require('./routes/subprocesos.routes'));
 app.use('/api', require('./routes/normatividad.routes'));
 app.use('/api', require('./routes/tipodocumentos.routes'));
 app.use('/api', require('./routes/documento.routes'));
+app.use('/api', require('./routes/vdocumento.routes'));
 app.use('/api', require('./routes/clasificacioneventos.routes'));
 app.use('/api', require('./routes/plantillas.routes'));
 app.use('/api', require('./routes/eventos.routes'));
 app.use('/api', require('./routes/grupoestandares.routes'));
 app.use('/api', require('./routes/estandares.routes'));
 app.use('/api', require('./routes/basesau.routes'));
+
 // Middleware para Vue.js router modo history
 const history = require('connect-history-api-fallback');
 app.use(history());
@@ -54,9 +56,9 @@ const servidor = app.listen(app.get('puerto'), () => {
 const io = require('socket.io')(servidor);
 global.io = io; //added
 io.on('connection', function(socket) {
- 
+
     socket.on('servidor', function(data) {
-  
+
         //io.emit('MESSAGE', data)
         io.to(data.user).emit('cliente', data);
     });
