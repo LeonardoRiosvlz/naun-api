@@ -1,6 +1,6 @@
 module.exports = (sequelize, Sequelize, DataTypes) => {
-    const Documentos = sequelize.define(
-      "documentos", // Model name
+    const Vdocumentos = sequelize.define(
+      "vdocumentos", // Model name
       {
         // Attributes
         id: {
@@ -24,6 +24,10 @@ module.exports = (sequelize, Sequelize, DataTypes) => {
            type: DataTypes.STRING(35),
            unique: false
         },
+        version: {
+            type: DataTypes.STRING(35),
+            unique: false
+        },
         nombre_elabora: {
             type: DataTypes.STRING(35),
             unique: false
@@ -33,10 +37,6 @@ module.exports = (sequelize, Sequelize, DataTypes) => {
             unique: false
         },
         nombre_aprueba: {
-            type: DataTypes.STRING(35),
-            unique: false
-        },
-        version: {
             type: DataTypes.STRING(35),
             unique: false
         },  
@@ -83,6 +83,6 @@ module.exports = (sequelize, Sequelize, DataTypes) => {
       }
     );
   
-    return Documentos;
+    return Vdocumentos;
   };
   

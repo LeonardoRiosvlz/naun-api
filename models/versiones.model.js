@@ -14,6 +14,15 @@ module.exports = (sequelize, Sequelize, DataTypes) => {
         archivo: {
           type: DataTypes.STRING(250)
         },
+        firma_elabora: {
+          type: DataTypes.STRING(250)
+        },
+        firma_revisa: {
+          type: DataTypes.STRING(250)
+        },
+        firma_aprueba: {
+          type: DataTypes.STRING(250)
+        },
         diagramas: {
           type: DataTypes.STRING(250)
         },
@@ -26,6 +35,14 @@ module.exports = (sequelize, Sequelize, DataTypes) => {
         status: {
             type: DataTypes.ENUM('Pendiente','Aprobado','Rechazado'),
             defaultValue: 'Pendiente',
+        },
+        estatus_revisa: {
+          type: DataTypes.ENUM('Pendiente','Subido'),
+          defaultValue: 'Pendiente',
+        },
+        estatus_aprueba: {
+          type: DataTypes.ENUM('Pendiente','Subido'),
+          defaultValue: 'Pendiente',
         },
         created_at: {
           allowNull: false,

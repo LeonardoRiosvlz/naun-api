@@ -1,3 +1,4 @@
+const { vdocumento } = require("../models");
 const db = require("../models");
 const Documento = db.documento;
 const Tipo_documento = db.tipodocumento;
@@ -6,6 +7,7 @@ const Subprocesos = db.subprocesos;
 const Tipo = db.tipoProceso;
 const Versiones = db.versiones;
 const Notificacion = db.notificacion;
+const VD = db.vdocumento;
 const Cargos = db.cargos;
 // Create and Save a new Book
 exports.create = async (req, res) => {
@@ -304,16 +306,22 @@ await  Cargos.findByPk(data.uid)
 
 
 exports.findAll = async (req, res) => {
+  console.log(req.body);
   const id = req.userId;
  await Documento.findAll({
     limit: 3000000,
     offset: 0,
     where: {
-  
+      cliente_id:req.body.cliente_id
     }, // conditions
     include: [  
       {
-        model:Versiones,
+        model:VD,
+        include: [  
+          {
+            model:Versiones,
+          },
+        ]
       },
     ],
     order: [
@@ -342,7 +350,7 @@ await  Documento.findOne({
   }, // conditions
   include: [  
     {
-      model:Versiones,
+      model:VD,
     },
   ],
   order: [
@@ -375,7 +383,7 @@ exports.listarAdmin = async (req, res) => {
         model:Procesos
       },
       {
-        model:Versiones
+        model:VD
       },
     ],
     order: [
