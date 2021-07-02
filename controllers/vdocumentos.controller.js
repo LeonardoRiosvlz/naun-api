@@ -122,7 +122,7 @@ await  Cargos.findByPk(data.uid)
 // Find a single with an id
 exports.find= async (req, res) => {
 
-await  Documento.findAll({
+await  VD.findAll({
   limit: 3000000,
   offset: 0,
   where: {
