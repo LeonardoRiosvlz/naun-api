@@ -40,6 +40,7 @@ db.tipoProceso = require("./tipoProceso.model.js")(sequelize, Sequelize, DataTyp
 db.normativas = require("./normatividad.model.js")(sequelize, Sequelize, DataTypes);
 db.tipodocumento = require("./tipodocumento.model.js")(sequelize, Sequelize, DataTypes);
 db.documento = require("./documentos.model.js")(sequelize, Sequelize, DataTypes);
+db.hdocumento = require("./hdocumentos.model.js")(sequelize, Sequelize, DataTypes);
 db.vdocumento = require("./vdocumentos.model.js")(sequelize, Sequelize, DataTypes);
 db.clasificacioneventos = require("./clasificacioneventos.model.js")(sequelize, Sequelize, DataTypes);
 db.eventos = require("./eventos.model.js")(sequelize, Sequelize, DataTypes);
@@ -159,6 +160,15 @@ db.documento.belongsTo(db.sedes, { foreignKey: 'sedes_id' });
 db.documento.hasMany(db.vdocumento, { foreignKey: 'documento_id', onDelete: 'CASCADE' });
 db.vdocumento.belongsTo(db.documento, { foreignKey: 'documento_id',onDelete: 'CASCADE' }); 
 
+db.documento.hasMany(db.hdocumento, { foreignKey: 'documento_id', onDelete: 'CASCADE' });
+db.hdocumento.belongsTo(db.documento, { foreignKey: 'documento_id',onDelete: 'CASCADE' }); 
+
+db.cargos.hasMany(db.hdocumento, { as: 'Elabora_h', foreignKey: 'elabora_h_id' });
+db.cargos.hasMany(db.hdocumento, { as: 'Aprueba_h', foreignKey: 'aprueba_h_id' });
+db.cargos.hasMany(db.hdocumento, { as: 'Revisa_h', foreignKey: 'revisa_h_id' });
+db.hdocumento.belongsTo(db.cargos, { as: 'Revisa_h', foreignKey: 'revisa_h_id' });
+db.hdocumento.belongsTo(db.cargos, { as: 'Elabora_h', foreignKey: 'elabora_h_id' });
+db.hdocumento.belongsTo(db.cargos, { as: 'Aprueba_h', foreignKey: 'aprueba_h_id' });
 
 db.cargos.hasMany(db.vdocumento, { as: 'Elabora_v', foreignKey: 'elabora_v_id' });
 db.cargos.hasMany(db.vdocumento, { as: 'Aprueba_v', foreignKey: 'aprueba_v_id' });
@@ -178,6 +188,8 @@ db.user.hasMany(db.documento, { as: 'Habilita', foreignKey: 'habilita_id' });
 db.documento.belongsTo(db.user, { as: 'Habilita', foreignKey: 'habilita_id' });
 db.user.hasMany(db.vdocumento, { as: 'Habilita_v', foreignKey: 'habilita_id' });
 db.vdocumento.belongsTo(db.user, { as: 'Habilita_v', foreignKey: 'habilita_id' });
+db.user.hasMany(db.hdocumento, { as: 'Habilita_h', foreignKey: 'habilita_id' });
+db.hdocumento.belongsTo(db.user, { as: 'Habilita_h', foreignKey: 'habilita_id' });
 //documentos//
 
 
