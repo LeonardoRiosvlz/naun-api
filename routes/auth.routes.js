@@ -17,7 +17,7 @@ const cpUpload = upload.fields([{ name: 'filename', maxCount: 1 },{ name: 'firma
 
   router.post("/auth/signin", [cpUpload], controller.signin);
 
-  router.post('/forgot-password',[cpUpload],controller.resetPass);
+  router.post('/auth/forgot-password',[cpUpload],controller.resetPass);
   
   router.put('/recover-password',[cpUpload, authJwt.verifyToken],controller.recoverPass);
 

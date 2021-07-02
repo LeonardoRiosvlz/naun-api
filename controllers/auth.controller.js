@@ -155,21 +155,23 @@ exports.resetPass = (req, res) => {
 
       const transporter = nodemailer.createTransport({
 
-        host: 'demist.grupoinnovaec.com',
+        host: 'mail.easywebecuador.com',
         port: 465,
         secure: true, // use SSL
         auth: {
-            user: 'info@demist.grupoinnovaec.com',
-            pass: 'demistinfo'
+            user: 'info@easywebecuador.com',
+            pass: 'Diegoecuador2021'
         }
 
     });
 
     const mailOptions={
-      from:"Remitente",
-      to:"luzguerrera935@gmail.com",
+      from:"info@easywebecuador.com",
+      to:"leonardorios2718@gmail.com",
       subject:"Enviado desde",
-      message: `http://localhost:8080/#/resetpass/${token}`
+      message: `http://localhost:8080/#/resetpass/${token}`,
+        text: "Plaintext version of the message",
+      html: `<p>HTML version of the message</p> <a href="http://localhost:8080/#/resetpass/${token}">Link</a>`
     }
 
     transporter.sendMail(mailOptions, (error, info)=>{
@@ -179,7 +181,7 @@ exports.resetPass = (req, res) => {
       }else{
         console.log("email enviado ") 
         res.status(200).send({
-          message:  `http://localhost:8080/#/resetpass/${token}`
+          message: "Email enviado!!."
         });
       }
     })

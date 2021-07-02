@@ -57,6 +57,7 @@ exports.create = async (req, res) => {
         icon: "ri-money-dollar-box-line",
         color: "avatar-title bg-success rounded-circle font-size-16",
         uid: req.body.elabora_id,
+        rid: req.userId,
       };
       CrearNotificacion(elabora);
       const revisa = {
@@ -67,6 +68,7 @@ exports.create = async (req, res) => {
         icon: "ri-money-dollar-box-line",
         color: "avatar-title bg-success rounded-circle font-size-16",
         uid: req.body.revisa_id,
+        rid: req.userId,
       };
       CrearNotificacion(revisa);
       const aprueba = {
@@ -77,6 +79,7 @@ exports.create = async (req, res) => {
         icon: "ri-money-dollar-box-line",
         color: "avatar-title bg-success rounded-circle font-size-16",
         uid: req.body.aprueba_id,
+        rid: req.userId,
       };
       CrearNotificacion(aprueba);
     })
@@ -212,6 +215,263 @@ exports.delete = async (req, res) => {
     .catch(err => {
       res.status(500).send({
         message: "No se pudo borrar el cargo con el id=" + id
+      });
+    });
+};
+
+
+/// acciones de edicion ///
+
+// Update a Book by the id in the request
+exports.elaborar = async (req, res) => {
+  const id = req.body.id;
+  const body={};
+  if(req.files['filename']){
+    const { filename } = req.files['filename'][0]
+    body.archivo= `https://naunapp.herokuapp.com/public/${filename}`;  
+  } 
+  if(req.files['diagrama']){
+    const { filename } = req.files['diagrama'][0]
+    body.diagramas= `https://naunapp.herokuapp.com/public/${filename}`;  
+  } 
+  body.observaciones_elaboracion= req.body.observaciones_elaboracion;
+  body.status_elaboracion ="Elaborado";
+  
+ await VD.update(body,{
+    where: { id: id }
+  })
+    .then(num => {
+      if (num == 1) {
+        res.send({
+          message: "editado satisfactoriamente."
+        });
+        const notificacion = {
+          titulo: `Documento Pendiente por revisar`,
+          descripcion: `Se elaboro un documento`,
+          origen: "",
+          modulo: `gestion-versiones/${id}`,
+          icon: "ri-money-dollar-box-line",
+          color: "avatar-title bg-success rounded-circle font-size-16",
+          uid: req.body.revisa_id,
+          rid: req.userId,
+        };
+        CrearNotificacion(notificacion);
+      } else {
+        res.send({
+          message: `No puede editar!`
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Error al intentar editar"
+      });
+    });
+};
+
+
+// Update a Book by the id in the request
+exports.revisar = async (req, res) => {
+  const id = req.body.id;
+  const status = req.body.status_revision;
+  const body={};
+  if(req.files['filename']){
+    const { filename } = req.files['filename'][0]
+    body.firma_revisa= `https://naunapp.herokuapp.com/public/${filename}`;  
+  } 
+  body.observaciones_revisa      =  req.body.observaciones_revisa;
+  body.observaciones_revision    =  req.body.observaciones_revision;
+  body.obeservaciones_documentos =  req.body.obeservaciones_documentos;
+  body.observaciones_diagramas   =  req.body.observaciones_diagramas;
+  body.status_revision           =  req.body.status_revision;
+  if (body.status_revision=="Rechazado") {
+    body.status_elaboracion ="En elaboración";
+  }else{
+    body.status_elaboracion ="Elaborado";
+  }
+ await VD.update(body,{
+    where: { id: id }
+  })
+    .then(num => {
+      if (num == 1) {
+        res.send({
+          message: "editado satisfactoriamente."
+        });
+        const notificacion = {
+          titulo: `Revisión de documento ${status}`,
+          descripcion: `Se revisó un documento`,
+          origen: "",
+          modulo: `gestion-versiones/${id}`,
+          icon: "ri-money-dollar-box-line",
+          color: "avatar-title bg-success rounded-circle font-size-16",
+          uid: req.body.elabora_id,
+          rid: req.userId,
+        };
+        CrearNotificacion(notificacion);
+        if (req.body.status_revision==="Aprobado") {
+          const notificacion = {
+            titulo: `Tienes un documento pendiente por aprobar`,
+            descripcion: `Se revisó un documento y esta listo para ser aprobado`,
+            origen: "",
+            modulo: `gestion-versiones/${id}`,
+            icon: "ri-money-dollar-box-line",
+            color: "avatar-title bg-success rounded-circle font-size-16",
+            uid: req.body.aprueba_id,
+            rid: req.userId,
+          };
+          CrearNotificacion(notificacion);
+        }
+      } else {
+        res.send({
+          message: `No puede editar!`
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Error al intentar editar"
+      });
+    });
+};
+
+
+// Update a Book by the id in the request
+exports.aprobar = async (req, res) => {
+  const id = req.body.id;
+  const status = req.body.status_aprobacion;
+  const body={};
+  if(req.files['filename']){
+    const { filename } = req.files['filename'][0]
+    body.firma_aprueba= `https://naunapp.herokuapp.com/public/${filename}`;  
+    body.archivo= `https://naunapp.herokuapp.com/public/${filename}`; 
+  } 
+  body.observaciones_aprobacion      =  req.body.observaciones_aprobacion;
+  body.status_revision           =  req.body.status_revision;
+ await VD.update(body,{
+    where: { id: id }
+  })
+    .then(num => {
+      if (num == 1) {
+        res.send({
+          message: "editado satisfactoriamente."
+        });
+        const notificacionuno = {
+          titulo: `Aprovación de documento ${status}`,
+          descripcion: `Se revisó un documento`,
+          origen: "",
+          modulo: `gestion-versiones/${id}`,
+          icon: "ri-money-dollar-box-line",
+          color: "avatar-title bg-success rounded-circle font-size-16",
+          uid: req.body.revisa_id,
+          rid: req.userId,
+        };
+        CrearNotificacion(notificacionuno);
+        const notificaciondos = {
+          titulo: `Aprovación de documento ${status}`,
+          descripcion: `Se revisó un documento`,
+          origen: "",
+          modulo: `gestion-versiones/${id}`,
+          icon: "ri-money-dollar-box-line",
+          color: "avatar-title bg-success rounded-circle font-size-16",
+          uid: req.body.elabora_id,
+          rid: req.userId,
+        };
+        CrearNotificacion(notificaciondos);
+      } else {
+        res.send({
+          message: `No puede editar!`
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Error al intentar editar"
+      });
+    });
+};
+
+
+// Update a Book by the id in the request
+exports.habilitar = async (req, res) => {
+  const id = req.body.documento_id;
+  const body={};
+    body.archivo=req.body.archivo;
+    body.nombre=req.body.nombre;
+    body.consecutivo=req.body.consecutivo;
+    body.version=req.body.version;
+    body.subproceso_id=req.body.subproceso_id;
+    if (req.body.elaboracion) {
+      body.elaboracion=req.body.elaboracion;
+    }
+    if (req.body.revision) {
+      body.revision=req.body.revision;
+    }
+    if (req.body.aprobacion) {
+      body.aprobacion=req.body.aprobacion;
+    }
+    body.fecha_alerta=req.body.fecha_alerta;
+    body.fecha_emicion=req.body.fecha_emicion;
+    body.intervalo=req.body.intervalo;
+    body.normativas=req.body.normativas;
+    body.cliente_id= req.body.cliente_id;
+    body.sedes_id= req.body.sedes_id;
+    body.elabora_id= req.body.elabora_id;
+    body.aprueba_id= req.body.aprueba_id;
+    body.revisa_id= req.body.revisa_id;
+    body.proceso_id= req.body.proceso_id;
+    body.tipo_id= req.body.tipo_id;
+    body.status= "Habilitado";
+
+ await Documento.update(body,{
+    where: { id: id }
+  })
+    .then(num => {
+      if (num == 1) {
+        res.send({
+          message: "editado satisfactoriamente."
+        });
+        const notificacionuno = {
+          titulo: `Documento habilitado`,
+          descripcion: `Se habilitó un documento`,
+          origen: "",
+          modulo: `gestion-versiones/${id}`,
+          icon: "ri-money-dollar-box-line",
+          color: "avatar-title bg-success rounded-circle font-size-16",
+          uid: req.body.elabora_id,
+          rid: req.userId,
+        };
+        CrearNotificacion(notificacionuno);
+        const notificaciondos = {
+          titulo: `Documento habilitado`,
+          descripcion: `Se habilitó un documento`,
+          origen: "",
+          modulo: `gestion-versiones/${id}`,
+          icon: "ri-money-dollar-box-line",
+          color: "avatar-title bg-success rounded-circle font-size-16",
+          uid: req.body.revisa_id,
+          rid: req.userId,
+        };
+        CrearNotificacion(notificaciondos);
+        const notificaciontres = {
+          titulo: `Documento habilitado`,
+          descripcion: `Se habilitó un documento`,
+          origen: "",
+          modulo: `gestion-versiones/${id}`,
+          icon: "ri-money-dollar-box-line",
+          color: "avatar-title bg-success rounded-circle font-size-16",
+          uid: req.body.aprueba_id,
+          rid: req.userId,
+        };
+        CrearNotificacion(notificaciontres);
+      } else {
+        res.send({
+          message: `No puede editar!`
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Error al intentar editar"
       });
     });
 };

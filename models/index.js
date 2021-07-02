@@ -58,7 +58,8 @@ db.cliente.belongsTo(db.user, { foreignKey: 'user_id' });
  
 db.notificacion.belongsTo(db.cargos, { foreignKey: 'uid' });
 db.cargos.hasMany(db.notificacion, { foreignKey: 'uid' }); 
-
+db.notificacion.belongsTo(db.user, { foreignKey: 'rid' });
+db.user.hasMany(db.notificacion, { foreignKey: 'rid' }); 
 
 db.cliente.hasMany(db.tipodocumento, { foreignKey: 'cliente_id' });
 db.tipodocumento.belongsTo(db.cliente, { foreignKey: 'cliente_id' });

@@ -23,6 +23,16 @@ const cpUpload = upload.fields([{ name: 'filename', maxCount: 1 },{ name: 'diagr
     // Delete a cargo with id
     router.post("/documentos/versiones/delete",[cpUpload,authJwt.verifyToken], Controller.delete);
 
+    // Delete a cargo with id
+    router.post("/documentos/versiones/elaborar",[cpUpload,authJwt.verifyToken], Controller.elaborar);
 
-
+    
+    // Delete a cargo with id
+    router.post("/documentos/versiones/revisar",[cpUpload,authJwt.verifyToken], Controller.revisar);
+        
+    // Delete a cargo with id
+    router.post("/documentos/versiones/aprobar",[cpUpload,authJwt.verifyToken], Controller.aprobar);
+        
+    // Delete a cargo with id
+    router.post("/documentos/versiones/habilitar",[cpUpload,authJwt.verifyToken], Controller.habilitar);
     module.exports = router;

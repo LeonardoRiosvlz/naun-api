@@ -77,6 +77,10 @@ module.exports = (sequelize, Sequelize, DataTypes) => {
         normativas: {
             type: DataTypes.JSON 
         },
+        observaciones_edicion: {
+            type: DataTypes.TEXT('long'),
+            unique: false
+        },
       },
       {
         // Options

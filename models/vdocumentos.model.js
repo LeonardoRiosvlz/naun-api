@@ -57,6 +57,30 @@ module.exports = (sequelize, Sequelize, DataTypes) => {
         },
         status: {
             type: DataTypes.ENUM('Inahabilitado', 'En elaboración','Elaborado','En revisión','Revisión','Revisado', 'En aprobación','Aprobado','Activado','Osboleto',),
+            defaultValue: 'En elaboración'
+        },
+        status_elaboracion: {
+            type: DataTypes.ENUM('Pendiente', 'En elaboración','Elaborado'),
+            defaultValue: 'Pendiente'
+        },
+        observaciones_elaboracion: {
+            type: DataTypes.TEXT('long'),
+            unique: false
+        },
+        status_revision: {
+            type: DataTypes.ENUM('Pendiente','Aprobado','Rechazado'),
+            defaultValue: 'Pendiente'
+        },
+        observaciones_revision: {
+            type: DataTypes.TEXT('long'),
+            unique: false
+        },
+        status_aprobacion: {
+            type: DataTypes.ENUM('Pendiente','Aprobado','Rechazado'),
+            defaultValue: 'Pendiente'
+        },
+        observaciones_aprobacion: {
+            type: DataTypes.TEXT('long'),
             unique: false
         },
         archivo: {
