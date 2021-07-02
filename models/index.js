@@ -142,21 +142,34 @@ db.comprometidos.belongsTo(db.cargos, { foreignKey: 'cargo_id', onDelete: 'CASCA
 //documentos//
 db.tipodocumento.hasMany(db.documento, { foreignKey: 'tipo_id' });
 db.documento.belongsTo(db.tipodocumento, { foreignKey: 'tipo_id' });
+db.tipodocumento.hasMany(db.vdocumento, { foreignKey: 'tipo_id' });
+db.vdocumento.belongsTo(db.tipodocumento, { foreignKey: 'tipo_id' });
+db.tipodocumento.hasMany(db.hdocumento, { foreignKey: 'tipo_id' });
+db.hdocumento.belongsTo(db.tipodocumento, { foreignKey: 'tipo_id' });
 
 db.procesos.hasMany(db.documento, { foreignKey: 'proceso_id' });
 db.documento.belongsTo(db.procesos, { foreignKey: 'proceso_id' });
+db.procesos.hasMany(db.vdocumento, { foreignKey: 'proceso_id' });
+db.vdocumento.belongsTo(db.procesos, { foreignKey: 'proceso_id' });
+db.procesos.hasMany(db.hdocumento, { foreignKey: 'proceso_id' });
+db.hdocumento.belongsTo(db.procesos, { foreignKey: 'proceso_id' });
 
 db.subprocesos.hasMany(db.documento, { foreignKey: 'subproceso_id' });
 db.documento.belongsTo(db.subprocesos, { foreignKey: 'subproceso_id' });
-
-db.subprocesos.hasMany(db.documento, { foreignKey: 'subproceso_id' });
-db.documento.belongsTo(db.subprocesos, { foreignKey: 'subproceso_id' });
+db.subprocesos.hasMany(db.vdocumento, { foreignKey: 'subproceso_id' });
+db.vdocumento.belongsTo(db.subprocesos, { foreignKey: 'subproceso_id' });
+db.subprocesos.hasMany(db.hdocumento, { foreignKey: 'subproceso_id' });
+db.hdocumento.belongsTo(db.subprocesos, { foreignKey: 'subproceso_id' });
 
 db.cliente.hasMany(db.documento, { foreignKey: 'cliente_id' });
 db.documento.belongsTo(db.cliente, { foreignKey: 'cliente_id' });
 
 db.sedes.hasMany(db.documento, { foreignKey: 'sedes_id' }); 
 db.documento.belongsTo(db.sedes, { foreignKey: 'sedes_id' });
+db.sedes.hasMany(db.vdocumento, { foreignKey: 'sedes_id' }); 
+db.vdocumento.belongsTo(db.sedes, { foreignKey: 'sedes_id' });
+db.sedes.hasMany(db.hdocumento, { foreignKey: 'sedes_id' }); 
+db.hdocumento.belongsTo(db.sedes, { foreignKey: 'sedes_id' });
 
 db.documento.hasMany(db.vdocumento, { foreignKey: 'documento_id', onDelete: 'CASCADE' });
 db.vdocumento.belongsTo(db.documento, { foreignKey: 'documento_id',onDelete: 'CASCADE' }); 
@@ -187,7 +200,7 @@ db.documento.belongsTo(db.cargos, { as: 'Aprueba', foreignKey: 'aprueba_id' });
 
 db.user.hasMany(db.documento, { as: 'Habilita', foreignKey: 'habilita_id' });
 db.documento.belongsTo(db.user, { as: 'Habilita', foreignKey: 'habilita_id' });
-db.user.hasMany(db.vdocumento, { as: 'Habilita_v', foreignKey: 'habilita_id' });
+db.user.hasMany(db.vdocumento, { as: 'Habilita_v', foreignKey: 'habilita_id' }); 
 db.vdocumento.belongsTo(db.user, { as: 'Habilita_v', foreignKey: 'habilita_id' });
 db.user.hasMany(db.hdocumento, { as: 'Habilita_h', foreignKey: 'habilita_id' });
 db.hdocumento.belongsTo(db.user, { as: 'Habilita_h', foreignKey: 'habilita_id' });

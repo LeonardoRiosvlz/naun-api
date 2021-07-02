@@ -28,6 +28,11 @@ exports.create = async (req, res) => {
     body.consecutivo=req.body.consecutivo;
     body.version=req.body.version;
     body.subproceso_id=req.body.subproceso_id;
+    if (req.body.subproceso_id==="NA"||!req.body.subproceso_id) {
+      body.subproceso_id=null;
+    }else{
+      body.subproceso_id=req.body.subproceso_id;
+    }
     if (req.body.elaboracion) {
       body.elaboracion=req.body.elaboracion;
     }
@@ -413,7 +418,11 @@ exports.update = async (req, res) => {
     body.consecutivo=req.body.consecutivo;
     body.version=req.body.version;
     body.elaboracion=req.body.elaboracion;
-    body.subproceso_id=req.subproceso_id;
+    if (req.body.subproceso_id==="NA"||!req.body.subproceso_id) {
+      body.subproceso_id=null;
+    }else{
+      body.subproceso_id=req.body.subproceso_id;
+    }
     if (req.body.elaboracion) {
       body.elaboracion=req.body.elaboracion;
     }
