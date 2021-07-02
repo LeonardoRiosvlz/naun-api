@@ -18,7 +18,6 @@ exports.create = async (req, res) => {
     return;
   }
   const body={};
-    body.diagramas=req.body.diagramas;
     body.nombre=req.body.nombre;
     body.consecutivo=req.body.consecutivo;
     body.version=req.body.version;
@@ -43,6 +42,7 @@ exports.create = async (req, res) => {
     body.revisa_id= req.body.revisa_id;
     body.proceso_id= req.body.proceso_id;
     body.tipo_id= req.body.tipo_id;
+    body.documento_id= req.body.documento_id;
     body.status= "En elaboración";
 
   // Save
@@ -88,30 +88,6 @@ exports.create = async (req, res) => {
     });
 };
 
-exports.findVersion= async (req, res) => {
-  const id = req.body.id;
-
-await  VD.findOne({
-  limit: 3000000,
-  offset: 0,
-  where: {
-    id:documento_id
-  }, // conditions
-  order: [
-    ['id', 'DESC'],
-  ],
-})
-    .then(data => {
-      res.send(data);
-    })
-    .catch(err => {
-      res.status(500).send({
-        message: `erro al editar el cargo= ${id}`
-      });
-    });
-};
-
-
 async function CrearNotificacion(datos){
   // Save
   await  Notificacion.create(datos)
@@ -140,55 +116,15 @@ await  Cargos.findByPk(data.uid)
 }
 
 
-
-exports.findAll = async (req, res) => {
-  console.log(req.body);
-  const id = req.userId;
- await Documento.findAll({
-    limit: 3000000,
-    offset: 0,
-    where: {
-      cliente_id:req.body.cliente_id
-    }, // conditions
-    include: [
-      {
-        model:VD,
-        include: [
-          {
-            model:Versiones,
-          },
-        ]
-      },
-    ],
-    order: [
-      ['id', 'DESC'],
-    ],
-  })
-    .then(data => {
-      res.send(data);
-    })
-    .catch(err => {
-      res.send(500).send({
-        message: err.message || "Some error accurred while retrieving books."
-      });
-    });
-};
-
 // Find a single with an id
 exports.find= async (req, res) => {
-  const id = req.body.id;
 
-await  Documento.findOne({
+await  Documento.findAll({
   limit: 3000000,
   offset: 0,
   where: {
-    id:id
+    documento_id:req.body.documento_id
   }, // conditions
-  include: [
-    {
-      model:VD,
-    },
-  ],
   order: [
     ['id', 'DESC'],
   ],
@@ -209,7 +145,6 @@ await  Documento.findOne({
 exports.update = async (req, res) => {
   const id = req.body.id;
   const body={};
-    body.diagramas=req.body.diagramas;
     body.nombre=req.body.nombre;
     body.consecutivo=req.body.consecutivo;
     body.version=req.body.version;

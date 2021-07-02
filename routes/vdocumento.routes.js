@@ -21,8 +21,7 @@ const cpUpload = upload.fields([{ name: 'filename', maxCount: 1 },{ name: 'diagr
     router.put("/documentos/versiones",[cpUpload,authJwt.verifyToken], Controller.update);
 
     // Delete a cargo with id
-    router.post("/documentos/delete",[cpUpload,authJwt.verifyToken], Controller.delete);
-
+    router.post("/documentos/versiones/delete",[cpUpload,authJwt.verifyToken], Controller.delete);
 
 
 
