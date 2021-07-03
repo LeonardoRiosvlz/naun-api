@@ -144,7 +144,7 @@ await  VD.findAll({
 
 exports.findOne= async (req, res) => {
 
-  await  VD.findAll({
+  await  VD.findOne({
     limit: 3000000,
     offset: 0,
     where: {
