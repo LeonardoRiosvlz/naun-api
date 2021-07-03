@@ -64,7 +64,7 @@ module.exports = (sequelize, Sequelize, DataTypes) => {
             unique: false
         },
         status: {
-            type: DataTypes.ENUM('Inahabilitado', 'En elaboración','Elaborado','En revisión','Revisado','En aprobación','Aprobado','Habilitado','Osboleto'),
+            type: DataTypes.ENUM('Inhabilitado', 'En elaboración','Elaborado','En revisión','Revisado','En aprobación','Aprobado','Habilitado','Obsoleto'),
             unique: false
         },
         archivo: {

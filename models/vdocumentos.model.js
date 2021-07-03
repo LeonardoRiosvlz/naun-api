@@ -56,7 +56,7 @@ module.exports = (sequelize, Sequelize, DataTypes) => {
             unique: false
         },
         status: {
-            type: DataTypes.ENUM('Inahabilitado', 'En elaboración','Elaborado','En revisión','Revisión','Revisado', 'En aprobación','Aprobado','Activado','Osboleto',),
+            type: DataTypes.ENUM('Inhabilitado', 'En elaboración','Elaborado','En revisión','Revisión','Revisado', 'En aprobación','Aprobado','Activado','Obsoleto',),
             defaultValue: 'En elaboración'
         },
         status_elaboracion: {

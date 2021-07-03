@@ -121,7 +121,6 @@ await  Cargos.findByPk(data.uid)
 
 // Find a single with an id
 exports.find= async (req, res) => {
-
 await  VD.findAll({
   limit: 3000000,
   offset: 0,
@@ -251,13 +250,16 @@ exports.elaborar = async (req, res) => {
   if(req.files['filename']){
     const { filename } = req.files['filename'][0]
     body.archivo= `https://naunapp.herokuapp.com/public/${filename}`;  
+    body.firma_elabora= `https://naunapp.herokuapp.com/public/${filename}`; 
   } 
   if(req.files['diagrama']){
     const { filename } = req.files['diagrama'][0]
     body.diagramas= `https://naunapp.herokuapp.com/public/${filename}`;  
   } 
   body.observaciones_elaboracion= req.body.observaciones_elaboracion;
+  body.nombre_elabora= req.name;
   body.status_elaboracion ="Elaborado";
+  body.status ="Elaborado";
   
  await VD.update(body,{
     where: { id: id }
@@ -308,8 +310,10 @@ exports.revisar = async (req, res) => {
   body.status_revision           =  req.body.status_revision;
   if (body.status_revision=="Rechazado") {
     body.status_elaboracion ="En elaboración";
+    body.status ="En elaboración";
   }else{
     body.status_elaboracion ="Elaborado";
+    body.status ="En elaboración";
   }
  await VD.update(body,{
     where: { id: id }
