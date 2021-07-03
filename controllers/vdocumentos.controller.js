@@ -258,8 +258,8 @@ exports.elaborar = async (req, res) => {
   } 
   body.observaciones_elaboracion= req.body.observaciones_elaboracion;
   body.nombre_elabora= req.name;
-  body.status_elaboracion ="Elaborado";
-  body.status ="Elaborado";
+  body.status_elaboracion ="Aprobado";
+  body.status ="En aprobación";
   
  await VD.update(body,{
     where: { id: id }
@@ -307,13 +307,16 @@ exports.revisar = async (req, res) => {
   body.observaciones_revision    =  req.body.observaciones_revision;
   body.obeservaciones_documentos =  req.body.obeservaciones_documentos;
   body.observaciones_diagramas   =  req.body.observaciones_diagramas;
+  body.nombre_revisa= req.name;
   body.status_revision           =  req.body.status_revision;
   if (body.status_revision=="Rechazado") {
-    body.status_elaboracion ="En elaboración";
+    body.status_elaboracion ="Pendiente";
+    body.status_revision ="Pendiente";
     body.status ="En elaboración";
   }else{
-    body.status_elaboracion ="Elaborado";
-    body.status ="En elaboración";
+    body.status_elaboracion ="Aprobado";
+    body.status_revision ="Aprobado";
+    body.status ="Revisado";
   }
  await VD.update(body,{
     where: { id: id }
