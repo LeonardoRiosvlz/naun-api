@@ -488,3 +488,90 @@ exports.delete = async (req, res) => {
       });
     });
 };
+
+
+exports.filtro = async (req, res) => {
+  console.log(req.body);
+  let body=[];
+  if (req.body.proceso_id && req.body.subproceso_id==='' && req.body.tipo_id==='') {
+      body={
+        limit: 3000000,
+        offset: 0,
+        where: {
+          proceso_id:req.body.proceso_id,
+          subproceso_id:null
+        }, // conditions
+        include: [  
+          {
+            model:Tipo_documento
+          },
+          {
+            model:Procesos
+          },
+          {
+            model:VD
+          },
+        ],
+        order: [
+          ['id', 'DESC'],
+        ],
+      }
+  }
+
+  if (req.body.proceso_id && req.body.subproceso_id && req.body.tipo_id==='') {
+    body={
+      limit: 3000000,
+      offset: 0,
+      where: {
+        subproceso_id:req.body.subproceso_id
+      }, // conditions
+      include: [  
+        {
+          model:Tipo_documento
+        },
+        {
+          model:Procesos
+        },
+        {
+          model:VD
+        },
+      ],
+      order: [
+        ['id', 'DESC'],
+      ],
+    }
+  }
+  if (req.body.proceso_id==='' && req.body.subproceso_id==='' && req.body.tipo_id) {
+    body={
+      limit: 3000000,
+      offset: 0,
+      where: {
+        tipo_id:req.body.tipo_id
+      }, // conditions
+      include: [  
+        {
+          model:Tipo_documento
+        },
+        {
+          model:Procesos
+        },
+        {
+          model:VD
+        },
+      ],
+      order: [
+        ['id', 'DESC'],
+      ],
+    }
+  }
+  await  Documento.findAll(body)
+      .then(data => {
+        console.log(body);
+        res.send(data);
+      })
+      .catch(err => {
+        res.send(500).send({
+          message: err.message || "Some error accurred while retrieving books."
+        });
+      });
+  };
