@@ -37,9 +37,9 @@ exports.create = async (req, res) => {
     body.normativas=req.body.normativas;
     body.cliente_id= req.body.cliente_id;
     body.sedes_id= req.body.sedes_id;
-    body.elabora_id= req.body.elabora_id;
-    body.aprueba_id= req.body.aprueba_id;
-    body.revisa_id= req.body.revisa_id;
+    body.elabora_v_id= req.body.elabora_v_id;
+    body.aprueba_v_id= req.body.aprueba_v_id;
+    body.revisa_v_id= req.body.revisa_v_id;
     body.proceso_id= req.body.proceso_id;
     body.tipo_id= req.body.tipo_id;
     body.documento_id= req.body.documento_id;
@@ -56,7 +56,7 @@ exports.create = async (req, res) => {
         modulo: "gestordoc",
         icon: "ri-money-dollar-box-line",
         color: "avatar-title bg-success rounded-circle font-size-16",
-        uid: req.body.elabora_id,
+        uid: req.body.elabora_v_id,
         rid: req.userId,
       };
       CrearNotificacion(elabora);
@@ -67,7 +67,7 @@ exports.create = async (req, res) => {
         modulo: "gestordoc",
         icon: "ri-money-dollar-box-line",
         color: "avatar-title bg-success rounded-circle font-size-16",
-        uid: req.body.revisa_id,
+        uid: req.body.revisa_v_id,
         rid: req.userId,
       };
       CrearNotificacion(revisa);
@@ -78,7 +78,7 @@ exports.create = async (req, res) => {
         modulo: "gestordoc",
         icon: "ri-money-dollar-box-line",
         color: "avatar-title bg-success rounded-circle font-size-16",
-        uid: req.body.aprueba_id,
+        uid: req.body.aprueba_v_id,
         rid: req.userId,
       };
       CrearNotificacion(aprueba);
@@ -142,6 +142,28 @@ await  VD.findAll({
     });
 };
 
+exports.findOne= async (req, res) => {
+
+  await  VD.findAll({
+    limit: 3000000,
+    offset: 0,
+    where: {
+      id:req.body.id
+    }, // conditions
+    order: [
+      ['id', 'DESC'],
+    ],
+  })
+      .then(data => {
+        res.send(data);
+      })
+      .catch(err => {
+        res.status(500).send({
+          message: `erro al editar el cargo= ${id}`
+        });
+      });
+  };
+  
 
 
 // Update a Book by the id in the request
@@ -167,9 +189,9 @@ exports.update = async (req, res) => {
     body.normativas=req.body.normativas;
     body.cliente_id= req.body.cliente_id;
     body.sedes_id= req.body.sedes_id;
-    body.elabora_id= req.body.elabora_id;
-    body.aprueba_id= req.body.aprueba_id;
-    body.revisa_id= req.body.revisa_id;
+    body.elabora_v_id= req.body.elabora_v_id;
+    body.aprueba_v_id= req.body.aprueba_v_id;
+    body.revisa_v_id= req.body.revisa_v_id;
     body.proceso_id= req.body.proceso_id;
     body.tipo_id= req.body.tipo_id;
     body.status= req.body.status;
@@ -252,7 +274,7 @@ exports.elaborar = async (req, res) => {
           modulo: `gestion-versiones/${id}`,
           icon: "ri-money-dollar-box-line",
           color: "avatar-title bg-success rounded-circle font-size-16",
-          uid: req.body.revisa_id,
+          uid: req.body.revisa_v_id,
           rid: req.userId,
         };
         CrearNotificacion(notificacion);
@@ -304,7 +326,7 @@ exports.revisar = async (req, res) => {
           modulo: `gestion-versiones/${id}`,
           icon: "ri-money-dollar-box-line",
           color: "avatar-title bg-success rounded-circle font-size-16",
-          uid: req.body.elabora_id,
+          uid: req.body.elabora_v_id,
           rid: req.userId,
         };
         CrearNotificacion(notificacion);
@@ -316,7 +338,7 @@ exports.revisar = async (req, res) => {
             modulo: `gestion-versiones/${id}`,
             icon: "ri-money-dollar-box-line",
             color: "avatar-title bg-success rounded-circle font-size-16",
-            uid: req.body.aprueba_id,
+            uid: req.body.aprueba_v_id,
             rid: req.userId,
           };
           CrearNotificacion(notificacion);
@@ -362,7 +384,7 @@ exports.aprobar = async (req, res) => {
           modulo: `gestion-versiones/${id}`,
           icon: "ri-money-dollar-box-line",
           color: "avatar-title bg-success rounded-circle font-size-16",
-          uid: req.body.revisa_id,
+          uid: req.body.revisa_v_id,
           rid: req.userId,
         };
         CrearNotificacion(notificacionuno);
@@ -373,7 +395,7 @@ exports.aprobar = async (req, res) => {
           modulo: `gestion-versiones/${id}`,
           icon: "ri-money-dollar-box-line",
           color: "avatar-title bg-success rounded-circle font-size-16",
-          uid: req.body.elabora_id,
+          uid: req.body.elabora_v_id,
           rid: req.userId,
         };
         CrearNotificacion(notificaciondos);
@@ -416,9 +438,9 @@ exports.habilitar = async (req, res) => {
     body.cliente_id= req.body.cliente_id;
     body.sedes_id= req.body.sedes_id;
     body.elabora_id= req.body.elabora_id;
-    body.aprueba_id= req.body.aprueba_id;
-    body.revisa_id= req.body.revisa_id;
-    body.proceso_id= req.body.proceso_id;
+    body.aprueba_v_id= req.body.aprueba_v_id;
+    body.revisa_v_id= req.body.revisa_v_id;
+    body.proceso_v_id= req.body.proceso_v_id;
     body.tipo_id= req.body.tipo_id;
     body.status= "Habilitado";
 
@@ -437,7 +459,7 @@ exports.habilitar = async (req, res) => {
           modulo: `gestion-versiones/${id}`,
           icon: "ri-money-dollar-box-line",
           color: "avatar-title bg-success rounded-circle font-size-16",
-          uid: req.body.elabora_id,
+          uid: req.body.elabora_v_id,
           rid: req.userId,
         };
         CrearNotificacion(notificacionuno);
@@ -448,7 +470,7 @@ exports.habilitar = async (req, res) => {
           modulo: `gestion-versiones/${id}`,
           icon: "ri-money-dollar-box-line",
           color: "avatar-title bg-success rounded-circle font-size-16",
-          uid: req.body.revisa_id,
+          uid: req.body.revisa_v_id,
           rid: req.userId,
         };
         CrearNotificacion(notificaciondos);
@@ -459,7 +481,7 @@ exports.habilitar = async (req, res) => {
           modulo: `gestion-versiones/${id}`,
           icon: "ri-money-dollar-box-line",
           color: "avatar-title bg-success rounded-circle font-size-16",
-          uid: req.body.aprueba_id,
+          uid: req.body.aprueba_v_id,
           rid: req.userId,
         };
         CrearNotificacion(notificaciontres);

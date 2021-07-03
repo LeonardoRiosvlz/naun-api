@@ -12,9 +12,11 @@ const cpUpload = upload.fields([{ name: 'filename', maxCount: 1 },{ name: 'diagr
     // Create a new cargo
     router.post("/documentos/versiones",[cpUpload,authJwt.verifyToken], Controller.create);
 
+    // Create a new cargo
+    router.post("/documentos/versiones/find",[cpUpload,authJwt.verifyToken,authJwt.isModeratorOrAdmin], Controller.findOne);
 
     // Create a new cargo
-    router.post("/documentos/versiones/find",[cpUpload,authJwt.verifyToken,authJwt.isModeratorOrAdmin], Controller.find);
+    router.post("/documentos/versiones/listar",[cpUpload,authJwt.verifyToken,authJwt.isModeratorOrAdmin], Controller.find);
     // Update a cargo with id
 
     // Update a cargo with id
