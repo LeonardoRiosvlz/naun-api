@@ -303,7 +303,6 @@ exports.revisar = async (req, res) => {
     const { filename } = req.files['filename'][0]
     body.firma_revisa= `https://naunapp.herokuapp.com/public/${filename}`;  
   } 
-  body.observaciones_revisa      =  req.body.observaciones_revisa;
   body.observaciones_revision    =  req.body.observaciones_revision;
   body.obeservaciones_documentos =  req.body.obeservaciones_documentos;
   body.observaciones_diagramas   =  req.body.observaciones_diagramas;

@@ -300,8 +300,7 @@ await  Cargos.findByPk(data.uid)
 .then(datas => {
  console.log(datas);
  global.io.to(datas.canal).emit('cliente', data);
-})
-  .catch(err => {
+}).catch(err => {
   res.status(500).send({
     message: `erro al editar el cargo= ${id}`
   });
