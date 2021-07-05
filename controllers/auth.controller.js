@@ -155,18 +155,18 @@ exports.resetPass = (req, res) => {
 
       const transporter = nodemailer.createTransport({
 
-        host: 'mail.tuhotelenecuador.com',
+        host: 'mail.grupoinnovaec.com',
         port: 465,
         secure: true, // use SSL
         auth: {
-            user: 'empresa@tuhotelenecuador.com',
-            pass: 'empresa2021'
+            user: 'verificacion@grupoinnovaec.com',
+            pass: '12345'
         }
 
     });
 
     const mailOptions={
-      from:"empresa@tuhotelenecuador.com",
+      from:"verificacion@grupoinnovaec.com",
       to:"leonardorios2718@gmail.com",
       subject:"Recuperacion de contraseña",
       html: `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

@@ -245,6 +245,7 @@ exports.delete = async (req, res) => {
 
 // Update a Book by the id in the request
 exports.elaborar = async (req, res) => {
+ 
   const id = req.body.id;
   const body={};
   if(req.files['filename']){
@@ -258,7 +259,7 @@ exports.elaborar = async (req, res) => {
   } 
   body.observaciones_elaboracion= req.body.observaciones_elaboracion;
   body.nombre_elabora= req.name;
-  body.status_elaboracion ="Aprobado";
+  body.status_elaboracion ="Elaborado";
   body.status ="En aprobación";
   
  await VD.update(body,{
@@ -309,11 +310,11 @@ exports.revisar = async (req, res) => {
   body.nombre_revisa= req.name;
   body.status_revision           =  req.body.status_revision;
   if (body.status_revision=="Rechazado") {
-    body.status_elaboracion ="Pendiente";
+    body.status_elaboracion ="En elaboración";
     body.status_revision ="Pendiente";
     body.status ="En elaboración";
   }else{
-    body.status_elaboracion ="Aprobado";
+    body.status_elaboracion ="Elaborado";
     body.status_revision ="Aprobado";
     body.status ="Revisado";
   }

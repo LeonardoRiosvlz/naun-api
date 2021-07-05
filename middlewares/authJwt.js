@@ -22,7 +22,7 @@ const verifyToken = (req, res, next) => {
     }
 
     req.userId = decoded.id;
-    req.name=  decoded.nombre+' '+decoded.apellido;
+    req.name=  decoded.nombre;
 
     next();
   });
