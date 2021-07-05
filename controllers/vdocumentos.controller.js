@@ -310,8 +310,7 @@ exports.revisar = async (req, res) => {
   body.obeservaciones_documentos =  req.body.obeservaciones_documentos;
   body.observaciones_diagramas   =  req.body.observaciones_diagramas;
   body.nombre_revisa= req.name;
-  body.status_revision           =  req.body.status_revision;
-  if (body.status_revision=="Rechazado") {
+  if (req.body.status_revision=="Rechazado") {
     body.status_elaboracion ="En elaboración";
     body.status_revision ="Rechazado";
     body.status ="En elaboración";
@@ -378,7 +377,6 @@ exports.aprobar = async (req, res) => {
     body.archivo= `https://naunapp.herokuapp.com/public/${filename}`; 
   } 
   body.observaciones_aprobacion      =  req.body.observaciones_aprobacion;
-  body.status_revision           =  req.body.status_revision;
  await VD.update(body,{
     where: { id: id }
   })
