@@ -297,6 +297,7 @@ exports.elaborar = async (req, res) => {
 
 // Update a Book by the id in the request
 exports.revisar = async (req, res) => {
+  console.log(req.body);
   const id = req.body.id;
   const nombre = req.body.nombre;
   const status = req.body.status_revision;
