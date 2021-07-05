@@ -245,7 +245,7 @@ exports.delete = async (req, res) => {
 
 // Update a Book by the id in the request
 exports.elaborar = async (req, res) => {
- 
+  const nombre = req.body.nombre;
   const id = req.body.id;
   const body={};
   if(req.files['filename']){
@@ -271,7 +271,7 @@ exports.elaborar = async (req, res) => {
           message: "editado satisfactoriamente."
         });
         const notificacion = {
-          titulo: `Documento Pendiente por revisar`,
+          titulo: `Documento Pendiente por revisar (${nombre})`,
           descripcion: `Se elaboro un documento`,
           origen: "",
           modulo: `gestion-versiones/${id}`,
@@ -298,6 +298,7 @@ exports.elaborar = async (req, res) => {
 // Update a Book by the id in the request
 exports.revisar = async (req, res) => {
   const id = req.body.id;
+  const nombre = req.body.nombre;
   const status = req.body.status_revision;
   const body={};
   if(req.files['filename']){
@@ -311,7 +312,7 @@ exports.revisar = async (req, res) => {
   body.status_revision           =  req.body.status_revision;
   if (body.status_revision=="Rechazado") {
     body.status_elaboracion ="En elaboración";
-    body.status_revision ="Pendiente";
+    body.status_revision ="Rechazado";
     body.status ="En elaboración";
   }else{
     body.status_elaboracion ="Elaborado";
@@ -328,7 +329,7 @@ exports.revisar = async (req, res) => {
         });
         const notificacion = {
           titulo: `Revisión de documento ${status}`,
-          descripcion: `Se revisó un documento`,
+          descripcion: `Se revisó el documento: ${nombre}`,
           origen: "",
           modulo: `gestion-versiones/${id}`,
           icon: "ri-money-dollar-box-line",
@@ -339,8 +340,8 @@ exports.revisar = async (req, res) => {
         CrearNotificacion(notificacion);
         if (req.body.status_revision==="Aprobado") {
           const notificacion = {
-            titulo: `Tienes un documento pendiente por aprobar`,
-            descripcion: `Se revisó un documento y esta listo para ser aprobado`,
+            titulo: `Tienes un documento pendiente por aprobar `,
+            descripcion: `Se revisó el documento : ${nombre} ,y esta listo para ser aprobado`,
             origen: "",
             modulo: `gestion-versiones/${id}`,
             icon: "ri-money-dollar-box-line",
@@ -367,6 +368,7 @@ exports.revisar = async (req, res) => {
 // Update a Book by the id in the request
 exports.aprobar = async (req, res) => {
   const id = req.body.id;
+  const nombre = req.body.nombre;
   const status = req.body.status_aprobacion;
   const body={};
   if(req.files['filename']){
@@ -385,7 +387,7 @@ exports.aprobar = async (req, res) => {
           message: "editado satisfactoriamente."
         });
         const notificacionuno = {
-          titulo: `Aprovación de documento ${status}`,
+          titulo: `Aprobación del documento ${status},  (${nombre})`,
           descripcion: `Se revisó un documento`,
           origen: "",
           modulo: `gestion-versiones/${id}`,
@@ -396,7 +398,7 @@ exports.aprobar = async (req, res) => {
         };
         CrearNotificacion(notificacionuno);
         const notificaciondos = {
-          titulo: `Aprovación de documento ${status}`,
+          titulo: `Aprobación de documento ${status}, (${nombre})`,
           descripcion: `Se revisó un documento`,
           origen: "",
           modulo: `gestion-versiones/${id}`,
