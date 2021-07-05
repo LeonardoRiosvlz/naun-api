@@ -377,6 +377,7 @@ exports.aprobar = async (req, res) => {
     body.archivo= `https://naunapp.herokuapp.com/public/${filename}`; 
   } 
   body.observaciones_aprobacion      =  req.body.observaciones_aprobacion;
+  body.status_aprobacion           =  req.body.status_aprobacion;
  await VD.update(body,{
     where: { id: id }
   })
