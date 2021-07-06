@@ -307,7 +307,7 @@ exports.revisar = async (req, res) => {
     body.firma_revisa= `https://naunapp.herokuapp.com/public/${filename}`;  
   } 
   body.observaciones_revision    =  req.body.observaciones_revision;
-  body.obeservaciones_documentos =  req.body.obeservaciones_documentos;
+  body.observaciones_documentos =  req.body.observaciones_documentos;
   body.observaciones_diagramas   =  req.body.observaciones_diagramas;
   body.nombre_revisa= req.name;
   if (req.body.status_revision=="Rechazado") {
