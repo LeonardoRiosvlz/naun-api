@@ -8,6 +8,7 @@ const Tipo = db.tipoProceso;
 const Versiones = db.versiones;
 const Notificacion = db.notificacion;
 const VD = db.vdocumento;
+const HD = db.hdocumento;
 const Cargos = db.cargos;
 // Create and Save a new Book
 exports.create = async (req, res) => {
@@ -355,6 +356,7 @@ await  Documento.findOne({
   include: [  
     {
       model:VD,
+      model:HD,
     },
   ],
   order: [
