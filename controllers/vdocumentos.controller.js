@@ -1,3 +1,4 @@
+const { version } = require("mongoose");
 const { vdocumento } = require("../models");
 const db = require("../models");
 const Documento = db.documento;
@@ -7,6 +8,7 @@ const Subprocesos = db.subprocesos;
 const Tipo = db.tipoProceso;
 const Notificacion = db.notificacion;
 const VD = db.vdocumento;
+const HD = db.hdocumento;
 const Cargos = db.cargos;
 // Create and Save a new Book
 exports.create = async (req, res) => {
@@ -108,7 +110,6 @@ async function CrearNotificacion(datos){
 async function notificar(data){
 await  Cargos.findByPk(data.uid)
 .then(datas => {
- console.log(datas);
  global.io.to(datas.canal).emit('cliente', data);
 })
   .catch(err => {
@@ -378,6 +379,7 @@ exports.aprobar = async (req, res) => {
   } 
   body.observaciones_aprobacion      =  req.body.observaciones_aprobacion;
   body.status_aprobacion           =  req.body.status_aprobacion;
+  body.nombre_aprueba= req.name;
  await VD.update(body,{
     where: { id: id }
   })
@@ -424,10 +426,17 @@ exports.aprobar = async (req, res) => {
 
 // Update a Book by the id in the request
 exports.habilitar = async (req, res) => {
+  console.log(req.body.documento_actual);
+  const oldDocument = JSON.parse(req.body.documento_actual);
+  console.log(oldDocument);
   const id = req.body.documento_id;
+  const nombre = req.body.nombre;
   const body={};
-    body.archivo=req.body.archivo;
+    body.archivo=req.body.firma_aprueba;
     body.nombre=req.body.nombre;
+    body.nombre_elabora=req.body.nombre_elabora;
+    body.nombre_revisa=req.body.nombre_revisa;
+    body.nombre_aprueba=req.body.nombre_aprueba;
     body.consecutivo=req.body.consecutivo;
     body.version=req.body.version;
     body.subproceso_id=req.body.subproceso_id;
@@ -443,6 +452,8 @@ exports.habilitar = async (req, res) => {
     body.fecha_alerta=req.body.fecha_alerta;
     body.fecha_emicion=req.body.fecha_emicion;
     body.intervalo=req.body.intervalo;
+    body.fecha_edicion=req.body.fecha_edicion;
+    body.observaciones_edicion=req.body.observaciones_edicion;
     body.normativas=req.body.normativas;
     body.cliente_id= req.body.cliente_id;
     body.sedes_id= req.body.sedes_id;
@@ -452,6 +463,41 @@ exports.habilitar = async (req, res) => {
     body.proceso_v_id= req.body.proceso_v_id;
     body.tipo_id= req.body.tipo_id;
     body.status= "Habilitado";
+
+    const version={}
+    version.id_editable=req.body.id;
+    version.creado=oldDocument.creado;
+    version.editado=oldDocument.editado;
+    version.nombre=oldDocument.nombre;
+    version.consecutivo=oldDocument.consecutivo;
+    version.nombre_elabora=oldDocument.nombre_elabora;
+    version.nombre_revisa=oldDocument.nombre_revisa;
+    version.nombre_aprueba=oldDocument.nombre_aprueba;
+    version.version=oldDocument.version; 
+    version.observaciones_version=oldDocument.observaciones_version;
+    version.elaboracion=oldDocument.elaboracion; 
+    version.revision=oldDocument.revision;
+    version.aprobacion =oldDocument.aprobacion;
+    version.fecha_alerta=oldDocument.fecha_alerta;
+    version.fecha_emicion=oldDocument.fecha_emicion;
+    version.intervalo=oldDocument.intervalo;
+    version.status="Obsoleto";
+    version.documento_id=id;
+    version.archivo=oldDocument.archivo;
+    version.normativas=oldDocument.normativas;
+    version.observaciones_edicion=oldDocument.observaciones_edicion;
+    version.fecha_edicion=oldDocument.fecha_edicion;
+    version.tipo_id=oldDocument.tipo_id;
+    version.proceso_id=oldDocument.proceso_id;
+    version.subproceso_id=oldDocument.subproceso_id;
+    version.sedes_id=oldDocument.sedes_id;
+    version.documento_id=req.body.documento_id;
+    version.elabora_h_id=oldDocument.elabora_id;
+    version.aprueba_h_id=oldDocument.aprueba_id;
+    version.revisa_h_id=oldDocument.revisa_id;
+    version.habilita_h_id=req.userId;
+    console.log(version);
+
 
  await Documento.update(body,{
     where: { id: id }
@@ -463,7 +509,7 @@ exports.habilitar = async (req, res) => {
         });
         const notificacionuno = {
           titulo: `Documento habilitado`,
-          descripcion: `Se habilitó un documento`,
+          descripcion: `Se habilitó el documento ${nombre}`,
           origen: "",
           modulo: `gestion-versiones/${id}`,
           icon: "ri-money-dollar-box-line",
@@ -474,7 +520,7 @@ exports.habilitar = async (req, res) => {
         CrearNotificacion(notificacionuno);
         const notificaciondos = {
           titulo: `Documento habilitado`,
-          descripcion: `Se habilitó un documento`,
+          descripcion: `Se habilitó el documento ${nombre}`,
           origen: "",
           modulo: `gestion-versiones/${id}`,
           icon: "ri-money-dollar-box-line",
@@ -485,7 +531,7 @@ exports.habilitar = async (req, res) => {
         CrearNotificacion(notificaciondos);
         const notificaciontres = {
           titulo: `Documento habilitado`,
-          descripcion: `Se habilitó un documento`,
+          descripcion: `Se habilitó el documento ${nombre}`,
           origen: "",
           modulo: `gestion-versiones/${id}`,
           icon: "ri-money-dollar-box-line",
@@ -494,6 +540,53 @@ exports.habilitar = async (req, res) => {
           rid: req.userId,
         };
         CrearNotificacion(notificaciontres);
+
+        CerarVersion(version);
+        CerrarVersionEdicion(req.body.id);
+      } else {
+        res.send({
+          message: `No puede editar!`
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Error al intentar editar"
+      });
+    });
+};
+
+
+
+async function CerarVersion(datos){
+  // Save
+  await  HD.create(datos)
+  .then( data => {
+    res.send({
+      message: "editado satisfactoriamente."
+    });
+  })
+  .catch(err => {
+    res.status(500).send({
+      message: err.message || "Some error occurred while creating the Book."
+    });
+    return;
+  });
+}
+
+// Update a Book by the id in the request
+async function CerrarVersionEdicio(dato) {
+  const id = dato;
+  const body={};
+  body.status = "Activado";
+ await VD.update(body,{
+    where: { id: id }
+  })
+    .then(num => {
+      if (num == 1) {
+        res.send({
+          message: "editado satisfactoriamente."
+        });
       } else {
         res.send({
           message: `No puede editar!`

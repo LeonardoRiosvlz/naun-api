@@ -81,6 +81,9 @@ module.exports = (sequelize, Sequelize, DataTypes) => {
             type: DataTypes.TEXT('long'),
             unique: false
         },
+        fecha_edicion: {
+            type:Sequelize.DATEONLY
+        },  
       },
       {
         // Options
