@@ -19,11 +19,14 @@ exports.create = async (req, res) => {
     });
     return;
   }
+  console.log(req.body);
   const body={};
     body.nombre=req.body.nombre;
     body.consecutivo=req.body.consecutivo;
     body.version=req.body.version;
-    body.subproceso_id=req.body.subproceso_id;
+    if (!req.body.subproceso_id||!req.body.subproceso_id==="null") {
+      body.subproceso_id=req.body.subproceso_id;
+    }
     if (req.body.elaboracion) {
       body.elaboracion=req.body.elaboracion;
     }
@@ -173,7 +176,9 @@ exports.update = async (req, res) => {
     body.nombre=req.body.nombre;
     body.consecutivo=req.body.consecutivo;
     body.version=req.body.version;
-    body.subproceso_id=req.body.subproceso_id;
+    if (!req.body.subproceso_id||!req.body.subproceso_id==="null") {
+      body.subproceso_id=req.body.subproceso_id;
+    }
     if (req.body.elaboracion) {
       body.elaboracion=req.body.elaboracion;
     }
@@ -428,7 +433,6 @@ exports.aprobar = async (req, res) => {
 exports.habilitar = async (req, res) => {
   console.log(req.body.documento_actual);
   const oldDocument = JSON.parse(req.body.documento_actual);
-  console.log(oldDocument);
   const id = req.body.documento_id;
   const nombre = req.body.nombre;
   const body={};
@@ -599,3 +603,124 @@ async function CerrarVersionEdicio(dato) {
       });
     });
 };
+
+
+
+
+// Update a Book by the id in the request
+exports.editarVersionando = async (req, res) => {
+  
+  const oldDocument = JSON.parse(req.body.documento_actual);
+  console.log(req.body);
+  console.log(oldDocument);
+  const id = req.body.id;
+  const body={};
+    if(req.files['filename']){
+      const { filename } = req.files['filename'][0]
+      body.archivo= `https://naunapp.herokuapp.com/public/${filename}`; 
+    }else{
+      body.archivo=req.body.archivo;
+    }
+    body.nombre=req.body.nombre;
+    body.nombre_elabora=req.body.nombre_elabora;
+    body.nombre_revisa=req.body.nombre_revisa;
+    body.nombre_aprueba=req.body.nombre_aprueba;
+    body.consecutivo=req.body.consecutivo;
+    body.version=req.body.version;
+    if (req.body.subproceso_id == null ) {
+      body.subproceso_id=req.body.subproceso_id;
+    }
+    if (req.body.elaboracion == null ) {
+      body.elaboracion=req.body.elaboracion;
+    }
+    if (req.body.revision == null) {
+      body.revision=req.body.revision;
+    }
+    if (req.body.aprobacion == null) {
+      body.aprobacion=req.body.aprobacion;
+    }
+    body.fecha_alerta=req.body.fecha_alerta;
+    body.fecha_alerta=req.body.fecha_alerta;
+    body.fecha_emicion=req.body.fecha_emicion;
+    body.intervalo=req.body.intervalo;
+    body.fecha_edicion=req.body.fecha_edicion;
+    body.observaciones_edicion=req.body.observaciones_edicion;
+    body.normativas=req.body.normativas;
+    body.cliente_id= req.body.cliente_id;
+    body.sedes_id= req.body.sedes_id;
+    body.elabora_id= req.body.elabora_id;
+    body.aprueba_v_id= req.body.aprueba_v_id;
+    body.revisa_v_id= req.body.revisa_v_id;
+    body.proceso_v_id= req.body.proceso_v_id;
+    body.tipo_id= req.body.tipo_id;
+    body.status= "Habilitado";
+
+    const version={}
+    version.id_editable=req.body.id;
+    version.creado=oldDocument.creado;
+    version.editado=oldDocument.editado;
+    version.nombre=oldDocument.nombre;
+    version.consecutivo=oldDocument.consecutivo;
+    version.nombre_elabora=oldDocument.nombre_elabora;
+    version.nombre_revisa=oldDocument.nombre_revisa;
+    version.nombre_aprueba=oldDocument.nombre_aprueba;
+    version.version=oldDocument.version; 
+    version.observaciones_version=oldDocument.observaciones_version;
+    if (!oldDocument.aprobacion==null) {
+      version.aprobacion=oldDocument.aprobacion;
+    }
+    if (!oldDocument.elaboracion==null ) {
+      version.elaboracion=oldDocument.elaboracion;
+    }
+    if ( !oldDocument.revision==null) {
+      version.revision=oldDocument.revision;
+    }
+    version.fecha_alerta=oldDocument.fecha_alerta;
+    version.fecha_emicion=oldDocument.fecha_emicion;
+    version.intervalo=oldDocument.intervalo;
+    version.status="Obsoleto";
+    version.archivo=oldDocument.archivo;
+    version.normativas=oldDocument.normativas;
+    if (!oldDocument.observaciones_edicion=="null" || !oldDocument.observaciones_edicion==null ) {
+      version.observaciones_edicion=oldDocument.observaciones_edicion;
+    }
+    if (!oldDocument.fecha_edicion=="null" || !oldDocument.fecha_edicion==null ) {
+      version.fecha_edicion=oldDocument.fecha_edicion;
+    }
+    version.fecha_edicion=oldDocument.fecha_edicion;
+    version.tipo_id=oldDocument.tipo_id;
+    version.proceso_id=oldDocument.proceso_id;
+    if (!oldDocument.subproceso_id==null) {
+      version.subproceso_id=oldDocument.subproceso_id;
+    }
+    version.sedes_id=oldDocument.sedes_id;
+    version.documento_id=req.body.id;
+    version.elabora_h_id=oldDocument.elabora_id;
+    version.aprueba_h_id=oldDocument.aprueba_id;
+    version.revisa_h_id=oldDocument.revisa_id;
+    version.habilita_h_id=req.userId;
+
+
+ await Documento.update(body,{
+    where: { id: id }
+  })
+    .then(num => {
+      if (num == 1) {
+        res.send({
+          message: "editado satisfactoriamente."
+        });
+        CerarVersion(version);
+      } else {
+        res.send({
+          message: `No puede editar!`
+        });
+      }
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).send({
+        message: "Error al intentar editar"
+      });
+    });
+};
+

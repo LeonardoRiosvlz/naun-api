@@ -60,36 +60,6 @@ exports.create = async (req, res) => {
  await Documento.create(body)
     .then(data => {
       res.send(data);
-      const elabora = {
-        titulo: `Documento a realizar`,
-        descripcion: `Se programó el documento  ${req.body.nombre}`,
-        origen: "",
-        modulo: "gestordoc",
-        icon: "ri-money-dollar-box-line",
-        color: "avatar-title bg-success rounded-circle font-size-16",
-        uid: req.body.elabora_id,
-      };
-      CrearNotificacion(elabora);
-      const revisa = {
-        titulo: `Documento a revisar`,
-        descripcion: `Se programó el documento  ${req.body.nombre} que debes revisar`,
-        origen: "",
-        modulo: "gestordoc",
-        icon: "ri-money-dollar-box-line",
-        color: "avatar-title bg-success rounded-circle font-size-16",
-        uid: req.body.revisa_id,
-      };
-      CrearNotificacion(revisa);
-      const aprueba = {
-        titulo: `Documento a aprobar`,
-        descripcion: `Se programó el documento  ${req.body.nombre} que debes aprobar`,
-        origen: "",
-        modulo: "gestordoc",
-        icon: "ri-money-dollar-box-line",
-        color: "avatar-title bg-success rounded-circle font-size-16",
-        uid: req.body.aprueba_id,
-      };
-      CrearNotificacion(aprueba);
     })
     .catch(err => {
       res.status(500).send({
