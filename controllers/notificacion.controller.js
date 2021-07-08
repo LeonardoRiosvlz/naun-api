@@ -57,7 +57,7 @@ exports.findAll = (req, res) => {
     limit: 3000000,
     offset: 0,
     where: {
-      user_id:id
+    
     },
     include: [  
       {
