@@ -681,9 +681,7 @@ exports.editarVersionando = async (req, res) => {
     version.status="Obsoleto";
     version.archivo=oldDocument.archivo;
     version.normativas=oldDocument.normativas;
-    if (!oldDocument.observaciones_edicion==null ) {
-      version.observaciones_edicion=oldDocument.observaciones_edicion;
-    }
+    version.observaciones_edicion=oldDocument.observaciones_edicion;
     if (!oldDocument.fecha_edicion=="null" || !oldDocument.fecha_edicion==null ) {
       version.fecha_edicion=oldDocument.fecha_edicion;
     }
