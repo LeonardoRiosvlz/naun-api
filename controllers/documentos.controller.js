@@ -368,8 +368,10 @@ exports.update = async (req, res) => {
     const { filename } = req.files['filename'][0]
     body.archivo= `https://naunapp.herokuapp.com/public/${filename}`;  
   }  
-    body.creado=req.body.creado;
     body.nombre=req.body.nombre;
+    body.nombre_elabora=req.body.nombre_elabora;
+    body.nombre_aprueba=req.body.nombre_aprueba;
+    body.nombre_revisa=req.body.nombre_revisa;
     body.consecutivo=req.body.consecutivo;
     body.version=req.body.version;
     body.elaboracion=req.body.elaboracion;
@@ -388,13 +390,12 @@ exports.update = async (req, res) => {
       body.aprobacion=req.body.aprobacion;
     }
     body.fecha_emicion=req.body.fecha_emicion;
+    body.fecha_edicion=req.body.fecha_edicion;
+    body.observaciones_edicion=req.body.observaciones_edicion;
     body.intervalo=req.body.intervalo;
     body.normativas=req.body.normativas;
     body.cliente_id= req.body.cliente_id;
     body.sedes_id= req.body.sedes_id;
-    body.elabora_id= req.body.elabora_id;
-    body.aprueba_id= req.body.aprueba_id;
-    body.revisa_id= req.body.revisa_id;
     body.proceso_id= req.body.proceso_id;
     body.tipo_id= req.body.tipo_id;
     body.status= req.body.status;
