@@ -155,18 +155,18 @@ exports.resetPass = (req, res) => {
 
       const transporter = nodemailer.createTransport({
 
-        host: 'mail.grupoinnovaec.com',
+        host: 'mail.easywebecuador.com',
         port: 465,
         secure: true, // use SSL
         auth: {
-            user: 'verificacion@grupoinnovaec.com',
-            pass: '12345'
+            user: 'info@easywebecuador.com',
+            pass: 'Diegoecuador2021'
         }
 
     });
 
     const mailOptions={
-      from:"verificacion@grupoinnovaec.com",
+      from:"info@easywebecuador.com",
       to:"leonardorios2718@gmail.com",
       subject:"Recuperacion de contraseña",
       html: `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

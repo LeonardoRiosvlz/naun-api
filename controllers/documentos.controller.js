@@ -27,34 +27,18 @@ exports.create = async (req, res) => {
     body.creado=req.body.creado;
     body.nombre=req.body.nombre;
     body.consecutivo=req.body.consecutivo;
-    body.version=req.body.version;
     body.subproceso_id=req.body.subproceso_id;
     if (req.body.subproceso_id==="NA"||!req.body.subproceso_id) {
       body.subproceso_id=null;
     }else{
       body.subproceso_id=req.body.subproceso_id;
     }
-    if (req.body.elaboracion) {
-      body.elaboracion=req.body.elaboracion;
-    }
-    if (req.body.revision) {
-      body.revision=req.body.revision;
-    }
-    if (req.body.aprobacion) {
-      body.aprobacion=req.body.aprobacion;
-    }
-    body.fecha_alerta=req.body.fecha_alerta;
-    body.fecha_emicion=req.body.fecha_emicion;
-    body.intervalo=req.body.intervalo;
     body.normativas=req.body.normativas;
     body.cliente_id= req.body.cliente_id;
     body.sedes_id= req.body.sedes_id;
-    body.elabora_id= req.body.elabora_id;
-    body.aprueba_id= req.body.aprueba_id;
-    body.revisa_id= req.body.revisa_id;
     body.proceso_id= req.body.proceso_id;
     body.tipo_id= req.body.tipo_id;
-    body.status= req.body.status;
+    body.status= "En creación";
 
   // Save
  await Documento.create(body)
