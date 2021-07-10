@@ -722,3 +722,52 @@ exports.editarVersionando = async (req, res) => {
     });
 };
 
+
+
+// Update a Book by the id in the request
+exports.crearObsoleta = async (req, res) => {
+    const version={}
+    if(req.files['filename']){
+      const { filename } = req.files['filename'][0]
+      version.archivo= `https://naunapp.herokuapp.com/public/${filename}`; 
+    }
+
+    version.nombre=req.body.nombre;
+    version.consecutivo=req.body.consecutivo;
+    version.nombre_elabora=req.body.nombre_elabora;
+    version.nombre_revisa=req.body.nombre_revisa;
+    version.nombre_aprueba=req.body.nombre_aprueba;
+    version.version=req.body.version; 
+    version.observaciones_version=req.body.observaciones_version;
+    version.fecha_emicion=req.body.fecha_emicion;
+    version.status="Obsoleto";
+    version.normativas=req.body.normativas;
+    version.observaciones_edicion=req.body.observaciones_edicion;
+    if (!req.body.fecha_edicion=="null" || !req.body.fecha_edicion==null ) {
+      version.fecha_edicion=req.body.fecha_edicion;
+    }
+    version.tipo_id=req.body.tipo_id;
+    version.proceso_id=req.body.proceso_id;
+    if (!req.body.subproceso_id==null) {
+      version.subproceso_id=req.body.subproceso_id;
+    }
+    version.sedes_id=req.body.sedes_id;
+    version.documento_id=req.body.documento_id;
+    version.habilita_h_id=req.userId;
+
+
+    await  HD.create(version)
+    .then( data => {
+      res.send({
+        message: "creado satisfactoriamente."
+      });
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).send({
+        message: err.message || "Some error occurred while creating the Book."
+      });
+      return;
+    });
+};
+

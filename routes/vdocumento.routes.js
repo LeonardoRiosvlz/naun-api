@@ -40,4 +40,7 @@ const cpUpload = upload.fields([{ name: 'filename', maxCount: 1 },{ name: 'diagr
 
     // Delete a cargo with id
     router.post("/documentos/versiones/editversionando",[cpUpload,authJwt.verifyToken], Controller.editarVersionando);
+
+    // Delete a cargo with id
+    router.post("/documentos/versiones/obsoleta",[cpUpload,authJwt.verifyToken], Controller.crearObsoleta);
     module.exports = router;

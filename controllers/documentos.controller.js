@@ -374,23 +374,14 @@ exports.update = async (req, res) => {
     body.nombre_revisa=req.body.nombre_revisa;
     body.consecutivo=req.body.consecutivo;
     body.version=req.body.version;
-    body.elaboracion=req.body.elaboracion;
-    if (req.body.subproceso_id==="NA"||!req.body.subproceso_id) {
-      body.subproceso_id=null;
+    if (req.body.subproceso_id==="NA"|| req.body.subproceso_id==null || req.body.subproceso_id) {
+    
     }else{
       body.subproceso_id=req.body.subproceso_id;
     }
-    if (req.body.elaboracion) {
-      body.elaboracion=req.body.elaboracion;
-    }
-    if (req.body.revision) {
-      body.revision=req.body.revision;
-    }
-    if (req.body.aprobacion) {
-      body.aprobacion=req.body.aprobacion;
-    }
     body.fecha_emicion=req.body.fecha_emicion;
     body.fecha_edicion=req.body.fecha_edicion;
+    body.fecha_alerta=req.body.fecha_alerta;
     body.observaciones_edicion=req.body.observaciones_edicion;
     body.intervalo=req.body.intervalo;
     body.normativas=req.body.normativas;
@@ -415,6 +406,7 @@ exports.update = async (req, res) => {
       }
     })
     .catch(err => {
+      console.log(err);
       res.status(500).send({
         message: "Error al intentar editar el cargo con el id=" + id
       });
