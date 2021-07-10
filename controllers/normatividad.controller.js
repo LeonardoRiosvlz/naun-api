@@ -7,6 +7,7 @@ const Op = db.Op;
  
 // Create and Save a new Book
 exports.create = async (req, res) => {
+  console.log(req.body);
   // Validate request
   if (!req.body.cliente_id) {
     res.status(400).send({
@@ -15,6 +16,7 @@ exports.create = async (req, res) => {
     return;
   }
   // Create a Book
+
   const body={};
   if(req.files['filename']){
     const { filename } = req.files['filename'][0]

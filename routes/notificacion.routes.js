@@ -19,8 +19,7 @@ const cpUpload = upload.fields([{ name: 'filename', maxCount: 1 }])
     // Delete a cargo with id
     router.post("/notificacion/delete",[cpUpload,authJwt.verifyToken, authJwt.isAdmin], Controller.delete);
   
-    // Create a new cargo
-    router.post("/normatividad",[cpUpload,authJwt.verifyToken], Controller.create);
+
   
   
     module.exports = router;
