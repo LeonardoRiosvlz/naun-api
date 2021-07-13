@@ -84,16 +84,10 @@ module.exports = (sequelize, Sequelize, DataTypes) => {
             unique: false
         },
         archivo: {
-          type: DataTypes.STRING(250)
+            type: DataTypes.JSON
         },
-        firma_elabora: {
-          type: DataTypes.STRING(250)
-          },
-        firma_revisa: {
-          type: DataTypes.STRING(250)
-        },
-        firma_aprueba: {
-          type: DataTypes.STRING(250)
+        anexos: {
+            type: DataTypes.JSON
         },
         diagramas: {
           type: DataTypes.STRING(250)

@@ -311,6 +311,7 @@ await  Documento.findOne({
     {
       model:VD,
       model:HD,
+      model:Tipo,
     },
   ],
   order: [

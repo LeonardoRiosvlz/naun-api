@@ -21,6 +21,7 @@ const cpUpload = upload.fields([{ name: 'filename', maxCount: 1 },{ name: 'diagr
 
     router.put("/documentos/editar",[cpUpload,authJwt.verifyToken, authJwt.isModeratorOrAdmin], Controller.updateDocument);
   
+
     // Retrieve all cargos
     router.get("/documentos",authJwt.verifyToken, Controller.findAll);
   

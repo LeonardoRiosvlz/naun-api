@@ -18,6 +18,12 @@ const cpUpload = upload.fields([{ name: 'filename', maxCount: 1 }])
 
     // Retrieve all cargos
     router.get("/documentos/tipo",authJwt.verifyToken, Controller.findAll);
+
+    // Create a new cargo
+    router.post("/documentos/tipo/find",[cpUpload,authJwt.verifyToken,authJwt.isModeratorOrAdmin], Controller.find);
+
+    // Update a cargo with id
+    router.put("/documentos/tipo/editar",[cpUpload,authJwt.verifyToken, authJwt.isModeratorOrAdmin], Controller.updateDocument);
   
     // Update a cargo with id
     router.put("/documentos/tipo",[cpUpload,authJwt.verifyToken], Controller.update);

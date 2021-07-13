@@ -4,10 +4,9 @@ module.exports = (sequelize, Sequelize, DataTypes) => {
       {
         // Attributes
         id: {
-          type: DataTypes.INTEGER,
-          allowNull: false,
-          autoIncrement: true,
-          primaryKey: true 
+          type: DataTypes.UUID,
+          defaultValue: Sequelize.UUIDV4,
+          primaryKey: true
         },   
         nombre: {
           type: DataTypes.STRING(70), 
@@ -20,6 +19,9 @@ module.exports = (sequelize, Sequelize, DataTypes) => {
         descripcion: {
            type: DataTypes.STRING,
            unique: false
+        },
+        documento: {
+          type: DataTypes.JSON
         },
         created_at: {
             allowNull: false,
