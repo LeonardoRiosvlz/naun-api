@@ -2,6 +2,7 @@ const config = require("../config/config");
 const db = require("../models");
 const jwt = require("jsonwebtoken");
 const User = db.user;
+const Cargo = db.cargos;
 const Op = db.Op;
 
 // Retrieve all Books from the database.
@@ -165,6 +166,7 @@ exports.updateCanal = (req, res) => {
       }
     })
     .catch(err => {
+      console.log(err);
       res.status(500).send({
         message: "Error al intentar editar el canal con el id=" + id
       });

@@ -312,7 +312,7 @@ await  Documento.findOne({
     {
       model:VD,
       model:HD,
-      model:Tipo,
+      model:Tipo_documento,
     },
   ],
   order: [
@@ -323,6 +323,7 @@ await  Documento.findOne({
       res.send(data);
     })
     .catch(err => {
+      console.log(err);
       res.status(500).send({
         message: `erro al editar el cargo= ${id}`
       });
