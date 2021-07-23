@@ -18,7 +18,9 @@ module.exports = {
 //      idle: 10000
 //    }
 //  },
- 
+  server:{
+    SERVER:"https://naunapp.herokuapp.com/public/"
+  },
     /** DATABASE */
   db: {
     DB_HOST: "b2udssy2e3uqzaousqi3-mysql.services.clever-cloud.com",

@@ -37,11 +37,11 @@ exports.update = (req, res) => {
   const body={};
   if(req.files['filename']){
     const { filename } = req.files['filename'][0]
-    body.imagen= `http://localhost:5000/public/${filename}`
+    body.imagen= `${config.server.SERVER+filename}`;
   }
   if(req.files['firma']){
     const { filename } = req.files['firma'][0]
-    body.firma= `http://localhost:5000/public/${filename}`;
+    body.firma= `${config.server.SERVER+filename}`;
   }
   body.nombre= req.body.nombre;
   body.apellido= req.body.apellido;
@@ -103,6 +103,9 @@ exports.signin = (req, res) => {
       },
     ],
   }).then(user => {
+      if (user.status==="inactivo") {
+        return res.status(403).send({ message: "Usuario bloqueado." });
+      }
       if (!user) {
         return res.status(404).send({ message: "User Not found." });
       }
@@ -153,6 +156,7 @@ exports.resetPass = (req, res) => {
         expiresIn: 4000 // 24 hours
       });
 
+
       const transporter = nodemailer.createTransport({
 
         host: 'mail.easywebecuador.com',
@@ -167,7 +171,7 @@ exports.resetPass = (req, res) => {
 
     const mailOptions={
       from:"info@easywebecuador.com",
-      to:"leonardorios2718@gmail.com",
+      to:email,
       subject:"Recuperacion de contraseña",
       html: `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
       <html xmlns="http://www.w3.org/1999/xhtml" xmlns:o="urn:schemas-microsoft-com:office:office" style="width:100%;font-family:arial, 'helvetica neue', helvetica, sans-serif;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;padding:0;Margin:0">
@@ -360,7 +364,7 @@ exports.resetPass = (req, res) => {
                         <td valign="top" align="center" style="padding:0;Margin:0;width:560px"> 
                          <table width="100%" cellspacing="0" cellpadding="0" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px"> 
                            <tr style="border-collapse:collapse"> 
-                            <td align="left" style="padding:0;Margin:0;padding-bottom:10px"><span class="es-button-border" style="border-style:solid;border-color:#808080;background:#3D85C6;border-width:2px;display:inline-block;border-radius:0px;width:auto"><a href="http://localhost:8080/#/resetpass/${token}" class="es-button" target="_blank" style="mso-style-priority:100 !important;text-decoration:none !important;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;color:#333333;font-size:16px;border-style:solid;border-color:#3D85C6;border-width:5px 30px 5px 30px;display:inline-block;background:#3D85C6;border-radius:0px;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-weight:normal;font-style:normal;line-height:19px;width:auto;text-align:center"> Button </a></span></td> 
+                            <td align="left" style="padding:0;Margin:0;padding-bottom:10px"><span class="es-button-border" style="border-style:solid;border-color:#808080;background:#3D85C6;border-width:2px;display:inline-block;border-radius:0px;width:auto"><a href="http://localhost:8080/reset-password/${config.server.SERVER+token}" class="es-button" target="_blank" style="mso-style-priority:100 !important;text-decoration:none !important;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;color:#333333;font-size:16px;border-style:solid;border-color:#3D85C6;border-width:5px 30px 5px 30px;display:inline-block;background:#3D85C6;border-radius:0px;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-weight:normal;font-style:normal;line-height:19px;width:auto;text-align:center"> Button </a></span></td> 
                            </tr> 
                          </table></td> 
                        </tr> 
@@ -454,10 +458,6 @@ exports.resetPass = (req, res) => {
         </div>  
        </body>
       </html>`
-
-
-
-
     }
 
     transporter.sendMail(mailOptions, (error, info)=>{
@@ -465,10 +465,8 @@ exports.resetPass = (req, res) => {
         res.status(500).send(error.message);
 
       }else{
+        res.status(200).send("Email enviado");
         console.log("email enviado ") 
-        res.status(200).send({
-          message: "Email enviado!!."
-        });
       }
     })
     })
@@ -476,7 +474,6 @@ exports.resetPass = (req, res) => {
       res.status(500).send({ message: err.message });
     });
 };
-
 // Update a Book by the id in the request
 exports.recoverPass = (req, res) => {
   const id = req.userId;

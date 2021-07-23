@@ -1,5 +1,6 @@
 const bcrypt = require("bcrypt");
 const { perfiles } = require("../models");
+const config = require("../config/config");
 const db = require("../models");
 const Normatividad = db.normativas;
 const Op = db.Op;
@@ -13,14 +14,14 @@ exports.create = async (req, res) => {
     res.status(400).send({
       message: "cliente no puede ser null!"
     });
-    return;
+    return; 
   }
   // Create a Book
 
   const body={};
   if(req.files['filename']){
     const { filename } = req.files['filename'][0]
-    body.archivo= `https://naunapp.herokuapp.com/public/${filename}`;  
+    body.archivo= `${config.server.SERVER+filename}`;  
   }
   body.cliente_id= req.body.cliente_id;
   body.nombre= req.body.nombre;

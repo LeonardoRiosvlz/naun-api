@@ -1,4 +1,5 @@
-const { version } = require("mongoose");
+
+const config = require("../config/config");
 const { vdocumento } = require("../models");
 const db = require("../models");
 const Documento = db.documento;
@@ -36,6 +37,7 @@ exports.create = async (req, res) => {
     if (req.body.aprobacion) {
       body.aprobacion=req.body.aprobacion;
     }
+    body.archivo_texo=req.body.archivo_texo;
     body.fecha_alerta=req.body.fecha_alerta;
     body.fecha_emicion=req.body.fecha_emicion;
     body.intervalo=req.body.intervalo;
@@ -254,15 +256,7 @@ exports.elaborar = async (req, res) => {
   const nombre = req.body.nombre;
   const id = req.body.id;
   const body={};
-  if(req.files['filename']){
-    const { filename } = req.files['filename'][0]
-    body.archivo= `https://naunapp.herokuapp.com/public/${filename}`;  
-    body.firma_elabora= `https://naunapp.herokuapp.com/public/${filename}`; 
-  } 
-  if(req.files['diagrama']){
-    const { filename } = req.files['diagrama'][0]
-    body.diagramas= `https://naunapp.herokuapp.com/public/${filename}`;  
-  } 
+  body.archivo_texto= req.body.archivo_texto;
   body.observaciones_elaboracion= req.body.observaciones_elaboracion;
   body.nombre_elabora= req.name;
   body.status_elaboracion ="Elaborado";
@@ -308,10 +302,6 @@ exports.revisar = async (req, res) => {
   const nombre = req.body.nombre;
   const status = req.body.status_revision;
   const body={};
-  if(req.files['filename']){
-    const { filename } = req.files['filename'][0]
-    body.firma_revisa= `https://naunapp.herokuapp.com/public/${filename}`;  
-  } 
   body.observaciones_revision    =  req.body.observaciones_revision;
   body.observaciones_documentos =  req.body.observaciones_documentos;
   body.observaciones_diagramas   =  req.body.observaciones_diagramas;
@@ -377,11 +367,6 @@ exports.aprobar = async (req, res) => {
   const nombre = req.body.nombre;
   const status = req.body.status_aprobacion;
   const body={};
-  if(req.files['filename']){
-    const { filename } = req.files['filename'][0]
-    body.firma_aprueba= `https://naunapp.herokuapp.com/public/${filename}`;  
-    body.archivo= `https://naunapp.herokuapp.com/public/${filename}`; 
-  } 
   body.observaciones_aprobacion      =  req.body.observaciones_aprobacion;
   body.status_aprobacion           =  req.body.status_aprobacion;
   body.nombre_aprueba= req.name;
@@ -436,7 +421,6 @@ exports.habilitar = async (req, res) => {
   const id = req.body.documento_id;
   const nombre = req.body.nombre;
   const body={};
-    body.archivo=req.body.firma_aprueba;
     body.nombre=req.body.nombre;
     body.nombre_elabora=req.body.nombre_elabora;
     body.nombre_revisa=req.body.nombre_revisa;
@@ -453,6 +437,11 @@ exports.habilitar = async (req, res) => {
     if (req.body.aprobacion) {
       body.aprobacion=req.body.aprobacion;
     }
+    if(req.files['filename']){
+      const { filename } = req.files['filename'][0]
+      body.archivo= `${config.server.SERVER+filename}`;  
+    } 
+    body.archivo_texo=req.body.archivo_texo; 
     body.fecha_alerta=req.body.fecha_alerta;
     body.fecha_emicion=req.body.fecha_emicion;
     body.intervalo=req.body.intervalo;
@@ -488,6 +477,7 @@ exports.habilitar = async (req, res) => {
     version.status="Obsoleto";
     version.documento_id=id;
     version.archivo=oldDocument.archivo;
+    version.archivo_texo=oldDocument.archivo_texo;
     version.normativas=oldDocument.normativas;
     version.observaciones_edicion=oldDocument.observaciones_edicion;
     version.fecha_edicion=oldDocument.fecha_edicion;

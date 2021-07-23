@@ -53,7 +53,7 @@ exports.create = (req, res) => {
 
 exports.findAll = (req, res) => {
   const id = req.userId;
-  Cargos.findAndCountAll({
+  Notificacion.findAndCountAll({
     limit: 3000000,
     offset: 0,
     where: {
@@ -61,7 +61,10 @@ exports.findAll = (req, res) => {
     },
     include: [  
       {
-        model:Notificacion
+        model:Cargos,
+        where:{
+          user_id:req.userId
+        }
       },
     ], // conditions
     order: [
@@ -77,6 +80,39 @@ exports.findAll = (req, res) => {
       });
     });
 };
+
+
+exports.findAllPendiente = (req, res) => {
+  const id = req.userId;
+  Notificacion.findAndCountAll({
+    limit: 3000000,
+    offset: 0,
+    where: {
+      status:"Pendiente"
+    },
+    include: [  
+      {
+        model:Cargos,
+        where:{
+          user_id:req.userId
+        }
+      },
+    ], // conditions
+    order: [
+      ['id', 'DESC'],
+    ],
+  })
+    .then(data => {
+      res.send(data);
+    })
+    .catch(err => {
+      res.send(500).send({
+        message: err.message || "Some error accurred while retrieving books."
+      });
+    });
+};
+
+
 
 // Find a single with an id
 exports.findOne = (req, res) => {
@@ -95,15 +131,10 @@ exports.findOne = (req, res) => {
 
 // Update a Book by the id in the request
 exports.update = (req, res) => {
-  console.log(req)
   const id = req.body.id;
 
   Notificacion.update({
-    titulo: req.body.titulo,
-    descripcion: req.body.descripcion,
-    origen: req.body.origen,
-    modulo: req.body.modulo,
-    uid: req.body.uid,
+    status: "Vista"
     },{
     where: { id: id }
   })
@@ -125,9 +156,10 @@ exports.update = (req, res) => {
     });
 };
 
+
+
 // Delete a Book with the specified id in the request
 exports.delete = (req, res) => {
-  console.log(req)
   const id = req.body.id;
   Notificacion.destroy({
     where: { id: id }
@@ -150,6 +182,21 @@ exports.delete = (req, res) => {
     });
 };
 
+// Delete all Books from the database.
+exports.deleteAll = (req, res) => {
+    Notificacion.destroy({
+    where: {},
+    truncate: false
+  })
+    .then(nums => {
+      res.send({ message: `${nums} Books were deleted successfully!` });
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: err.message || "Some error occurred while removing all books."
+      });
+    });
+};
 // Delete all Books from the database.
 exports.deleteAll = (req, res) => {
     Notificacion.destroy({

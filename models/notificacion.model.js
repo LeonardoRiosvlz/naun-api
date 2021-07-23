@@ -18,6 +18,14 @@ module.exports = (sequelize, Sequelize, DataTypes) => {
         origen: {
             type: DataTypes.STRING
         },
+        status: {
+          type: DataTypes.ENUM('Pendiente','Vista'),
+          defaultValue: 'Pendiente',
+        }, 
+        status_top: {
+          type: DataTypes.ENUM('Pendiente','Vista'),
+          defaultValue: 'Pendiente',
+        }, 
         icon: {
           type: DataTypes.STRING
         },

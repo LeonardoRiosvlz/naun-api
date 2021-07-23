@@ -1,4 +1,5 @@
 const { vdocumento } = require("../models");
+const config = require("../config/config");
 const db = require("../models");
 const Documento = db.documento;
 const Tipo_documento = db.tipodocumento;
@@ -22,7 +23,7 @@ exports.create = async (req, res) => {
   const body={};
   if(req.files['filename']){
     const { filename } = req.files['filename'][0]
-    body.archivo= `https://naunapp.herokuapp.com/public/${filename}`;  
+    body.archivo= `${config.server.SERVER+filename}`;  
   }  
     body.creado=req.body.creado;
     body.nombre=req.body.nombre;
@@ -66,11 +67,11 @@ exports.createVersion = async (req, res) => {
   const body={};
   if(req.files['filename']){
     const { filename } = req.files['filename'][0]
-    body.archivo= `https://naunapp.herokuapp.com/public/${filename}`;  
+    body.archivo= `${config.server.SERVER+filename}`;  
   }
   if(req.files['diagrama']){
     const { filename } = req.files['diagrama'][0]
-    body.diagramas= `https://naunapp.herokuapp.com/public/${filename}`;  
+    body.diagramas= `${config.server.SERVER+filename}`;  
   }    
     body.observaciones_documentos=req.body.observaciones_documentos;
     body.observaciones_diagramas=req.body.observaciones_diagramas;
@@ -107,11 +108,11 @@ exports.updateVersion = async (req, res) => {
   const body={};
   if(req.files['filename']){
     const { filename } = req.files['filename'][0]
-    body.archivo= `https://naunapp.herokuapp.com/public/${filename}`;  
+    body.archivo= `${config.server.SERVER+filename}`;  
   }
   if(req.files['filename']){
     const { diagrama } = req.files['diagrama'][0]
-    body.diagramas= `https://naunapp.herokuapp.com/public/${diagrama}`;  
+    body.diagramas= `${config.server.SERVER+filename}`;  
   }   
   if(req.body.status){
     body.status=req.body.status; 
@@ -367,7 +368,7 @@ exports.update = async (req, res) => {
   const body={};
   if(req.files['filename']){
     const { filename } = req.files['filename'][0]
-    body.archivo= `https://naunapp.herokuapp.com/public/${filename}`;  
+    body.archivo= `${config.server.SERVER+filename}`;  
   }  
     body.nombre=req.body.nombre;
     body.nombre_elabora=req.body.nombre_elabora;
