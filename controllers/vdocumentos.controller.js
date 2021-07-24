@@ -302,7 +302,6 @@ exports.revisar = async (req, res) => {
   const body={};
   body.observaciones_revision    =  req.body.observaciones_revision;
   body.observaciones_documentos =  req.body.observaciones_documentos;
-  body.observaciones_diagramas   =  req.body.observaciones_diagramas;
   body.nombre_revisa= req.name;
   if (req.body.status_revision=="Rechazado") {
     body.status_elaboracion ="En elaboración";

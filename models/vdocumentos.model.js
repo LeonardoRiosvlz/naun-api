@@ -83,7 +83,7 @@ module.exports = (sequelize, Sequelize, DataTypes) => {
             type: DataTypes.TEXT('long'),
             unique: false
         },
-        archivo: {
+        archivo_texto: {
             type: DataTypes.JSON
         },
         anexos: {
