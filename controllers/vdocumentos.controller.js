@@ -41,7 +41,6 @@ exports.create = async (req, res) => {
     body.fecha_alerta=req.body.fecha_alerta;
     body.fecha_emicion=req.body.fecha_emicion;
     body.intervalo=req.body.intervalo;
-    body.normativas=req.body.normativas;
     body.cliente_id= req.body.cliente_id;
     body.sedes_id= req.body.sedes_id;
     body.elabora_v_id= req.body.elabora_v_id;
@@ -193,7 +192,6 @@ exports.update = async (req, res) => {
     body.fecha_alerta=req.body.fecha_alerta;
     body.fecha_emicion=req.body.fecha_emicion;
     body.intervalo=req.body.intervalo;
-    body.normativas=req.body.normativas;
     body.cliente_id= req.body.cliente_id;
     body.sedes_id= req.body.sedes_id;
     body.elabora_v_id= req.body.elabora_v_id;
@@ -447,7 +445,6 @@ exports.habilitar = async (req, res) => {
     body.intervalo=req.body.intervalo;
     body.fecha_edicion=req.body.fecha_edicion;
     body.observaciones_edicion=req.body.observaciones_edicion;
-    body.normativas=req.body.normativas;
     body.cliente_id= req.body.cliente_id;
     body.sedes_id= req.body.sedes_id;
     body.elabora_id= req.body.elabora_id;
@@ -478,7 +475,6 @@ exports.habilitar = async (req, res) => {
     version.documento_id=id;
     version.archivo=oldDocument.archivo;
     version.archivo_texo=oldDocument.archivo_texo;
-    version.normativas=oldDocument.normativas;
     version.observaciones_edicion=oldDocument.observaciones_edicion;
     version.fecha_edicion=oldDocument.fecha_edicion;
     version.tipo_id=oldDocument.tipo_id;
@@ -635,7 +631,6 @@ exports.editarVersionando = async (req, res) => {
     body.intervalo=req.body.intervalo;
     body.fecha_edicion=req.body.fecha_edicion;
     body.observaciones_edicion=req.body.observaciones_edicion;
-    body.normativas=req.body.normativas;
     body.cliente_id= req.body.cliente_id;
     body.sedes_id= req.body.sedes_id;
     body.elabora_id= req.body.elabora_id;
@@ -670,7 +665,6 @@ exports.editarVersionando = async (req, res) => {
     version.intervalo=oldDocument.intervalo;
     version.status="Obsoleto";
     version.archivo=oldDocument.archivo;
-    version.normativas=oldDocument.normativas;
     version.observaciones_edicion=oldDocument.observaciones_edicion;
     if (!oldDocument.fecha_edicion=="null" || !oldDocument.fecha_edicion==null ) {
       version.fecha_edicion=oldDocument.fecha_edicion;
@@ -731,7 +725,6 @@ exports.crearObsoleta = async (req, res) => {
     version.observaciones_version=req.body.observaciones_version;
     version.fecha_emicion=req.body.fecha_emicion;
     version.status="Obsoleto";
-    version.normativas=req.body.normativas;
     version.observaciones_edicion=req.body.observaciones_edicion;
     if (!req.body.fecha_edicion=="null" || !req.body.fecha_edicion==null ) {
       version.fecha_edicion=req.body.fecha_edicion;

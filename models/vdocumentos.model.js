@@ -102,9 +102,6 @@ module.exports = (sequelize, Sequelize, DataTypes) => {
             type: DataTypes.TEXT('long'),
             unique: false
         },
-        normativas: {
-            type: DataTypes.JSON 
-        },
       },
       {
         // Options

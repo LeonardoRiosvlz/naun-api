@@ -74,9 +74,6 @@ module.exports = (sequelize, Sequelize, DataTypes) => {
         archivo_texto: {
             type: DataTypes.JSON 
         },
-        normativas: {
-            type: DataTypes.JSON 
-        },
         observaciones_edicion: {
             type: DataTypes.TEXT('long'),
             unique: false
