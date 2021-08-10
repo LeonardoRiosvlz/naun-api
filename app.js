@@ -35,6 +35,8 @@ app.use('/api', require('./routes/subprocesos.routes'));
 app.use('/api', require('./routes/normatividad.routes'));
 app.use('/api', require('./routes/tipodocumentos.routes'));
 app.use('/api', require('./routes/documento.routes'));
+app.use('/api', require('./routes/formatos.routes'));
+app.use('/api', require('./routes/vformatos.routes'));
 app.use('/api', require('./routes/vdocumento.routes'));
 app.use('/api', require('./routes/clasificacioneventos.routes'));
 app.use('/api', require('./routes/plantillas.routes'));

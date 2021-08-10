@@ -42,6 +42,9 @@ db.tipodocumento = require("./tipodocumento.model.js")(sequelize, Sequelize, Dat
 db.documento = require("./documentos.model.js")(sequelize, Sequelize, DataTypes);
 db.hdocumento = require("./hdocumentos.model.js")(sequelize, Sequelize, DataTypes);
 db.vdocumento = require("./vdocumentos.model.js")(sequelize, Sequelize, DataTypes);
+db.formato = require("./formatos.model.js")(sequelize, Sequelize, DataTypes);
+db.hformato = require("./hformatos.model.js")(sequelize, Sequelize, DataTypes);
+db.vformato = require("./vformatos.model.js")(sequelize, Sequelize, DataTypes);
 db.clasificacioneventos = require("./clasificacioneventos.model.js")(sequelize, Sequelize, DataTypes);
 db.eventos = require("./eventos.model.js")(sequelize, Sequelize, DataTypes);
 db.responsables = require("./responsables.model.js")(sequelize, Sequelize, DataTypes);
@@ -205,6 +208,79 @@ db.vdocumento.belongsTo(db.user, { as: 'Habilita_v', foreignKey: 'habilita_id' }
 db.user.hasMany(db.hdocumento, { as: 'Habilita_h', foreignKey: 'habilita_id' });
 db.hdocumento.belongsTo(db.user, { as: 'Habilita_h', foreignKey: 'habilita_id' });
 //documentos//
+
+
+
+
+//formatos//
+db.tipodocumento.hasMany(db.formato, { foreignKey: 'tipo_id' });
+db.formato.belongsTo(db.tipodocumento, { foreignKey: 'tipo_id' });
+db.tipodocumento.hasMany(db.vformato, { foreignKey: 'tipo_id' });
+db.vdocumento.belongsTo(db.tipodocumento, { foreignKey: 'tipo_id' });
+db.tipodocumento.hasMany(db.hdocumento, { foreignKey: 'tipo_id' });
+db.hdocumento.belongsTo(db.tipodocumento, { foreignKey: 'tipo_id' });
+
+db.procesos.hasMany(db.formato, { foreignKey: 'proceso_id' });
+db.formato.belongsTo(db.procesos, { foreignKey: 'proceso_id' });
+db.procesos.hasMany(db.vformato, { foreignKey: 'proceso_id' });
+db.vformato.belongsTo(db.procesos, { foreignKey: 'proceso_id' });
+db.procesos.hasMany(db.hformato, { foreignKey: 'proceso_id' });
+db.hformato.belongsTo(db.procesos, { foreignKey: 'proceso_id' });
+
+db.subprocesos.hasMany(db.formato, { foreignKey: 'subproceso_id' });
+db.formato.belongsTo(db.subprocesos, { foreignKey: 'subproceso_id' });
+db.subprocesos.hasMany(db.vformato, { foreignKey: 'subproceso_id' });
+db.vformato.belongsTo(db.subprocesos, { foreignKey: 'subproceso_id' });
+db.subprocesos.hasMany(db.hformato, { foreignKey: 'subproceso_id' });
+db.hformato.belongsTo(db.subprocesos, { foreignKey: 'subproceso_id' });
+
+db.cliente.hasMany(db.formato, { foreignKey: 'cliente_id' });
+db.formato.belongsTo(db.cliente, { foreignKey: 'cliente_id' });
+
+db.sedes.hasMany(db.formato, { foreignKey: 'sedes_id' }); 
+db.formato.belongsTo(db.sedes, { foreignKey: 'sedes_id' });
+db.sedes.hasMany(db.vformato, { foreignKey: 'sedes_id' }); 
+db.vformato.belongsTo(db.sedes, { foreignKey: 'sedes_id' });
+db.sedes.hasMany(db.hformato, { foreignKey: 'sedes_id' }); 
+db.hformato.belongsTo(db.sedes, { foreignKey: 'sedes_id' });
+
+db.formato.hasMany(db.vformato, { foreignKey: 'documento_id', onDelete: 'CASCADE' });
+db.vformato.belongsTo(db.formato, { foreignKey: 'documento_id',onDelete: 'CASCADE' }); 
+
+db.formato.hasMany(db.hformato, { foreignKey: 'documento_id', onDelete: 'CASCADE' });
+db.hformato.belongsTo(db.formato, { foreignKey: 'documento_id',onDelete: 'CASCADE' }); 
+
+db.cargos.hasMany(db.hformato, { as: 'Elabora_f_h', foreignKey: 'elabora_h_id' });
+db.cargos.hasMany(db.hformato, { as: 'Aprueba_f_h', foreignKey: 'aprueba_h_id' });
+db.cargos.hasMany(db.hformato, { as: 'Revisa_f_h', foreignKey: 'revisa_h_id' });
+db.hformato.belongsTo(db.cargos, { as: 'Revisa_f_h', foreignKey: 'revisa_h_id' });
+db.hformato.belongsTo(db.cargos, { as: 'Elabora_f_h', foreignKey: 'elabora_h_id' });
+db.hformato.belongsTo(db.cargos, { as: 'Aprueba_f_h', foreignKey: 'aprueba_h_id' });
+
+db.cargos.hasMany(db.vformato, { as: 'Elabora_f_v', foreignKey: 'elabora_v_id' });
+db.cargos.hasMany(db.vformato, { as: 'Aprueba_f_v', foreignKey: 'aprueba_v_id' });
+db.cargos.hasMany(db.vformato, { as: 'Revisa_f_v', foreignKey: 'revisa_v_id' });
+db.vformato.belongsTo(db.cargos, { as: 'Revisa_f_v', foreignKey: 'revisa_v_id' });
+db.vformato.belongsTo(db.cargos, { as: 'Elabora_f_v', foreignKey: 'elabora_v_id' });
+db.vformato.belongsTo(db.cargos, { as: 'Aprueba_f_v', foreignKey: 'aprueba_v_id' });
+
+db.cargos.hasMany(db.formato, { as: 'Elabora_f', foreignKey: 'elabora_id' });
+db.cargos.hasMany(db.formato, { as: 'Aprueba_f', foreignKey: 'aprueba_id' });
+db.cargos.hasMany(db.formato, { as: 'Revisa_f', foreignKey: 'revisa_id' });
+db.formato.belongsTo(db.cargos, { as: 'Revisa_f', foreignKey: 'revisa_id' });
+db.formato.belongsTo(db.cargos, { as: 'Elabora_f', foreignKey: 'elabora_id' });
+db.formato.belongsTo(db.cargos, { as: 'Aprueba_f', foreignKey: 'aprueba_id' });
+
+db.user.hasMany(db.formato, { as: 'Habilita_f', foreignKey: 'habilita_id' });
+db.formato.belongsTo(db.user, { as: 'Habilita_f', foreignKey: 'habilita_id' });
+db.user.hasMany(db.vformato, { as: 'Habilita_f_v', foreignKey: 'habilita_id' }); 
+db.vformato.belongsTo(db.user, { as: 'Habilita_f_v', foreignKey: 'habilita_id' });
+db.user.hasMany(db.hformato, { as: 'Habilita_f_h', foreignKey: 'habilita_id' });
+db.hformato.belongsTo(db.user, { as: 'Habilita_f_h', foreignKey: 'habilita_id' });
+//documentos//
+
+
+
 
 
 ///sedes///

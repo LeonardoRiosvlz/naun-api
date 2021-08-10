@@ -19,7 +19,7 @@ module.exports = {
 //    }
 //  },
   server:{
-    SERVER:"https://naunapp.herokuapp.com/public/"
+    SERVER:"http://localhost:4000/public/"
   },
     /** DATABASE */
   db: {
