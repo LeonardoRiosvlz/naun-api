@@ -222,7 +222,7 @@ await  Versiones.findOne({
     },
   ],
   order: [
-    ['id', 'DESC'],
+    ['created_at', 'DESC'],
   ],
 })
     .then(data => {
@@ -284,7 +284,7 @@ exports.findAll = async (req, res) => {
       },
     ],
     order: [
-      ['id', 'DESC'],
+      ['created_at', 'DESC'],
     ],
   })
     .then(data => {
@@ -307,18 +307,29 @@ await  Documento.findOne({
   where: {
     id:id
   }, // conditions
-  include: [  
-    {
+  include: [    
+    { 
       model:VD,
-      model:HD,
-      model:Tipo_documento,
+      order: [
+        ['created_at', 'DESC'],
+      ],
     },
+    {
+      model:HD,
+      order: [
+        ['created_at', 'DESC'],
+      ],
+    },
+    {
+      model:Tipo_documento,
+    }
   ],
   order: [
-    ['id', 'DESC'],
+    ['created_at', 'DESC'],
   ],
 })
     .then(data => {
+      console.log(data);
       res.send(data);
     })
     .catch(err => {
@@ -345,11 +356,20 @@ exports.listarAdmin = async (req, res) => {
         model:Procesos
       },
       {
-        model:VD
+        model:VD,
+        order: [
+          ['created_at', 'DESC'],
+        ],
+      },
+      {
+        model:HD,
+        order: [
+          ['created_at', 'DESC'],
+        ],
       },
     ],
     order: [
-      ['id', 'DESC'],
+      ['created_at', 'DESC'],
     ],
   })
     .then(data => {
@@ -458,11 +478,20 @@ exports.filtro = async (req, res) => {
             model:Procesos
           },
           {
-            model:VD
+            model:VD,
+            order: [
+              ['created_at', 'DESC'],
+            ],
+          },
+          {
+            model:HD,
+            order: [
+              ['created_at', 'DESC'],
+            ],
           },
         ],
         order: [
-          ['id', 'DESC'],
+          ['created_at', 'DESC'],
         ],
       }
   }
@@ -482,11 +511,20 @@ exports.filtro = async (req, res) => {
           model:Procesos
         },
         {
-          model:VD
+          model:VD,
+          order: [
+            ['created_at', 'DESC'],
+          ],
+        },
+        {
+          model:VD,
+          order: [
+            ['created_at', 'DESC'],
+          ],
         },
       ],
       order: [
-        ['id', 'DESC'],
+        ['created_at', 'DESC'],
       ],
     }
   }
@@ -505,11 +543,20 @@ exports.filtro = async (req, res) => {
           model:Procesos
         },
         {
-          model:VD
+          model:VD,
+          order: [
+            ['created_at', 'DESC'],
+          ],
+        },
+        {
+          model:VD,
+          order: [
+            ['created_at', 'DESC'],
+          ],
         },
       ],
       order: [
-        ['id', 'DESC'],
+        ['created_at', 'DESC'],
       ],
     }
   }
