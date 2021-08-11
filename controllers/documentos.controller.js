@@ -308,11 +308,9 @@ await  Documento.findOne({
     id:id
   }, // conditions
   include: [  
-    {
-      model:VD,
-      model:HD,
-      model:Tipo_documento,
-    },
+    {model:VD},
+    {model:HD},
+    {model:Tipo_documento}
   ],
   order: [
     ['id', 'DESC'],
