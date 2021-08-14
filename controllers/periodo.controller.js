@@ -1,24 +1,24 @@
 const db = require("../models");
-const Grupo = db.grupoestandares;
-const Subgrupo = db.subgrupoestandares;
+const Periodo = db.periodo;
+const User = db.user;
 // Create and Save a new Book
 exports.create = async (req, res) => {
   // Validate request
-  if (!req.body.nombre) {
+  if (!req.body.cliente_id) {
     res.status(400).send({
       message: "No puede ser vacio!"
     });
     return;
   }
   // Create 
-  const body = {};
-    body.nombre= req.body.nombre;
-    body.descripcion=req.body.descripcion;
-    body.codigo= req.body.codigo;
-    body.desde= req.body.desde;
-    body.hasta= req.body.hasta; 
+  const data = {
+    nombre: req.body.nombre,
+    status: req.body.status,
+    descripcion: req.body.descripcion,
+    cliente_id: req.body.cliente_id,
+  };
   // Save
- await Grupo.create(body)
+ await Periodo.create(data)
     .then(data => {
       res.send(data);
     })
@@ -30,16 +30,16 @@ exports.create = async (req, res) => {
     });
 };
 
-exports.findAll = (req, res) => {
+exports.findAll = async (req, res) => {
   const id = req.userId;
-  Grupo.findAll({
+ await Periodo.findAll({
     limit: 3000000,
     offset: 0,
     where: {
   
     }, // conditions
     order: [
-      ['id', 'ASC'],
+      ['id', 'DESC'],
     ],
   })
     .then(data => {
@@ -53,20 +53,16 @@ exports.findAll = (req, res) => {
 };
 
 
-exports.listarAdmin = (req, res) => {
-
-  Grupo.findAll({
+exports.listarAdmin = async (req, res) => {
+  const id = req.userId;
+ await Periodo.findAll({
     limit: 3000000,
     offset: 0,
     where: {
+      cliente_id: req.body.cliente_id
     }, // conditions
     order: [
-      ['id', 'ASC'],
-    ],
-    include: [  
-      {
-        model:Subgrupo,
-      },
+      ['id', 'DESC'],
     ],
   })
     .then(data => {
@@ -82,33 +78,29 @@ exports.listarAdmin = (req, res) => {
 
 
 // Find a single with an id
-exports.find = (req, res) => {
+exports.findOne = async (req, res) => {
   const id = req.params.id;
 
-  Grupo.findByPk(id)
+ await Periodo.findByPk(id)
     .then(data => {
       res.send(data);
     })
     .catch(err => {
       res.status(500).send({
-        message: `erro al editar el normatividad= ${id}`
+        message: `erro al editar el cargo= ${id}`
       });
     });
 };
 
 // Update a Book by the id in the request
-exports.update = (req, res) => {
+exports.update = async (req, res) => {
   const id = req.body.id;
-  // Create 
-  const body = {};
-    body.nombre= req.body.nombre;
-    body.descripcion=req.body.descripcion;
-    body.codigo= req.body.codigo;
-    body.desde= req.body.desde;
-    body.hasta= req.body.hasta;
-  
-  
-  Grupo.update(body,{
+
+ await Periodo.update({
+    nombre: req.body.nombre,
+    status: req.body.status,
+    descripcion: req.body.descripcion,
+    },{
     where: { id: req.body.id }
   })
     .then(num => {
@@ -118,37 +110,39 @@ exports.update = (req, res) => {
         });
       } else {
         res.send({
-          message: `No puede editar el coargo con el  el =${id}. Tal vez el tipo no existe o la peticion es vacia!`
+          message: `No puede editar el coargo con el  el =${id}. Tal vez el cargo no existe o la peticion es vacia!`
         });
       }
     })
     .catch(err => {
+
       res.status(500).send({
-        message: "Error al intentar editar el tipo con el id=" + id
+        message: "Error al intentar editar el cargo con el id=" + id
       });
     });
 };
 
 // Delete a Book with the specified id in the request
 exports.delete = (req, res) => {
+  console.log(req)
   const id = req.body.id;
-  Grupo.destroy({
+  Periodo.destroy({
     where: { id: id }
   })
     .then(num => {
       if (num == 1) {
         res.send({
-          message: "tipo borrado satisfactoriamente!"
+          message: "borrado satisfactoriamente!"
         });
       } else {
         res.send({
-          message: `No se pudo borrar el tipo con el id=${id}. Tal vez el tipo no existe!`
+          message: `No se pudo borrar el cargo con el id=${id}. Tal vez el cargo no existe!`
         });
       }
     })
     .catch(err => {
       res.status(500).send({
-        message: "No se pudo borrar el tipo con el id=" + id
+        message: "No se pudo borrar el cargo con el id=" + id
       });
     });
 };

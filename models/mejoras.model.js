@@ -1,6 +1,6 @@
 module.exports = (sequelize, Sequelize, DataTypes) => {
-    const Grupoestandares = sequelize.define(
-      "grupo_estandare", // Model name
+    const Mejoras = sequelize.define(
+      "mejoras", // Model name
       {
         // Model attributes
         id: {
@@ -9,20 +9,24 @@ module.exports = (sequelize, Sequelize, DataTypes) => {
           autoIncrement: true,
           primaryKey: true
         },
-        nombre: {
-          type: DataTypes.STRING(150)
+        status: {
+            type: DataTypes.ENUM('SIN PRIORIZAR', 'PRIORIZADA', 'PROGRAMADA'),
+            defaultValue: 'SIN PRIORIZAR'
         },
-        desde: {
-          type: DataTypes.STRING(5)
+        oportunidad_mejoras: {
+            type: DataTypes.JSON
         },
-        hasta: {
-          type: DataTypes.STRING(5)
+        puntaje_riesgo: {
+            type: DataTypes.STRING(15)
         },
-        codigo: {
-          type: DataTypes.STRING(35)
+        puntaje_costo: {
+            type: DataTypes.STRING(15)
         },
-        descripcion: {
-          type: DataTypes.STRING(255)
+        puntaje_volumen: {
+            type: DataTypes.STRING(15)
+        },
+        total: {
+          type: DataTypes.STRING(15)
         },
         created_at: {
           allowNull: false,
@@ -42,6 +46,6 @@ module.exports = (sequelize, Sequelize, DataTypes) => {
       }
     );
   
-    return Grupoestandares; 
+    return Mejoras;
   };
   

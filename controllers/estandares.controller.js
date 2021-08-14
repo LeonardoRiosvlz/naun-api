@@ -16,8 +16,13 @@ exports.create = async (req, res) => {
     body.descripcion=req.body.descripcion;
     body.criterios=req.body.criterios;
     body.codigo= req.body.codigo;
-    body.cliente_id= req.body.cliente_id;
     body.grupo_id= req.body.grupo_id;
+    if (req.body.subgrupo_id) {
+      body.subgrupo_id= req.body.subgrupo_id;
+    }else{
+      body.subgrupo_id= null;
+    }
+    
   // Save
  await Estandares.create(body)
     .then(data => {
@@ -55,12 +60,10 @@ exports.findAll = (req, res) => {
 
 
 exports.listarAdmin = (req, res) => {
-  const id = req.userId;
   Estandares.findAll({
     limit: 3000000,
     offset: 0,
     where: {
-      cliente_id: req.body.cliente_id
     }, // conditions
     order: [
       ['id', 'DESC'],
@@ -98,12 +101,16 @@ exports.update = (req, res) => {
   const id = req.body.id;
   // Create 
   const body = {};
-    body.numero= req.body.numero;
-    body.descripcion=req.body.descripcion;
-    body.criterios=req.body.criterios;
-    body.codigo= req.body.codigo;
-    body.cliente_id= req.body.cliente_id;
-    body.grupo_id= req.body.grupo_id;
+  body.numero= req.body.numero;
+  body.descripcion=req.body.descripcion;
+  body.criterios=req.body.criterios;
+  body.codigo= req.body.codigo;
+  body.grupo_id= req.body.grupo_id;
+  if (req.body.subgrupo_id) {
+    body.subgrupo_id= req.body.subgrupo_id;
+  }else{
+    body.subgrupo_id= null;
+  }
   
     Estandares.update(body,{
     where: { id: req.body.id }

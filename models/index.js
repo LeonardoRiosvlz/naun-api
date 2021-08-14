@@ -50,11 +50,13 @@ db.eventos = require("./eventos.model.js")(sequelize, Sequelize, DataTypes);
 db.responsables = require("./responsables.model.js")(sequelize, Sequelize, DataTypes);
 db.comprometidos = require("./comprometidos.model.js")(sequelize, Sequelize, DataTypes);
 db.plantillas = require("./plantillas.model.js")(sequelize, Sequelize, DataTypes);
+db.subgrupoestandares = require("./subgrupoestandares.model.js")(sequelize, Sequelize, DataTypes);
 db.grupoestandares = require("./grupoestandares.model.js")(sequelize, Sequelize, DataTypes);
 db.estandares = require("./estandares.model.js")(sequelize, Sequelize, DataTypes);
 db.basesae = require("./bases_autoevaluacion.model.js")(sequelize, Sequelize, DataTypes);
-
-
+db.autoevaluacion = require("./autoevaluacion.model.js")(sequelize, Sequelize, DataTypes);
+db.mejoras = require("./mejoras.model.js")(sequelize, Sequelize, DataTypes);
+db.periodo = require("./periodo.model.js")(sequelize, Sequelize, DataTypes);
 
 db.user.hasMany(db.cliente, { foreignKey: 'user_id' });
 db.cliente.belongsTo(db.user, { foreignKey: 'user_id' });
@@ -163,7 +165,7 @@ db.subprocesos.hasMany(db.vdocumento, { foreignKey: 'subproceso_id' });
 db.vdocumento.belongsTo(db.subprocesos, { foreignKey: 'subproceso_id' });
 db.subprocesos.hasMany(db.hdocumento, { foreignKey: 'subproceso_id' });
 db.hdocumento.belongsTo(db.subprocesos, { foreignKey: 'subproceso_id' });
-
+ 
 db.cliente.hasMany(db.documento, { foreignKey: 'cliente_id' });
 db.documento.belongsTo(db.cliente, { foreignKey: 'cliente_id' });
 
@@ -289,19 +291,41 @@ db.procesos.belongsTo(db.cliente, { foreignKey: 'cliente_id' });
 
 
 ///estandares///
-db.cliente.hasMany(db.grupoestandares, { foreignKey: 'cliente_id' });
-db.grupoestandares.belongsTo(db.cliente, { foreignKey: 'cliente_id' });
-db.grupoestandares.hasMany(db.estandares, { foreignKey: 'grupo_id' });
-db.estandares.belongsTo(db.grupoestandares, { foreignKey: 'grupo_id' });
-db.cliente.hasMany(db.estandares, { foreignKey: 'cliente_id' });
-db.estandares.belongsTo(db.cliente, { foreignKey: 'cliente_id' });
+db.grupoestandares.hasMany(db.estandares, { foreignKey: 'grupo_id' , onDelete: 'CASCADE'});
+db.estandares.belongsTo(db.grupoestandares, { foreignKey: 'grupo_id' , onDelete: 'CASCADE'});
+db.grupoestandares.hasMany(db.subgrupoestandares, { foreignKey: 'grupo_id', onDelete: 'CASCADE'});
+db.subgrupoestandares.belongsTo(db.grupoestandares, { foreignKey: 'grupo_id' , onDelete: 'CASCADE'});
+db.subgrupoestandares.hasMany(db.estandares, { foreignKey: 'subgrupo_id' , onDelete: 'CASCADE'});
+db.estandares.belongsTo(db.subgrupoestandares, { foreignKey: 'subgrupo_id' , onDelete: 'CASCADE'});
 ///estandares///
 
 
 ///base auto evalucacion///
-db.cliente.hasMany(db.basesae, { foreignKey: 'cliente_id' });
-db.basesae.belongsTo(db.cliente, { foreignKey: 'cliente_id' });
+db.cliente.hasMany(db.basesae, { foreignKey: 'cliente_id' , onDelete: 'CASCADE'});
+db.basesae.belongsTo(db.cliente, { foreignKey: 'cliente_id' , onDelete: 'CASCADE'});
+db.periodo.hasMany(db.basesae, { foreignKey: 'periodo_id' , onDelete: 'CASCADE'});
+db.basesae.belongsTo(db.periodo, { foreignKey: 'periodo_id', onDelete: 'CASCADE' });
 ///base auto evalucacion///
+
+//autoevalucacion///
+db.cliente.hasMany(db.autoevaluacion, { foreignKey: 'cliente_id' , onDelete: 'CASCADE'});
+db.autoevaluacion.belongsTo(db.cliente, { foreignKey: 'cliente_id' , onDelete: 'CASCADE'});
+db.cliente.hasMany(db.periodo, { foreignKey: 'cliente_id', onDelete: 'CASCADE' });
+db.periodo.belongsTo(db.cliente, { foreignKey: 'cliente_id' , onDelete: 'CASCADE'});
+db.basesae.hasMany(db.autoevaluacion, { foreignKey: 'base_id', onDelete: 'CASCADE' });  
+db.autoevaluacion.belongsTo(db.basesae, { foreignKey: 'base_id' , onDelete: 'CASCADE'});
+db.estandares.hasMany(db.autoevaluacion, { foreignKey: 'estandar_id', onDelete: 'CASCADE' });
+db.autoevaluacion.belongsTo(db.estandares, { foreignKey: 'estandar_id', onDelete: 'CASCADE' });
+db.periodo.hasMany(db.autoevaluacion, { foreignKey: 'periodo_id', onDelete: 'CASCADE' });
+db.autoevaluacion.belongsTo(db.periodo, { foreignKey: 'periodo_id', onDelete: 'CASCADE' });
+db.grupoestandares.hasMany(db.autoevaluacion, { foreignKey: 'grupo_id', onDelete: 'CASCADE' });
+db.autoevaluacion.belongsTo(db.grupoestandares, { foreignKey: 'grupo_id', onDelete: 'CASCADE' });
+db.subgrupoestandares.hasMany(db.autoevaluacion, { foreignKey: 'subgrupo_id', onDelete: 'CASCADE' });
+db.autoevaluacion.belongsTo(db.subgrupoestandares, { foreignKey: 'subgrupo_id', onDelete: 'CASCADE' });
+db.autoevaluacion.hasMany(db.mejoras, { foreignKey: 'autoevaluacion_id', onDelete: 'CASCADE' });
+db.mejoras.belongsTo(db.autoevaluacion, { foreignKey: 'autoevaluacion_id', onDelete: 'CASCADE' });
+//autoevalucacion///
+
 
 //persmisos//
 db.user.hasMany(db.permiso, { foreignKey: 'user_id' });

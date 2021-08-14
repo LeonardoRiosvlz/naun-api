@@ -1,18 +1,28 @@
 module.exports = (sequelize, Sequelize, DataTypes) => {
-    const BasesAU = sequelize.define(
-      "bases_autoevaluacion", // Model name
+    const Subgrupoestandares = sequelize.define(
+      "subgrupo_estandare", // Model name
       {
         // Model attributes
         id: {
-          type: DataTypes.UUID,
-          defaultValue: Sequelize.UUIDV4,
+          type: DataTypes.INTEGER,
+          allowNull: false,
+          autoIncrement: true,
           primaryKey: true
-        },  
+        },
         nombre: {
-          type: DataTypes.STRING(50)
+          type: DataTypes.STRING(150)
+        },
+        desde: {
+            type: DataTypes.STRING(5)
+        },
+        hasta: {
+            type: DataTypes.STRING(5) 
+        },
+        codigo: {
+          type: DataTypes.STRING(35)
         },
         descripcion: {
-          type: DataTypes.TEXT('long')
+          type: DataTypes.STRING(255)
         },
         created_at: {
           allowNull: false,
@@ -32,6 +42,6 @@ module.exports = (sequelize, Sequelize, DataTypes) => {
       }
     );
   
-    return BasesAU;
+    return Subgrupoestandares;
   };
   

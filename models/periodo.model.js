@@ -1,15 +1,20 @@
 module.exports = (sequelize, Sequelize, DataTypes) => {
-    const BasesAU = sequelize.define(
-      "bases_autoevaluacion", // Model name
+    const Periodo = sequelize.define(
+      "periodo", // Model name
       {
         // Model attributes
         id: {
-          type: DataTypes.UUID,
-          defaultValue: Sequelize.UUIDV4,
+          type: DataTypes.INTEGER,
+          allowNull: false,
+          autoIncrement: true,
           primaryKey: true
-        },  
+        },
         nombre: {
           type: DataTypes.STRING(50)
+        },
+        status: {
+           type: DataTypes.ENUM('Abierto','Cerrado'),
+           defaultValue: 'Abierto'
         },
         descripcion: {
           type: DataTypes.TEXT('long')
@@ -32,6 +37,6 @@ module.exports = (sequelize, Sequelize, DataTypes) => {
       }
     );
   
-    return BasesAU;
+    return Periodo;
   };
   

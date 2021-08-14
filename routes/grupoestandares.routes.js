@@ -13,7 +13,7 @@ const cpUpload = upload.fields([{ name: 'filename', maxCount: 1 }])
     router.post("/estandares/grupos",[cpUpload,authJwt.verifyToken,authJwt.isModeratorOrAdmin], Controller.create);
   
     // Create a new cargo
-    router.post("/estandares/grupos/listar",[cpUpload,authJwt.verifyToken,authJwt.isModeratorOrAdmin], Controller.listarAdmin);
+    router.get("/estandares/grupos/listar",[cpUpload,authJwt.verifyToken,authJwt.isModeratorOrAdmin], Controller.listarAdmin);
 
     // Create a new cargo
     router.post("/estandares/grupos/find",[cpUpload,authJwt.verifyToken], Controller.find);
@@ -26,7 +26,7 @@ const cpUpload = upload.fields([{ name: 'filename', maxCount: 1 }])
   
     // Delete a cargo with id
     router.post("/estandares/grupos/delete",[cpUpload,authJwt.verifyToken, authJwt.isModeratorOrAdmin], Controller.delete);
-
+ 
   
     module.exports = router;
   

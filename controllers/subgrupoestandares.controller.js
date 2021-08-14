@@ -1,6 +1,6 @@
 const db = require("../models");
-const Grupo = db.grupoestandares;
-const Subgrupo = db.subgrupoestandares;
+const Grupo = db.subgrupoestandares;
+
 // Create and Save a new Book
 exports.create = async (req, res) => {
   // Validate request
@@ -16,7 +16,8 @@ exports.create = async (req, res) => {
     body.descripcion=req.body.descripcion;
     body.codigo= req.body.codigo;
     body.desde= req.body.desde;
-    body.hasta= req.body.hasta; 
+    body.hasta= req.body.hasta;  
+    body.grupo_id= 1;  
   // Save
  await Grupo.create(body)
     .then(data => {
@@ -39,7 +40,7 @@ exports.findAll = (req, res) => {
   
     }, // conditions
     order: [
-      ['id', 'ASC'],
+      ['id', 'DESC'],
     ],
   })
     .then(data => {
@@ -54,19 +55,15 @@ exports.findAll = (req, res) => {
 
 
 exports.listarAdmin = (req, res) => {
-
+  const id = req.userId;
   Grupo.findAll({
     limit: 3000000,
     offset: 0,
     where: {
+      cliente_id: req.body.cliente_id
     }, // conditions
     order: [
-      ['id', 'ASC'],
-    ],
-    include: [  
-      {
-        model:Subgrupo,
-      },
+      ['id', 'DESC'],
     ],
   })
     .then(data => {
@@ -105,9 +102,7 @@ exports.update = (req, res) => {
     body.descripcion=req.body.descripcion;
     body.codigo= req.body.codigo;
     body.desde= req.body.desde;
-    body.hasta= req.body.hasta;
-  
-  
+    body.hasta= req.body.hasta; 
   Grupo.update(body,{
     where: { id: req.body.id }
   })
@@ -152,3 +147,4 @@ exports.delete = (req, res) => {
       });
     });
 };
+

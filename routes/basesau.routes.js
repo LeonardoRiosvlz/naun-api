@@ -16,7 +16,10 @@ const cpUpload = upload.fields([{ name: 'filename', maxCount: 1 }])
   
     // Retrieve all cargos
     router.get("/basesau",authJwt.verifyToken, Controller.findAll);
-  
+ 
+    // Retrieve all cargos
+    router.post("/basesau/find",[cpUpload,authJwt.verifyToken],authJwt.verifyToken, Controller.findBase);
+
     // Update a cargo with id
     router.put("/basesau",[cpUpload,authJwt.verifyToken, authJwt.isModeratorOrAdmin], Controller.update);
   

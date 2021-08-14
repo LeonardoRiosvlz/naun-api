@@ -13,7 +13,7 @@ const cpUpload = upload.fields([{ name: 'filename', maxCount: 1 }])
     router.post("/estandares",[cpUpload,authJwt.verifyToken,authJwt.isModeratorOrAdmin], Controller.create);
   
     // Create a new cargo
-    router.post("/estandares/listar",[cpUpload,authJwt.verifyToken,authJwt.isModeratorOrAdmin], Controller.listarAdmin);
+    router.get("/estandares/listar",[cpUpload,authJwt.verifyToken,authJwt.isModeratorOrAdmin], Controller.listarAdmin);
 
     // Create a new cargo
     router.post("/estandares/find",[cpUpload,authJwt.verifyToken], Controller.find);

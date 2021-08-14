@@ -42,9 +42,12 @@ app.use('/api', require('./routes/clasificacioneventos.routes'));
 app.use('/api', require('./routes/plantillas.routes'));
 app.use('/api', require('./routes/eventos.routes'));
 app.use('/api', require('./routes/grupoestandares.routes'));
+app.use('/api', require('./routes/subgrupoestandares.routes'));
 app.use('/api', require('./routes/estandares.routes'));
 app.use('/api', require('./routes/basesau.routes'));
-
+app.use('/api', require('./routes/autoevaluacion.routes'));
+app.use('/api', require('./routes/periodo.routes'));
+app.use('/api', require('./routes/mejoras.routes'));
 // Middleware para Vue.js router modo history
 const history = require('connect-history-api-fallback');
 app.use(history());

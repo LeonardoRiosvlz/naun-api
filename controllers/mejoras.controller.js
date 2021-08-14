@@ -1,11 +1,13 @@
 const db = require("../models");
-const Bases = db.basesae;
+const Mejora = db.mejoras;
 const Periodo = db.periodo;
+const Autoevaluacion = db.autoevaluacion;
+const Base = db.basesae;
 const User = db.user;
 // Create and Save a new Book
 exports.create = async (req, res) => {
   // Validate request
-  if (!req.body.cliente_id) {
+  if (!req.body.autoevaluacion_id) {
     res.status(400).send({
       message: "No puede ser vacio!"
     });
@@ -13,13 +15,15 @@ exports.create = async (req, res) => {
   }
   // Create 
   const data = {
-    nombre: req.body.nombre,
-    descripcion: req.body.descripcion,
-    cliente_id: req.body.cliente_id,
-    periodo_id: req.body.periodo_id,
+    oportunidad_mejoras: req.body.oportunidad_mejoras,
+    puntaje_riesgo:  req.body.puntaje_riesgo,
+    puntaje_costo:  req.body.puntaje_costo,
+    puntaje_volumen: req.body.puntaje_volumen,
+    total: req.body.total,
+    autoevaluacion_id: req.body.autoevaluacion_id,
   };
   // Save
- await Bases.create(data)
+ await Mejora.create(data)
     .then(data => {
       res.send(data);
     })
@@ -33,7 +37,7 @@ exports.create = async (req, res) => {
 
 exports.findAll = async (req, res) => {
   const id = req.userId;
- await Bases.findAll({
+ await Mejora.findAll({
     limit: 3000000,
     offset: 0,
     where: {
@@ -59,9 +63,33 @@ exports.findAll = async (req, res) => {
 };
 
 
+
+exports.find = async (req, res) => {
+    console.log(req.body.id);
+   await Mejora.findOne({
+      offset: 0,
+      where: {
+        id: req.body.id
+      }, // conditions
+      order: [
+        ['id', 'DESC'],
+      ],
+    }).then(data => {
+        res.send(data);
+      })
+      .catch(err => {
+        console.log(err);
+        res.send(500).send({
+          message: err.message || "Some error accurred while retrieving books."
+        });
+      });
+  };
+  
+
+
 exports.listarAdmin = async (req, res) => {
   const id = req.userId;
- await Bases.findAll({
+ await Mejora.findAll({
     limit: 3000000,
     offset: 0,
     where: {
@@ -92,7 +120,7 @@ exports.listarAdmin = async (req, res) => {
 exports.findBase = async (req, res) => {
   const id = req.body.id;
 
- await Bases.findByPk(id,{
+ await Mejora.findByPk(id,{
 
   include: [
     {
@@ -114,11 +142,13 @@ exports.findBase = async (req, res) => {
 exports.update = async (req, res) => {
   const id = req.body.id;
 
- await Bases.update({
-    nombre: req.body.nombre,
-    descripcion: req.body.descripcion,
-    cliente_id: req.body.cliente_id,
-    periodo_id: req.body.periodo_id,
+ await Mejora.update({
+    oportunidad_mejoras: req.body.oportunidad_mejoras,
+    puntaje_riesgo:  req.body.puntaje_riesgo,
+    puntaje_costo:  req.body.puntaje_costo,
+    status:  req.body.status,
+    puntaje_volumen: req.body.puntaje_volumen,
+    total: req.body.total,
     },{
     where: { id: req.body.id }
   })
@@ -144,7 +174,7 @@ exports.update = async (req, res) => {
 exports.delete = (req, res) => {
   console.log(req)
   const id = req.body.id;
-  Bases.destroy({
+  Mejora.destroy({
     where: { id: id }
   })
     .then(num => {
