@@ -16,7 +16,10 @@ const cpUpload = upload.fields([{ name: 'filename', maxCount: 1 }])
   
     // Retrieve all cargos
     router.get("/mejoras",authJwt.verifyToken, Controller.findAll);
- 
+
+     // Retrieve all cargos
+     router.post("/mejoras/todas",[cpUpload,authJwt.verifyToken],authJwt.verifyToken, Controller.findAll);
+
     // Retrieve all cargos
     router.post("/mejoras/find",[cpUpload,authJwt.verifyToken],authJwt.verifyToken, Controller.find);
 

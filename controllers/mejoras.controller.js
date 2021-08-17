@@ -3,6 +3,9 @@ const Mejora = db.mejoras;
 const Periodo = db.periodo;
 const Autoevaluacion = db.autoevaluacion;
 const Base = db.basesae;
+const Estandar = db.estandares;
+const Grupo = db.grupoestandares;
+const Subgrupo = db.subgrupoestandares;
 const User = db.user;
 // Create and Save a new Book
 exports.create = async (req, res) => {
@@ -48,7 +51,27 @@ exports.findAll = async (req, res) => {
     ],
     include: [
       {
-        model:Periodo
+        model:Autoevaluacion,
+        include: [
+          {
+            model:Base,
+            where:{
+              id:req.body.id
+            }
+          },
+          {
+            model:Estandar,
+            atributes: ['id','numero', 'codigo']
+          },
+          {
+            model:Grupo,
+            atributes: ['id', 'nombre','numero', 'codigo']
+          },
+          {
+            model:Subgrupo,
+            atributes: ['id', 'nombre','numero', 'codigo']
+          }
+        ]
       }
     ],
   })
@@ -56,6 +79,7 @@ exports.findAll = async (req, res) => {
       res.send(data);
     })
     .catch(err => {
+      console.log(err);
       res.send(500).send({
         message: err.message || "Some error accurred while retrieving books."
       });
