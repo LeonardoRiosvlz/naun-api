@@ -81,12 +81,13 @@ exports.findAll = async (req, res) => {
 
 
 exports.listarAdmin = async (req, res) => {
+  console.log(req.body);
   const id = req.userId;
  await Autoevaluacion.findAll({
     limit: 3000000,
     offset: 0,
     where: {
-      cliente_id: req.body.cliente_id
+      base_id: req.body.id
     }, // conditions
     order: [
       ['id', 'DESC'],
@@ -109,6 +110,7 @@ exports.listarAdmin = async (req, res) => {
       res.send(data);
     })
     .catch(err => {
+      console.log(err);
       res.send(500).send({
         message: err.message || "Some error accurred while retrieving books."
       });

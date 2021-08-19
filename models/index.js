@@ -46,6 +46,7 @@ db.formato = require("./formatos.model.js")(sequelize, Sequelize, DataTypes);
 db.hformato = require("./hformatos.model.js")(sequelize, Sequelize, DataTypes);
 db.vformato = require("./vformatos.model.js")(sequelize, Sequelize, DataTypes);
 db.clasificacioneventos = require("./clasificacioneventos.model.js")(sequelize, Sequelize, DataTypes);
+db.clasificacionplanes = require("./clasificacionplanes.model.js")(sequelize, Sequelize, DataTypes);
 db.eventos = require("./eventos.model.js")(sequelize, Sequelize, DataTypes);
 db.responsables = require("./responsables.model.js")(sequelize, Sequelize, DataTypes);
 db.comprometidos = require("./comprometidos.model.js")(sequelize, Sequelize, DataTypes);
@@ -57,6 +58,10 @@ db.basesae = require("./bases_autoevaluacion.model.js")(sequelize, Sequelize, Da
 db.autoevaluacion = require("./autoevaluacion.model.js")(sequelize, Sequelize, DataTypes);
 db.mejoras = require("./mejoras.model.js")(sequelize, Sequelize, DataTypes);
 db.periodo = require("./periodo.model.js")(sequelize, Sequelize, DataTypes);
+db.planaccion = require("./planaccion.model.js")(sequelize, Sequelize, DataTypes);
+db.acciones = require("./acciones.model.js")(sequelize, Sequelize, DataTypes);
+
+
 
 db.user.hasMany(db.cliente, { foreignKey: 'user_id' });
 db.cliente.belongsTo(db.user, { foreignKey: 'user_id' });
@@ -143,6 +148,38 @@ db.comprometidos.belongsTo(db.cargos, { foreignKey: 'cargo_id', onDelete: 'CASCA
 ///eventos///
 
   
+
+
+///planes///
+db.cliente.hasMany(db.clasificacionplanes, { foreignKey: 'cliente_id' });
+db.clasificacionplanes.belongsTo(db.cliente, { foreignKey: 'cliente_id' });
+db.cliente.hasMany(db.planaccion, { foreignKey: 'cliente_id' });
+db.planaccion.belongsTo(db.cliente, { foreignKey: 'cliente_id' });
+db.basesae.hasMany(db.planaccion, { foreignKey: 'base_id' ,onDelete: 'CASCADE'}); 
+db.planaccion.belongsTo(db.basesae, { foreignKey: 'base_id',onDelete: 'CASCADE' });
+db.clasificacionplanes.hasMany(db.planaccion, { foreignKey: 'clasificacion_id'});
+db.planaccion.belongsTo(db.clasificacionplanes, { foreignKey: 'clasificacion_id'});
+db.planaccion.hasMany(db.mejoras, { foreignKey: 'plan_id' });
+db.mejoras.belongsTo(db.planaccion, { foreignKey: 'plan_id' });
+///planes///
+
+
+
+///Acciones/// 
+db.cargos.hasMany(db.acciones, { as: 'Responsable_a', foreignKey: 'responsable_id' });
+db.acciones.belongsTo(db.cargos, { as: 'Responsable_a', foreignKey: 'responsable_id' }); 
+db.cliente.hasMany(db.acciones, { foreignKey: 'cliente_id' });
+db.acciones.belongsTo(db.cliente, { foreignKey: 'cliente_id' });
+db.clasificacioneventos.hasMany(db.acciones, { foreignKey: 'clasificacion_id' });
+db.acciones.belongsTo(db.clasificacioneventos, { foreignKey: 'clasificacion_id' });
+db.procesos.hasMany(db.acciones, { foreignKey: 'proceso_id' });
+db.acciones.belongsTo(db.procesos, { foreignKey: 'proceso_id' });
+db.subprocesos.hasMany(db.acciones, { foreignKey: 'subproceso_id' });
+db.acciones.belongsTo(db.subprocesos, { foreignKey: 'subproceso_id' });
+db.mejoras.hasMany(db.acciones, { foreignKey: 'mejora_id' });
+db.acciones.belongsTo(db.mejoras, { foreignKey: 'mejora_id' });
+///Acciones///
+
 
 //documentos//
 db.tipodocumento.hasMany(db.documento, { foreignKey: 'tipo_id' });

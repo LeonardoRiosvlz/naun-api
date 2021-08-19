@@ -9,7 +9,7 @@ const cpUpload = upload.fields([
     { name: 'gallery', maxCount: 18 },
     ])
 
-
+ 
 
 
     // Create a new cargo

@@ -1,6 +1,9 @@
 const db = require("../models");
-const Bases = db.basesae;
+const Plan = db.planaccion;
+const Accion = db.acciones;
+const Base = db.basesae;
 const Periodo = db.periodo;
+const Mejoras = db.mejoras;
 const User = db.user;
 // Create and Save a new Book
 exports.create = async (req, res) => {
@@ -16,14 +19,16 @@ exports.create = async (req, res) => {
     nombre: req.body.nombre,
     descripcion: req.body.descripcion,
     cliente_id: req.body.cliente_id,
-    periodo_id: req.body.periodo_id,
+    base_id: req.body.base_id,
+    clasificacion_id: req.body.clasificacion_id,
   };
   // Save
- await Bases.create(data)
+ await Plan.create(data)
     .then(data => {
       res.send(data);
     })
     .catch(err => {
+        console.log(err);
       res.status(500).send({
         message: err.message || "Some error occurred while creating the Book."
       });
@@ -31,21 +36,22 @@ exports.create = async (req, res) => {
     });
 };
 
-exports.findAll = async (req, res) => {
+exports.findAll = (req, res) => {
   const id = req.userId;
- await Bases.findAll({
+  Plan.findAll({
     limit: 3000000,
     offset: 0,
     where: {
   
     }, // conditions
+    include: [  
+        {
+          model:User,
+          attributes:['nombre']
+        },
+      ],
     order: [
       ['id', 'DESC'],
-    ],
-    include: [
-      {
-        model:Periodo
-      }
     ],
   })
     .then(data => {
@@ -60,8 +66,9 @@ exports.findAll = async (req, res) => {
 
 
 exports.listarAdmin = async (req, res) => {
+    console.log(req.body);
   const id = req.userId;
- await Bases.findAll({
+ await Plan.findAll({
     limit: 3000000,
     offset: 0,
     where: {
@@ -72,7 +79,12 @@ exports.listarAdmin = async (req, res) => {
     ],
     include: [
       {
-        model:Periodo
+        model:Base,
+        include: [
+          {
+            model:Periodo
+          }
+        ],
       }
     ],
   })
@@ -80,6 +92,7 @@ exports.listarAdmin = async (req, res) => {
       res.send(data);
     })
     .catch(err => {
+        console.log(err);
       res.send(500).send({
         message: err.message || "Some error accurred while retrieving books."
       });
@@ -88,38 +101,59 @@ exports.listarAdmin = async (req, res) => {
 
 
 
-// Find a single with an id
-exports.findBase = async (req, res) => {
-  const id = req.body.id;
-
- await Bases.findByPk(id,{
-
-  include: [
-    {
-      model:Periodo
-    }
-  ],
- })
+exports.findPlan = async (req, res) => {
+  const id =  req.body.id;
+  console.log(id);
+ await Plan.findOne({
+    offset: 0,
+    where: {
+      id:id
+    }, // conditions
+    include: [
+      {
+        model:Base,
+        atributes: ['id','nombre' ],
+      },
+      {
+        model:Mejoras,
+        include: [
+          {
+            model:Accion,
+            atributes: ['id'],
+          },   
+        ],
+      },     
+    ],
+    
+  })
     .then(data => {
       res.send(data);
     })
     .catch(err => {
-      res.status(500).send({
-        message: `erro al editar el cargo= ${id}`
+        console.log(err);
+      res.send(500).send({
+        message: err.message || "Some error accurred while retrieving books."
       });
     });
 };
 
+
+
+
 // Update a Book by the id in the request
 exports.update = async (req, res) => {
+ 
   const id = req.body.id;
 
- await Bases.update({
+ await Plan.update({
     nombre: req.body.nombre,
     descripcion: req.body.descripcion,
-    periodo_id: req.body.periodo_id,
+    base_id: req.body.base_id,
+    clasificacion_id: req.body.clasificacion_id,
     },{
-    where: { id: req.body.id }
+    where: {
+         id: req.body.id
+     }
   })
     .then(num => {
       if (num == 1) {
@@ -133,7 +167,6 @@ exports.update = async (req, res) => {
       }
     })
     .catch(err => {
-      console.log(err);
       res.status(500).send({
         message: "Error al intentar editar el cargo con el id=" + id
       });
@@ -141,20 +174,19 @@ exports.update = async (req, res) => {
 };
 
 // Delete a Book with the specified id in the request
-exports.delete = (req, res) => {
-  console.log(req)
-  const id = req.body.id;
-  Bases.destroy({
+exports.delete = async (req, res) => {
+const id = req.body.id;
+await Plan.destroy({
     where: { id: id }
   })
     .then(num => {
       if (num == 1) {
         res.send({
-          message: "borrado satisfactoriamente!"
+          message: " borrado satisfactoriamente!"
         });
       } else {
         res.send({
-          message: `No se pudo borrar el cargo con el id=${id}. Tal vez el cargo no existe!`
+          message: `No se pudo borrar no existe!`
         });
       }
     })

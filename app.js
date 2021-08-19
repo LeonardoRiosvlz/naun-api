@@ -39,6 +39,8 @@ app.use('/api', require('./routes/formatos.routes'));
 app.use('/api', require('./routes/vformatos.routes'));
 app.use('/api', require('./routes/vdocumento.routes'));
 app.use('/api', require('./routes/clasificacioneventos.routes'));
+app.use('/api', require('./routes/clasificacionplanes.routes'));
+app.use('/api', require('./routes/planaccion.routes'));
 app.use('/api', require('./routes/plantillas.routes'));
 app.use('/api', require('./routes/eventos.routes'));
 app.use('/api', require('./routes/grupoestandares.routes'));
@@ -48,6 +50,8 @@ app.use('/api', require('./routes/basesau.routes'));
 app.use('/api', require('./routes/autoevaluacion.routes'));
 app.use('/api', require('./routes/periodo.routes'));
 app.use('/api', require('./routes/mejoras.routes'));
+app.use('/api', require('./routes/acciones.routes'));
+
 // Middleware para Vue.js router modo history
 const history = require('connect-history-api-fallback');
 app.use(history());

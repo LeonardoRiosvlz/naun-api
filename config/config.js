@@ -2,22 +2,22 @@ module.exports = {
   NODE_ENV: process.env.NODE_ENV,
   PORT: process.env.PORT,
   
-  /** DATABASE */
-//  db: {
-//    DB_HOST: "localhost",
-//    DB_USER: "root",
-//    DB_PASS: "",
-//    DB_NAME: "naun",
-//    dialect: "mysql",
+
+  //db: {
+  //  DB_HOST: "localhost",
+  //  DB_USER: "root",
+  //  DB_PASS: "",
+  //  DB_NAME: "nau",
+  //  dialect: "mysql",
 //
-//    // pool is optional, it will be used for Sequelize connection pool configuration
-//    pool: {
-//      max: 5,
-//      min: 0,
-//      acquire: 30000,
-//      idle: 10000
-//    }
-//  },
+  //  // pool is optional, it will be used for Sequelize connection pool configuration
+  //  pool: {
+  //    max: 5,
+  //    min: 0,
+  //    acquire: 30000,
+  //    idle: 10000
+  //  }
+  //},
   server:{
     SERVER:"https://naunapp.herokuapp.com/public/"
   },
@@ -27,7 +27,7 @@ module.exports = {
     DB_USER: "ungi8bvczfvmsllc",
     DB_PASS: "vupd8uStfDup1ViZeGZF",
     DB_NAME: "b2udssy2e3uqzaousqi3",
-    dialect: "mysql",
+   dialect: "mysql",
   
     // pool is optional, it will be used for Sequelize connection pool configuration
     pool: {
