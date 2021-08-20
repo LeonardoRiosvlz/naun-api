@@ -1,6 +1,7 @@
 const { mejoras, autoevaluacion, periodo, grupoestandares } = require("../models");
 const db = require("../models");
 const Accion = db.acciones;
+const Avances = db.avancesae;
 const Periodo = db.periodo;
 const Estandar = db.estandares;
 const Plan = db.planaccion;
@@ -9,34 +10,42 @@ const Autoevaluacion = db.autoevaluacion;
 const Mejoras = db.mejoras;
 const Grupos = db.grupoestandares;
 const User = db.user;
+const config = require("../config/config");
 // Create and Save a new Book
 exports.create = async (req, res) => {
   // Validate request
-  if (!req.body.mejora_id) {
+  if (!req.body.accion_id) {
     res.status(400).send({
       message: "No puede ser vacio!"
     });
     return;
   }
+  console.log(req.body);
   // Create 
     const data = {}
-    data.mejora_id=req.body.mejora_id;
-    data.proceso_id=req.body.proceso_id;
-    if (req.body.subproceso_id==="NA"|| req.body.subproceso_id==null || req.body.subproceso_id) {
-    }else{
-      body.subproceso_id=req.body.subproceso_id;
-    }
-    data.clasificacion_id=req.body.clasificacion_id;
-    data.responsable_id=req.body.responsable_id;
-    data.fecha_ejecucion=req.body.fecha_ejecucion;
-    data.fecha_programada=req.body.fecha_programada;
-    data.evidencia_solicitada=req.body.evidencia_solicitada;
-    data.total=0;
-    data.descripcion_accion=req.body.descripcion_accion;
+    data.accion_id=req.body.accion_id;
+    data.fecha_verificacion=req.body.fecha_verificacion;
+    if (req.files['gallery']) {
+        let  gallery = req.files['gallery']  
+        for (let index = 0; index < gallery.length; index++) {
+            gallery[index]=`${config.server.SERVER+gallery[index].filename}`      
+        }
+        data.evidencias=gallery
+      }
+    data.descripcion_evidencias=req.body.descripcion_evidencias;
+    data.descripcion_avances=req.body.descripcion_avances;
+    data.total=req.body.total;
+    data.status=req.body.status;
   // Save
- await Accion.create(data)
+ await Avances.create(data)
     .then(data => {
       res.send(data);
+      Accion.update({
+         status:req.body.status,
+         total:req.body.total 
+      },{
+        where: { id: req.body.accion_id }
+     })
     })
     .catch(err => {
       res.status(500).send({
@@ -48,14 +57,14 @@ exports.create = async (req, res) => {
 
 exports.findAll = async (req, res) => {
   const id = req.userId;
- await Accion.findAll({
+ await Avances.findAll({
     limit: 3000000,
     offset: 0,
     where: {
       plan_id:req.body.id
     }, // conditions
     order: [
-      ['id', 'DESC'],
+        ['id', 'DESC'],
     ],
     include: [
       {
@@ -76,48 +85,18 @@ exports.findAll = async (req, res) => {
 
 exports.listarAdmin = async (req, res) => {
   const id = req.userId;
- await Accion.findAll({
+ await Avances.findAll({
     limit: 3000000,
     offset: 0,
     where: {
       
     }, // conditions
     order: [
-      ['id', 'DESC'],
+        ['id', 'DESC'],
     ],
     include: [
       {
-        model:Mejoras,
-        where:{
-          plan_id:req.body.id,
-        },
-        include: [
-          {
-            model:Plan,
-            include: [
-              {
-                model:Base,
-                include: [
-                  {
-                    model:periodo,
-                  }
-                ],
-              }
-            ],
-            
-          },
-          {
-            model:Autoevaluacion,
-            include: [
-              {
-                model:Grupos
-              },
-              {
-                model:Estandar
-              }
-            ],
-          }
-        ],
+        model:Accion,
       }
     ],
   })
@@ -137,7 +116,7 @@ exports.listarAdmin = async (req, res) => {
 exports.findBase = async (req, res) => {
   const id = req.body.id;
 
- await Accion.findByPk(id,{
+ await Avances.findByPk(id,{
 
   include: [
   ],
@@ -156,20 +135,20 @@ exports.findBase = async (req, res) => {
 exports.update = async (req, res) => {
   const id = req.body.id;
   const data = {}
-  data.mejora_id=req.body.mejora_id;
-  data.proceso_id=req.body.proceso_id;
-  if (req.body.subproceso_id==="NA"|| req.body.subproceso_id==null || req.body.subproceso_id) {
-  }else{
-    body.subproceso_id=req.body.subproceso_id;
+  data.fecha_verificacion=req.body.fecha_verificacion;
+  if (req.files['gallery']) {
+      let  gallery = req.files['gallery']  
+      for (let index = 0; index < gallery.length; index++) {
+          gallery[index]=`${config.server.SERVER+gallery[index].filename}`      
+      }
+      data.evidencias=gallery
   }
-  data.clasificacion_id=req.body.clasificacion_id;
-  data.responsable_id=req.body.responsable_id;
-  data.fecha_ejecucion=req.body.fecha_ejecucion;
-  data.fecha_programada=req.body.fecha_programada;
-  data.evidencia_solicitada=req.body.evidencia_solicitada;
-  data.descripcion_accion=req.body.descripcion_accion;
+  data.descripcion_evidencias=req.body.descripcion_evidencias;
+  data.descripcion_avances=req.body.descripcion_avances;
+  data.total=req.body.total;
+  data.status=req.body.status;
 
-    await Accion.update(data,{
+    await Avances.update(data,{
         where: { id: req.body.id }
      })
     .then(num => {
@@ -177,6 +156,12 @@ exports.update = async (req, res) => {
         res.send({
           message: "editado satisfactoriamente."
         });
+        Accion.update({
+            status:req.body.status,
+            total:req.body.total 
+         },{
+           where: { id: req.body.accion_id }
+        })
       } else {
         res.send({
           message: `No puede editar el coargo con el  el =${id}. Tal vez el cargo no existe o la peticion es vacia!`
@@ -194,7 +179,7 @@ exports.update = async (req, res) => {
 exports.delete = (req, res) => {
   console.log(req)
   const id = req.body.id;
-  Accion.destroy({
+  Avances.destroy({
     where: { id: id }
   })
     .then(num => {

@@ -60,8 +60,8 @@ db.mejoras = require("./mejoras.model.js")(sequelize, Sequelize, DataTypes);
 db.periodo = require("./periodo.model.js")(sequelize, Sequelize, DataTypes);
 db.planaccion = require("./planaccion.model.js")(sequelize, Sequelize, DataTypes);
 db.acciones = require("./acciones.model.js")(sequelize, Sequelize, DataTypes);
-
-
+db.avancesae = require("./avancesae.model.js")(sequelize, Sequelize, DataTypes);
+db.autoevaluacionc = require("./autoevaluacionc.model.js")(sequelize, Sequelize, DataTypes);
 
 db.user.hasMany(db.cliente, { foreignKey: 'user_id' });
 db.cliente.belongsTo(db.user, { foreignKey: 'user_id' });
@@ -165,6 +165,15 @@ db.mejoras.belongsTo(db.planaccion, { foreignKey: 'plan_id' });
 
 
 
+/////auto evaluacion cauntitativa////
+db.cliente.hasMany(db.autoevaluacionc, { foreignKey: 'cliente_id' });
+db.autoevaluacionc.belongsTo(db.cliente, { foreignKey: 'cliente_id' });
+db.periodo.hasMany(db.autoevaluacionc, { foreignKey: 'periodo_id' });
+db.autoevaluacionc.belongsTo(db.periodo, { foreignKey: 'periodo_id' });
+/////auto evaluacion cauntitativa////
+
+
+
 ///Acciones/// 
 db.cargos.hasMany(db.acciones, { as: 'Responsable_a', foreignKey: 'responsable_id' });
 db.acciones.belongsTo(db.cargos, { as: 'Responsable_a', foreignKey: 'responsable_id' }); 
@@ -178,6 +187,8 @@ db.subprocesos.hasMany(db.acciones, { foreignKey: 'subproceso_id' });
 db.acciones.belongsTo(db.subprocesos, { foreignKey: 'subproceso_id' });
 db.mejoras.hasMany(db.acciones, { foreignKey: 'mejora_id' });
 db.acciones.belongsTo(db.mejoras, { foreignKey: 'mejora_id' });
+db.acciones.hasMany(db.avancesae, { foreignKey: 'accion_id' });
+db.avancesae.belongsTo(db.acciones, { foreignKey: 'accion_id' });
 ///Acciones///
 
 
