@@ -89,7 +89,7 @@ exports.listarAdmin = async (req, res) => {
     limit: 3000000,
     offset: 0,
     where: {
-      
+      accion_id:req.body.id
     }, // conditions
     order: [
         ['id', 'DESC'],

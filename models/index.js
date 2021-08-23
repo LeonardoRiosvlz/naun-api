@@ -62,6 +62,7 @@ db.planaccion = require("./planaccion.model.js")(sequelize, Sequelize, DataTypes
 db.acciones = require("./acciones.model.js")(sequelize, Sequelize, DataTypes);
 db.avancesae = require("./avancesae.model.js")(sequelize, Sequelize, DataTypes);
 db.autoevaluacionc = require("./autoevaluacionc.model.js")(sequelize, Sequelize, DataTypes);
+db.itemsautoevaluacion = require("./itemsautoevaluacion.model.js")(sequelize, Sequelize, DataTypes);
 
 db.user.hasMany(db.cliente, { foreignKey: 'user_id' });
 db.cliente.belongsTo(db.user, { foreignKey: 'user_id' });
@@ -170,6 +171,8 @@ db.cliente.hasMany(db.autoevaluacionc, { foreignKey: 'cliente_id' });
 db.autoevaluacionc.belongsTo(db.cliente, { foreignKey: 'cliente_id' });
 db.periodo.hasMany(db.autoevaluacionc, { foreignKey: 'periodo_id' });
 db.autoevaluacionc.belongsTo(db.periodo, { foreignKey: 'periodo_id' });
+db.autoevaluacionc.hasMany(db.itemsautoevaluacion, { foreignKey: 'autoevaluacionc_id' });
+db.itemsautoevaluacion.belongsTo(db.autoevaluacionc, { foreignKey: 'autoevaluacionc_id' });
 /////auto evaluacion cauntitativa////
 
 
