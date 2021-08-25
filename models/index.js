@@ -164,15 +164,22 @@ db.planaccion.hasMany(db.mejoras, { foreignKey: 'plan_id' });
 db.mejoras.belongsTo(db.planaccion, { foreignKey: 'plan_id' });
 ///planes///
 
-
+ 
 
 /////auto evaluacion cauntitativa////
 db.cliente.hasMany(db.autoevaluacionc, { foreignKey: 'cliente_id' });
 db.autoevaluacionc.belongsTo(db.cliente, { foreignKey: 'cliente_id' });
 db.periodo.hasMany(db.autoevaluacionc, { foreignKey: 'periodo_id' });
 db.autoevaluacionc.belongsTo(db.periodo, { foreignKey: 'periodo_id' });
+
 db.autoevaluacionc.hasMany(db.itemsautoevaluacion, { foreignKey: 'autoevaluacionc_id' });
 db.itemsautoevaluacion.belongsTo(db.autoevaluacionc, { foreignKey: 'autoevaluacionc_id' });
+db.estandares.hasMany(db.itemsautoevaluacion, { foreignKey: 'estandar_id' });
+db.itemsautoevaluacion.belongsTo(db.estandares, { foreignKey: 'estandar_id' });
+db.grupoestandares.hasMany(db.itemsautoevaluacion, { foreignKey: 'grupo_id' });
+db.itemsautoevaluacion.belongsTo(db.grupoestandares, { foreignKey: 'grupo_id' });
+db.subgrupoestandares.hasMany(db.itemsautoevaluacion, { foreignKey: 'subgrupo_id' });
+db.itemsautoevaluacion.belongsTo(db.subgrupoestandares, { foreignKey: 'subgrupo_id' });
 /////auto evaluacion cauntitativa////
 
 

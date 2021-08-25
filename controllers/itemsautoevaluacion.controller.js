@@ -1,5 +1,5 @@
 const db = require("../models");
-const Autoevaluacion = db.autoevaluacionc;
+const Autoevaluacion = db.itemsautoevaluacion;
 const Accion = db.acciones;
 const Base = db.basesae;
 const Periodo = db.periodo;
@@ -8,18 +8,32 @@ const User = db.user;
 // Create and Save a new Book
 exports.create = async (req, res) => {
   // Validate request
-  if (!req.body.cliente_id) {
+  if (!req.body.autoevaluacionc_id) {
     res.status(400).send({
       message: "No puede ser vacio!"
     });
     return;
   }
+  console.log(req.body);
   // Create 
   const data = {
-    nombre: req.body.nombre,
-    descripcion: req.body.descripcion,
-    cliente_id: req.body.cliente_id,
-    periodo_id: req.body.periodo_id,
+    aplicabilidad : req.body.aplicabilidad,
+    enfoque_sistematico: req.body.enfoque_sistematico,
+    enfoque_proactivo: req.body.enfoque_proactivo,
+    enfoque_em: req.body.enfoque_em,
+    despliegue_institucional: req.body.despliegue_institucional,
+    apropiacion_cie: req.body.apropiacion_cie,
+    pertinencia: req.body.pertinencia,
+    consistencia: req.body.consistencia,        
+    avance_mediacion: req.body.avance_mediacion,
+    tendencia: req.body.tendencia,
+    comparacion: req.body.comparacion,
+    promedio: req.body.promedio,
+    autoevaluacionc_id: req.body.autoevaluacionc_id,
+    estandar_id: req.body.numero,
+    grupo_id: req.body.grupo_id,
+    subgrupo_id: req.body.subgrupo_id,
+    total: req.body.total,
   };
   // Save
  await Autoevaluacion.create(data)
@@ -34,7 +48,7 @@ exports.create = async (req, res) => {
       return;
     });
 };
-
+ 
 exports.findAll = (req, res) => {
   const id = req.userId;
   Autoevaluacion.findAll({
@@ -70,16 +84,12 @@ exports.listarAdmin = async (req, res) => {
     limit: 3000000,
     offset: 0,
     where: {
-      cliente_id: req.body.cliente_id
+      autoevaluacionc_id: req.body.id
     }, // conditions
     order: [
       ['id', 'DESC'],
     ],
-    include: [
-      {
-        model:Periodo
-      }
-    ],
+
   })
     .then(data => {
       res.send(data);
@@ -130,9 +140,22 @@ exports.update = async (req, res) => {
   const id = req.body.id;
 
  await Autoevaluacion.update({
-    nombre: req.body.nombre,
-    descripcion: req.body.descripcion,
-    periodo_id: req.body.periodo_id,
+    aplicabilidad : req.body.aplicabilidad,
+    enfoque_sistematico: req.body.enfoque_sistematico,
+    enfoque_proactivo: req.body.enfoque_proactivo,
+    enfoque_em: req.body.enfoque_em,
+    despliegue_institucional: req.body.despliegue_institucional,
+    apropiacion_cie: req.body.apropiacion_cie,
+    pertinencia: req.body.pertinencia,
+    consistencia: req.body.consistencia,        
+    avance_mediacion: req.body.avance_mediacion,
+    tendencia: req.body.tendencia,
+    comparacion: req.body.comparacion,
+    promedio: req.body.promedio,
+    total: req.body.total,
+    estandar_id: req.body.numero,
+    grupo_id: req.body.grupo_id,
+    subgrupo_id: req.body.subgrupo_id,
     },{
     where: {
          id: req.body.id
@@ -161,8 +184,7 @@ exports.delete = async (req, res) => {
 const id = req.body.id;
 await Autoevaluacion.destroy({
     where: { id: id }
-  })
-    .then(num => {
+  }).then(num => {
       if (num == 1) {
         res.send({
           message: " borrado satisfactoriamente!"

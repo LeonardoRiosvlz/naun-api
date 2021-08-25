@@ -13,6 +13,7 @@ const HD = db.hdocumento;
 const Cargos = db.cargos;
 // Create and Save a new Book
 exports.create = async (req, res) => {
+  console.log(req.body);
   // Validate request
   if (!req.body.nombre) {
     res.status(400).send({
@@ -43,9 +44,9 @@ exports.create = async (req, res) => {
     body.intervalo=req.body.intervalo;
     body.cliente_id= req.body.cliente_id;
     body.sedes_id= req.body.sedes_id;
-    body.elabora_v_id= req.body.elabora_v_id;
-    body.aprueba_v_id= req.body.aprueba_v_id;
-    body.revisa_v_id= req.body.revisa_v_id;
+    body.elabora_v_id= req.body.elabora_id;
+    body.aprueba_v_id= req.body.aprueba_id;
+    body.revisa_v_id= req.body.revisa_id;
     body.proceso_id= req.body.proceso_id;
     body.tipo_id= req.body.tipo_id;
     body.documento_id= req.body.documento_id;
@@ -62,7 +63,7 @@ exports.create = async (req, res) => {
         modulo: "gestordoc",
         icon: "ri-money-dollar-box-line",
         color: "avatar-title bg-success rounded-circle font-size-16",
-        uid: req.body.elabora_v_id,
+        uid: req.body.elabora_id,
         rid: req.userId,
       };
       CrearNotificacion(elabora);
@@ -73,7 +74,7 @@ exports.create = async (req, res) => {
         modulo: "gestordoc",
         icon: "ri-money-dollar-box-line",
         color: "avatar-title bg-success rounded-circle font-size-16",
-        uid: req.body.revisa_v_id,
+        uid: req.body.revisa_id,
         rid: req.userId,
       };
       CrearNotificacion(revisa);
@@ -84,7 +85,7 @@ exports.create = async (req, res) => {
         modulo: "gestordoc",
         icon: "ri-money-dollar-box-line",
         color: "avatar-title bg-success rounded-circle font-size-16",
-        uid: req.body.aprueba_v_id,
+        uid: req.body.aprueba_id,
         rid: req.userId,
       };
       CrearNotificacion(aprueba);

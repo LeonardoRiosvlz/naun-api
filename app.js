@@ -53,7 +53,7 @@ app.use('/api', require('./routes/periodo.routes'));
 app.use('/api', require('./routes/mejoras.routes'));
 app.use('/api', require('./routes/acciones.routes'));
 app.use('/api', require('./routes/avancesae.routes'));
-
+app.use('/api', require('./routes/itemsautoevaluacionc.routes'));
 
 // Middleware para Vue.js router modo history
 const history = require('connect-history-api-fallback');

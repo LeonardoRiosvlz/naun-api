@@ -14,6 +14,9 @@ module.exports = (sequelize, Sequelize, DataTypes) => {
         descripcion: {
           type: DataTypes.TEXT('long')
         },
+        promedio: {
+          type: DataTypes.FLOAT(10) 
+        },
         created_at: {
           allowNull: false,
           type: DataTypes.DATE

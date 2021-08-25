@@ -47,6 +47,9 @@ module.exports = (sequelize, Sequelize, DataTypes) => {
         promedio: {
             type: DataTypes.FLOAT(10)
         },
+        total: {
+            type: DataTypes.INTEGER(10)
+        },
         created_at: {
             allowNull: false,
             type: DataTypes.DATE
